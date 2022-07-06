@@ -1,0 +1,42 @@
+nav {
+    top: 0;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    padding-top: 50px;    
+    padding-bottom: 50px;
+
+  }
+  
+  nav > div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+
+  #navbar-font {
+      font-family: "NavbarFont";
+      font-size: large;
+  }
+
+  #suggest-btn{
+      margin-right: 10px;
+      border-radius: 5px;
+      background-color: white;
+      font-family: "NavbarFont";
+      font-size: large;
+  }
+
+  #login-btn{
+      margin-left: 10px;
+      border-radius: 5px;
+      background-color: white;
+      font-family: "NavbarFont";
+      font-size: large;
+  }
+
+  #search-icon{
+      margin-left: 20px;
+  }
