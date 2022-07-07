@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Navbar.css"
 import { AiOutlineSearch }  from "react-icons/ai";
+import logoImg from "../img/logo.jpg"
 
 const Navbar = () => {
 
@@ -19,7 +20,7 @@ const Navbar = () => {
         <nav>
             <div>
                 <NavLink to="/" >
-                    <img className="LogoImg" alt="logo" src="img/logo.jpg" />
+                    <img src={logoImg} />
                 </NavLink>
             </div>
             <div></div>

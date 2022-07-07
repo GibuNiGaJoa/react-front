@@ -1,12 +1,12 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
-import BannerRandom from '../components/BannerRandom';
+import BannerSlider from '../components/BannerSlider';
 
 const HomePage = () => {
     return (
         <div>
             <Navbar />
-            <BannerRandom />
+            <BannerSlider />
         </div>
             
     )
