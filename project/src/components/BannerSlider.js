@@ -9,6 +9,10 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 
+const Area = styled.div`
+
+`;
+
 
 
 const BannerSlider = () => {
@@ -42,83 +46,89 @@ const BannerSlider = () => {
   };
 
   return (
-    <div>
-      <Slider {...settings}>
-        <Container>
-          <ContainerText>
-            <h4>{littleTitle1}</h4>
-            <h1>{bigTitle1}</h1>
-            <p>{p1}</p>
-          </ContainerText>
-          <ContainerImg>
-            <img src={img1} />
-          </ContainerImg>
-        </Container>
-        <Container>
-          <div>
-            <h4>{littleTitle2}</h4>
-            <h1>{bigTitle2}</h1>
-            <p>{p2}</p>
-          </div>
-          <div>
-            <img src={img2} />
-          </div>
-        </Container>
-        <Container>
-          <div>
-            <h4>{littleTitle3}</h4>
-            <h1>{bigTitle3}</h1>
-            <p>{p3}</p>
-          </div>
-          <div>
-            <img src={img3} />
-          </div>
-        </Container>
-        <Container>
-          <div>
-            <h4>{littleTitle4}</h4>
-            <h1>{bigTitle4}</h1>
-            <p>{p4}</p>
-          </div>
-          <div>
-            <img src={img4} />
-          </div>
-        </Container>
-        <Container>
-          <div>
-            <h4>{littleTitle5}</h4>
-            <h1>{bigTitle5}</h1>
-            <p>{p5}</p>
-          </div>
-          <div>
-            <img src={img5} />
-          </div>
-        </Container>
-      </Slider>
-    </div>
+    <Box>
+      <div></div>
+      <div>
+        <Slider {...settings}>
+          <Area>
+            <ContainerText>
+              <div>
+                <h4>{littleTitle1}</h4>
+                <h1>{bigTitle1}</h1>
+                <p>{p1}</p>
+              </div>
+              <Img src={img1} />
+            </ContainerText>
+          </Area>
+          <Area>
+            <div>
+              <h4>{littleTitle2}</h4>
+              <h1>{bigTitle2}</h1>
+              <p>{p2}</p>
+            </div>
+            <div>
+              <img src={img2} />
+            </div>
+          </Area>
+          <Area>
+            <div>
+              <h4>{littleTitle3}</h4>
+              <h1>{bigTitle3}</h1>
+              <p>{p3}</p>
+            </div>
+            <div>
+              <img src={img3} />
+            </div>
+          </Area>
+          <Area>
+            <div>
+              <h4>{littleTitle4}</h4>
+              <h1>{bigTitle4}</h1>
+              <p>{p4}</p>
+            </div>
+            <div>
+              <img src={img4} />
+            </div>
+          </Area>
+          <Area>
+            <div>
+              <h4>{littleTitle5}</h4>
+              <h1>{bigTitle5}</h1>
+              <p>{p5}</p>
+            </div>
+            <div>
+              <img src={img5} />
+            </div>
+          </Area>
+        </Slider>
+      </div>
+    </Box>
   );
 }
 
-const Container = styled.div`
-display: flex;
-width: 1000px
-height: 300px;
-`;
 
 const ContainerImg = styled.div`
 width: 40%;
 height: 100%;
+right: 0;
 `;
 
 const ContainerText = styled.div`
+display: flex;
+justify-content: space-between;
+align-item: center;
 
-width: 60%;
-height: 100%;
 `;
 
 const Img = styled.img`
-width: 100%;
-height: 70%;
+width: 800px;
+height: 500px;
+// margin-left: 1000px;
+`;
+
+const Box = styled.div`
+width:100%;
+height: 50%;
 `;
 
 export default BannerSlider;
