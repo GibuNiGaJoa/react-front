@@ -6,6 +6,11 @@
     position : absolute;
 }
 
+@font-face {
+    font-family: 'nav';
+    src: url('../fonts/MICEGothic.ttf');
+}
+
 .left-items {
     width: 40%;
     float : left;
@@ -14,9 +19,9 @@
 
 .left-items #repreImg {
     width: 250px;
-    height:150px;
-    top : 50px;
-    left : 220px;
+    height:200px;
+    top : 30px;
+    left : 400px;
     display: flex;
     position: relative;
 
@@ -24,11 +29,12 @@
 }
 .left-items > #view-more {
     background-color: gainsboro;
-    top : 90px;
-    left : 220px;
+    top : 50px;
+    left : 400px;
     border-radius: 10px;
-    font-size: 23px;
+    font-size: 20px;
     padding : 15px;
+    font-family: 'nav';
     position : relative;
 
 }
@@ -43,15 +49,36 @@
     position : relative;
 
 }
+.right-items #top-title {
+    background-color: #A97BF5;
+    left : 80px;
+    border-radius: 20px 20px 0 0;
+    width: 1000px;
+    height: 30px;
+    justify-content: center;
+    text-align: center;
+    font-family: 'nav';
+    position: relative;
+}
+
+.right-items #top-title > h5{
+    top : 6px;
+    position: relative;
+    color : white;
+}
+
 
 .right-items #box-img {
-    /* background-color: yellow; */
+    background-color: gainsboro;
+    border-radius: 0 0 10px 10px;
     width: 1000px;
-    height:300px;
+    height:270px;
     margin : 0 ;
     padding : 0;
-    top : 25px;
-    left : 200px;
+    top : -5px;
+    left : 80px;
+    border : 0;
+    outline : 0;
     position : relative;
 }
 .right-items #box-img .infoFirst {
@@ -65,10 +92,47 @@
 
 }
 .right-items #box-img .info-text{
-    width:750px;
+    width:auto;
     position: relative;
     text-align: center;
     justify-content: center;
+    font-size: 24px;
+
+}
+.right-items #box-img .info-text > h6{
+    top : 40px;
+    padding : 0px;
+    margin : 0px;
+    color: purple;
+    font-family: 'nav';
+    position : relative;
+}
+
+.right-items #box-img .info-text > h6 > img{
+    top : 7.5px;
+    left : -10px;
+    padding : 0px;
+    margin : 0px;
+    color: purple;
+    font-family: 'nav';
+    position : relative;
+}
+
+.right-items #box-img .info-text > h3{
+    top : 70px;
+    padding : 0px;
+    margin : 0px;
+    font-family: 'nav';
+    position : relative;
+
+}
+.right-items #box-img .info-text > h5{
+    top : 50px;
+    padding : 0px;
+    margin : 0px;
+    position : relative;
+    font-family: 'nav';
+    font-size: 18px;
 
 }
 
