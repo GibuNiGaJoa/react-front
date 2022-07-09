@@ -4,6 +4,7 @@ import BannerSlider from '../components/BannerSlider';
 import TagContainer from '../components/TagContainer';
 import { FullPage, Slide } from 'react-full-page';
 import "../pages/HomePage.css"
+import Footer from '../components/Footer';
 
 const HomePage = () => {
     return (
@@ -17,10 +18,10 @@ const HomePage = () => {
                 <Slide>
                     <Navbar />
                     <h2>가장 쉬운 나눔</h2>
+                    
                 </Slide>
             </FullPage>
         </div>
-
     )
 }
 

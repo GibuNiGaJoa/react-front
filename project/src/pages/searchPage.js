@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 
 const SearchPage = () => {
@@ -8,6 +9,7 @@ const SearchPage = () => {
                 <Navbar />
             </div>
             <p>검색페이지</p>
+            <Footer />
         </div>
     )
 }
