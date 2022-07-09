@@ -2,8 +2,15 @@ import React from "react";
 import styled from "styled-components";
 import { AiOutlineTeam } from "react-icons/ai";
 import actionTestImg from "../img/actionTest.PNG"
+import { useNavigate } from "react-router-dom";
 
 const BannerTogether = () => {
+    const navigate = useNavigate();
+
+    const ImgClick = () =>{
+        navigate('/togetherAct')
+    }
+
     return (
         <Box>
             <Content>
@@ -17,7 +24,7 @@ const BannerTogether = () => {
                 <DetailContent>
                     <LittleContent><h5>더 나은 세상을 위한 행동에 참여해보세요.</h5></LittleContent>
                     <Wrap>
-                        <Img src={actionTestImg} />
+                        <Img src={actionTestImg} onClick ={ImgClick} />
                         <InnerContent>
                             <h4>우리동네 작은가게 응원하고 오래오래 함께해요!</h4>
                             <p>나만 알기 아까운 작은 가게가 있다면, 지금 바로 행동하세요!</p>
@@ -63,6 +70,10 @@ const Img = styled.img`
 width: 350px;
 height: 180px;
 border-radius: 10%;
+transition: 0.3s;
+&:hover{
+    transform:scale(1.1);
+}
 `;
 
 const LittleContent = styled.div`

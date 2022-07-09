@@ -21,7 +21,7 @@ const Footer = () => {
       <Outer >
         <Inner > 
           <InnerTop>
-            카카오 같이 가치
+            기부, 니가 좋아
             <InnerTopInfo>당신의 착한 마음을 응원합니다.<br />
             더 좋은 세상을 꿈꾼다면 지금 시작해보세요.
             </InnerTopInfo>
@@ -42,13 +42,14 @@ const Footer = () => {
           </InnerBot>
         </Inner>
       </Outer>
-      
+
     </div>
   )
 }
 
 const Outer = styled.div`
-position : absolute;
+flex-direction: column;
+min-height: 100vh;
 width : 100vw;
 height : 22.5vh;
 color : #999;
