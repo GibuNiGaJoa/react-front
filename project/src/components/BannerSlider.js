@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import img1 from "../img/bannerTest1.PNG";
 import img2 from "../img/bannerTest2.PNG";
 import img3 from "../img/bannerTest3.PNG";
@@ -9,11 +9,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 
+
 const Area = styled.div`
-
 `;
-
-
 
 const BannerSlider = () => {
 
@@ -37,6 +35,62 @@ const BannerSlider = () => {
   const bigTitle5 = "마지막 테스트다 시~발!"
   const p5 = "다섯번째 테스트"
 
+  const slides = [
+    {
+      littleTitle: littleTitle1,
+      bigTitle: bigTitle1,
+      p: p1,
+      img: img1
+    },
+    {
+      littleTitle: littleTitle2,
+      bigTitle: bigTitle2,
+      p: p2,
+      img: img2
+    },
+    {
+      littleTitle: littleTitle3,
+      bigTitle: bigTitle3,
+      p: p3,
+      img: img3
+    },
+    {
+      littleTitle: littleTitle4,
+      bigTitle: bigTitle4,
+      p: p4,
+      img: img4
+    },
+    {
+      littleTitle: littleTitle5,
+      bigTitle: bigTitle5,
+      p: p5,
+      img: img5
+    }
+  ]
+
+  const tags = [
+    {
+      tagText: '#건강한삶',
+      tagColor: 'pink'
+    },
+    {
+      tagText: '#계곡에서',
+      tagColor: 'green'
+    },
+    {
+      tagText: '#지구촌',
+      tagColor: 'blue'
+    },
+    {
+      tagText: '#작은가게가치가게',
+      tagColor: 'brown'
+    },
+    {
+      tagText: '#생계지원',
+      tagColor: 'yellow'
+    }
+  ]
+
   const settings = {
     dots: true,
     infinite: true,
@@ -47,88 +101,56 @@ const BannerSlider = () => {
 
   return (
     <Box>
-      <div></div>
       <div>
         <Slider {...settings}>
-          <Area>
-            <ContainerText>
-              <div>
-                <h4>{littleTitle1}</h4>
-                <h1>{bigTitle1}</h1>
-                <p>{p1}</p>
-              </div>
-              <Img src={img1} />
-            </ContainerText>
-          </Area>
-          <Area>
-            <div>
-              <h4>{littleTitle2}</h4>
-              <h1>{bigTitle2}</h1>
-              <p>{p2}</p>
-            </div>
-            <div>
-              <img src={img2} />
-            </div>
-          </Area>
-          <Area>
-            <div>
-              <h4>{littleTitle3}</h4>
-              <h1>{bigTitle3}</h1>
-              <p>{p3}</p>
-            </div>
-            <div>
-              <img src={img3} />
-            </div>
-          </Area>
-          <Area>
-            <div>
-              <h4>{littleTitle4}</h4>
-              <h1>{bigTitle4}</h1>
-              <p>{p4}</p>
-            </div>
-            <div>
-              <img src={img4} />
-            </div>
-          </Area>
-          <Area>
-            <div>
-              <h4>{littleTitle5}</h4>
-              <h1>{bigTitle5}</h1>
-              <p>{p5}</p>
-            </div>
-            <div>
-              <img src={img5} />
-            </div>
-          </Area>
+          {slides.map((slide) => {
+            return (
+              <Area>
+                <ContainerText>
+                  <Content>
+                    <h4>{slide.littleTitle}</h4>
+                    <h1>{slide.bigTitle}</h1>
+                    <p>{slide.p}</p>
+                  </Content>
+                  <Img src={slide.img} />
+                </ContainerText>
+              </Area>
+            );
+          })}
         </Slider>
       </div>
     </Box>
+    
   );
 }
 
-
-const ContainerImg = styled.div`
-width: 40%;
-height: 100%;
-right: 0;
+const Content = styled.div`
+margin: 100px auto;
 `;
+
 
 const ContainerText = styled.div`
 display: flex;
 justify-content: space-between;
 align-item: center;
-
 `;
 
 const Img = styled.img`
-width: 800px;
-height: 500px;
-// margin-left: 1000px;
+  display: block;
+  width: 500px;
+  height: 300px;
+  margin: 100px auto;
+  border-radius: 10%;
+  overflow: hidden;
+  transition: 0.3s;
+  &:hover{
+    transform:scale(1.2);
+  }
 `;
 
 const Box = styled.div`
 width:100%;
-height: 50%;
+height: 30%;
 `;
 
 export default BannerSlider;

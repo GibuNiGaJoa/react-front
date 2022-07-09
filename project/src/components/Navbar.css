@@ -5,7 +5,9 @@ nav {
     display: flex;
     padding-top: 50px;    
     padding-bottom: 50px;
-
+    border-bottom: 1px solid silver;
+    box-shadow: 0 5px 5px -5px silver;
+    overflow: hidden;
   }
   
   nav > div {
@@ -39,4 +41,8 @@ nav {
 
   #search-icon{
       margin-left: 20px;
+  }
+
+  #logoImg{
+      padding-bottom: 20px;
   }
