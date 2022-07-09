@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 
 const SuggestionPage = () => {
@@ -8,6 +9,7 @@ const SuggestionPage = () => {
                 <Navbar />
             </div>
             <p>제안하기 페이지</p>
+            <Footer />
         </div>
     )
 }
