@@ -40,16 +40,17 @@ const LoginForm = () => {
 }
 
 const LoginContainer = styled.div`
-
 position : relative;
+flex-direction: column;
 display : flex;
 justify-content : center;
 align-items : center;
 background-color : rgba(0,0,0, .75);
 top : 30px;
 width : 30vw;
+// min-height : 100vh;
 height : 60vh;
-margin : auto;
+margin : auto auto 50px;
 padding : 20px;
 `;
 
