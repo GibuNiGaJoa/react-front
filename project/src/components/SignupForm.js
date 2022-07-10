@@ -12,8 +12,9 @@ const SignupForm = () => {
 }
 
 const SignupBody = styled.div`
-width : 100vw;
-height : 65vh;
+width : auto;
+margin : 0% 25% 0%;
+height : 100vh;
 border : 1px solid #555;
 
 
