@@ -26,7 +26,7 @@ font-weight: 400;
 font-family: "NavbarFont";
 display:flex;
 width: 100vw;
-height: 68vh;
+height: 60vh;
 `;
 const Content = styled.div`
 margin: auto;
