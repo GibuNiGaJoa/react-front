@@ -8,6 +8,7 @@ nav {
     border-bottom: 1px solid silver;
     box-shadow: 0 5px 5px -5px silver;
     overflow: hidden;
+    background: white;
   }
   
   nav > div {
