@@ -30,7 +30,7 @@ const Footer = () => {
             <FundingButton onClick={fundingBtn}>제안하기</FundingButton>
           </InnerMid>
           <InnerBot>
-            <NavLink to={"/suggest"}>
+            <NavLink to={"/"}>
               <InnerBtnText>@Kakao Corp.</InnerBtnText>
               <InnerBtnText>도움말</InnerBtnText>
               <InnerBtnText>문의하기</InnerBtnText>
@@ -95,6 +95,9 @@ const FundingButton = styled.button`
   // outline : 0;
   background-color : #202020;
   color : #999;
+  ::hover : {
+    cursor :pointer;
+  }
 `;
 
 const InnerBot = styled.div`
