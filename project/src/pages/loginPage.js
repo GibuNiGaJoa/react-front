@@ -6,9 +6,8 @@ import Navbar from '../components/Navbar'
 
 const LoginPage = () => {
     return (
-      <div className='main-container'>
+      <div className='Login-container'>
         <Navbar />
-        <p>로그인페이지</p>
         <LoginForm />
         <Footer />
       </div>

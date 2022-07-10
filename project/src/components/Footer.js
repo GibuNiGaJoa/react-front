@@ -30,7 +30,7 @@ const Footer = () => {
             <FundingButton onClick={fundingBtn}>제안하기</FundingButton>
           </InnerMid>
           <InnerBot>
-            <NavLink to={"/suggest"}>
+            <NavLink to={"/"}>
               <InnerBtnText>@Kakao Corp.</InnerBtnText>
               <InnerBtnText>도움말</InnerBtnText>
               <InnerBtnText>문의하기</InnerBtnText>
@@ -48,15 +48,20 @@ const Footer = () => {
 }
 
 const Outer = styled.div`
+display : flex;
 flex-direction: column;
-min-height: 100vh;
+position : relative;
+// position : fixed;
+// min-height : auto;
+max-height: auto;
+height : auto;
 width : 100vw;
-height : 22.5vh;
 color : #999;
 left : 0px;
+bottom : 0px;
 background-color : #202020;
-bottom : 0;
 padding : 35px 400px;
+
 `;
 
 const Inner = styled.div`
@@ -96,6 +101,9 @@ const FundingButton = styled.button`
   // outline : 0;
   background-color : #202020;
   color : #999;
+  &:hover  {
+    cursor :pointer;
+  }
 `;
 
 const InnerBot = styled.div`
