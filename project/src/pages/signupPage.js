@@ -1,6 +1,7 @@
 import React from 'react';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar'
+import SignupForm from '../components/SignupForm';
 
 
 const SignupPage = () => {
@@ -8,7 +9,7 @@ const SignupPage = () => {
     <div className='main-container'>
       <div>
         <Navbar />
-        회원가입 페이지.
+        <SignupForm />
         <Footer />
 
       </div>
