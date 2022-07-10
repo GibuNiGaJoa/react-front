@@ -1,6 +1,7 @@
 import React from 'react';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
+import SuggestForm from '../components/SuggestForm'
 
 const SuggestionPage = () => {
     return (
@@ -8,7 +9,7 @@ const SuggestionPage = () => {
             <div className='navbar-container'>
                 <Navbar />
             </div>
-            <p>제안하기 페이지</p>
+            <SuggestForm />
             <Footer />
         </div>
     )
