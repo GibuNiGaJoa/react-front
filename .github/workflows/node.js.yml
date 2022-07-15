@@ -32,7 +32,9 @@ jobs:
       run: npm install --force
       working-directory: ${{ env.working-directory }}
     - run: npm run build --if-present
+      working-directory: ${{ env.working-directory }}
     - run: npm test
+      working-directory: ${{ env.working-directory }}
     - name: Deploy                  # S3에 배포하기
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
