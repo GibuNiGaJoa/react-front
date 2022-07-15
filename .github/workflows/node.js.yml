@@ -44,3 +44,4 @@ jobs:
             --recursive \
             --region us-east-1 \
             out s3://github-action3-bucket
+      working-directory: ${{ env.working-directory }}
