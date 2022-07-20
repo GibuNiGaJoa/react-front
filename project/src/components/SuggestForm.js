@@ -1,8 +1,15 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import SuggestImg from '../img/suggestImg.PNG'
 
 const SuggestForm = () => {
+    const navigate = useNavigate();
+
+    const moveToSuggest = () => {
+        navigate('/suggest/id')
+    }
+
     return(
         <Box>
             <Content></Content>
@@ -12,7 +19,7 @@ const SuggestForm = () => {
                     <h3>프로젝트 모금함</h3>
                     <p>직접 기획한 프로젝트에 기부금을 사용할 수 있어요.</p>
                     <p>전문기관의 심사를 받습니다<br/>모금 후 결과보고는 필수!<br/><a>모금 제안 가이드</a></p>
-                    <SuggestButton >제안하기</SuggestButton>
+                    <SuggestButton onClick={moveToSuggest} >제안하기</SuggestButton>
                 </TextContent>
             </Content>
             <Content></Content>

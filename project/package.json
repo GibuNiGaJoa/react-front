@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "set \"CI=false\" && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -41,5 +41,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "![image](https://user-images.githubusercontent.com/66302122/178110235-f39466d8-e053-4d1f-8654-cdec77048b45.png)",
+  "main": "index.js",
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC"
 }

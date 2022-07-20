@@ -1,20 +1,19 @@
-import React from 'react';
+import React from "react";
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
-import SuggestForm from '../components/SuggestForm'
 
+// suggest에서 회원번호 매개변수로 받아서 이동하도록 해야함
 
+const SuggestPage = () => {
 
-const SuggestionPage = () => {
-    return (
+    return(
         <div className='main-container'>
             <div className='navbar-container'>
                 <Navbar />
             </div>
-            <SuggestForm />
             <Footer />
         </div>
     )
 }
 
-export default SuggestionPage;
+export default SuggestPage;
