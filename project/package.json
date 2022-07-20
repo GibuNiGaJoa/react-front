@@ -26,7 +26,6 @@
 =======
     "build": "react-scripts build",
     "test": "react-scripts test --passWithNoTests",
->>>>>>> 783d2bd87c54292bc2f66bb534942afd148daff0
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
