@@ -1,16 +1,20 @@
 import React , {useEffect, useState}from 'react';
 import styled from 'styled-components';
+import AuthForm from '../auth/AuthForm';
+import AuthTemplate from '../auth/AuthTemplateBlock';
 
 const SignupForm = () => {
-
-
 
   return(
     <SignupBody>
       <SignupContainer> 
-          <SignupBox>
+        <AuthTemplate>
+              <AuthForm />;
+        </AuthTemplate>
+          {/* <SignupBox>
             <SignupTitle>
               회원가입
+              
             </SignupTitle>
           <form>
             <InputBox>
@@ -22,7 +26,7 @@ const SignupForm = () => {
               <SignupBtn style={{fontSize : "20px" , border : '1px solid white' , padding : '2px',borderRadius : '20px'}} >계정 만들기</SignupBtn>
             </InputBox>
           </form>
-        </SignupBox>
+        </SignupBox> */}
       </SignupContainer>
     </SignupBody>
   )

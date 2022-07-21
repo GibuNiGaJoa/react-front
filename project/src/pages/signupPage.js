@@ -9,6 +9,7 @@ const SignupPage = () => {
     <div className='main-container'>
       <div>
         <Navbar />
+          
         <SignupForm />
         <Footer />
 
