@@ -50,6 +50,5 @@
   "description": "![image](https://user-images.githubusercontent.com/66302122/178110235-f39466d8-e053-4d1f-8654-cdec77048b45.png)",
   "main": "index.js",
   "author": "",
-  "license": "ISC",
-  "proxy": "http://43.200.162.222"
+  "license": "ISC"
 }
