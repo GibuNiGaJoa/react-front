@@ -1,12 +1,17 @@
 import { NavLink } from 'react-router-dom';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 
 
 
 const LoginForm = () => {
+
+
+
+
   return (
     <LoginBody>
+      
       <LoginContainer>
         <LoginBox>
           <InputBox>
@@ -124,13 +129,11 @@ height : 50px;
 &:hover{
   cursor : pointer;
 }
-
 `
 
 const SignupText = styled.h2`
 justify-content : center;
 align-items: center;
-
 margin : 6% 0px 0px 0px;
 display : flex;
 color : yellow;

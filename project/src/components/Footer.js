@@ -17,7 +17,6 @@ const Footer = () => {
   }
 
   return (
-    <div id='Footer'>
       <Outer >
         <Inner > 
           <InnerTop>
@@ -43,7 +42,6 @@ const Footer = () => {
         </Inner>
       </Outer>
 
-    </div>
   )
 }
 
@@ -52,15 +50,19 @@ display : flex;
 flex-direction: column;
 position : relative;
 // position : fixed;
-// min-height : auto;
-max-height: auto;
+min-height : 28vh;
+// max-height: auto;
 height : auto;
-width : 100vw;
+min-width : 100vw;
+// width : 100vw;
 color : #999;
 left : 0px;
 bottom : 0px;
+
 background-color : #202020;
 padding : 35px 400px;
+// padding : 0;
+// margin : 0;
 
 `;
 
