@@ -1,8 +1,9 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Navbar.css"
-import { AiOutlineSearch }  from "react-icons/ai";
+import { AiOutlineSearch } from "react-icons/ai";
 import logoImg from "../img/logo.jpg"
+import styled from "styled-components";
 
 const Navbar = () => {
 
@@ -18,32 +19,34 @@ const Navbar = () => {
 
     return (
         <nav>
-            <div>
-                <NavLink to="/" >
+            <Div>
+                <NavLink exact to="/" >
                     <img className="logoImg" alt="logo" src={logoImg} />
                 </NavLink>
-            </div>
+            </Div>
             <div></div>
-            <div>
-                <NavLink to="/togetherDonate" style={{ textDecoration: 'none' }}>
+            <Div>
+                <NavLink to="/togetherDonate" style={{textDecoration: 'none'}}>
                     <p id="navbar-font">같이기부</p>
                 </NavLink>
-            </div>
-            <div>
+            </Div>
+            <Div>
                 <NavLink to="/togetherAct" style={{ textDecoration: 'none' }}>
                     <p id="navbar-font">모두의행동</p>
                 </NavLink>
-            </div>
+            </Div>
             <div></div>
-            <div>
+            <Div>
                 <button id="suggest-btn" onClick={suggestBtn}>제안하기</button>
                 <button id="login-btn" onClick={loginBtn}>로그인</button>
                 <NavLink id="search-icon" to="/search">
                     <AiOutlineSearch className="search-btn" size="30" />
                 </NavLink>
-            </div>
+            </Div>
         </nav>
     )
 }
+const Div = styled.div`
+`;
 
 export default Navbar;

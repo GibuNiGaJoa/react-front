@@ -8,6 +8,7 @@ import SignupPage from "./pages/signupPage";
 import SuggestionPage from "./pages/suggestionPage";
 import TogetherActPage from "./pages/togetherActPage";
 import TogetherDonatePage from "./pages/togetherDonatePage";
+import SuggestPage from "./pages/suggestPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/suggest" element={<SuggestionPage />} />
         <Route path="/togetherAct" element={<TogetherActPage />} />
         <Route path="/togetherDonate" element={<TogetherDonatePage />} />
+        <Route path="/suggest/id" element={<SuggestPage />} />
       </Routes>
     </div>
   );
