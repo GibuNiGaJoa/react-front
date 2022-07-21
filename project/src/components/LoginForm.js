@@ -1,10 +1,48 @@
-import { NavLink } from 'react-router-dom';
-import React from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import React, {useState} from 'react';
 import styled from 'styled-components';
+import { useDispatch } from "react-redux";
+import { loginUser } from '../actions/userAction';
 
 
 
 const LoginForm = () => {
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [Email, setEmail] = useState("");
+  const [Pw, setPw] = useState("");
+
+  const onEmailHandler = (e) => {
+    setEmail(e.currentTarget.value);
+  }
+  const onPwHandler = (e) => {
+    setPw(e.currentTarget.value);
+  }
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    //로그인을 진행하기 위해
+    //첫번째 useDispatch(액션)을 활용하여 액션을 dispatch 해준다.
+    const body = {
+      email: Email,
+      pw: Pw,
+    };
+    dispatch(loginUser(body)).then((res) => {
+      console.log(res)
+      if(res.payload){
+        alert("로그인에 성공하였습니다!")
+        navigate("/");
+      } else {
+        alert("로그인에 실패하였습니다!");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+
+
   return (
     <LoginBody>
       <LoginContainer>
@@ -13,10 +51,10 @@ const LoginForm = () => {
             <LoginTitle>
               로그인
             </LoginTitle>
-            <form>
-              <IdInput type={'id'} placeholder={"이메일 주소 또는 전화번호를 입력하세요."}></IdInput>
-              <PasswordInput type={'password'} placeholder={'비밀번호를 입력하세요.'}></PasswordInput>
-              <LoginBtn >로그인</LoginBtn>
+            <form onSubmit={onSubmitHandler}>
+              <IdInput type={'email'} placeholder={"이메일 주소를 입력하세요."} value={Email} onChange={onEmailHandler} ></IdInput>
+              <PasswordInput type={'password'} placeholder={'비밀번호를 입력하세요.'} value={Pw} onChange={onPwHandler} ></PasswordInput>
+              <LoginBtn type='submit'>로그인</LoginBtn>
               <SubBtn>
                 <SearchText>이미 회원이신가요?</SearchText>
                 <NavLink to={'/'}>
