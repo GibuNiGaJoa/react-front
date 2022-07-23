@@ -49,7 +49,7 @@ const DonateSuggestForm = () => {
                     <p>종료일</p>
                     <p>링크</p>
                     <p>태그명</p>
-                
+                    {/* 수정                 */}
             </Content>
             <Content></Content>
         </Box>
