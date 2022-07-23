@@ -8,7 +8,7 @@ export const request = (method, url, data) => {
 
   return axios({
     method,
-    url: Domain + url,
+    url:  url,
     data,
   })
   .then((res) => res.data)

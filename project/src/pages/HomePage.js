@@ -7,7 +7,6 @@ import BannerDonate from '../components/BannerDonate';
 import Footer from '../components/Footer'
 import { FullPage, Slide } from 'react-full-page';
 import "../pages/HomePage.css"
-import FootertForm from '../components/FooterForm';
 
 const HomePage = () => {
     return (
@@ -23,8 +22,7 @@ const HomePage = () => {
                     <BannerDonate />
                 </Slide>
                 <Slide>
-                    {/* <Navbar /> */}
-                    <FootertForm />
+                    <Navbar />
                     <Footer />
                 </Slide>
             </FullPage>
