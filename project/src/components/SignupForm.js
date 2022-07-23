@@ -108,7 +108,9 @@ const SignupForm = (props) => {
                 <GenderInput type="checkbox" name="gender"  value="1" onChange={(e) => checkOnlyOne(e.target)}></GenderInput>
                 <GenderText>여성</GenderText>
                 <GenderInput type="checkbox" name="gender"  value="2" onChange={(e) => checkOnlyOne(e.target)}></GenderInput>
+                test builder!
               </Gender> */}
+
               <SignupBtn type='submit' style={{fontSize : "20px" , border : '1px solid white' , padding : '2px',borderRadius : '20px'}} >계정 만들기</SignupBtn>
             </InputBox>
           </form>
