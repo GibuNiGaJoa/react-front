@@ -13,18 +13,19 @@ const createStoreWithMiddleware = applyMiddleware(
   )(createStore);
 
 const Root = () => (
-    <Provider
-    store={createStoreWithMiddleware(
-        //리듀서를 생성 후 넣어준다
-        rootReducer,
-        //개발자 도구를 사용하기 위한 설정
-        window.__REDUX_DEVTOOLS_EXTENSION__&&
-         window.__REDUX_DEVTOOLS_EXTENSION__()
-    )}>
-        <BrowserRouter>
-            <App/>
-        </BrowserRouter>
-    </Provider>
+    <React.StrictMode>
+        <Provider store={createStoreWithMiddleware(
+            //리듀서를 생성 후 넣어준다
+            rootReducer,
+            //개발자 도구를 사용하기 위한 설정
+            window.__REDUX_DEVTOOLS_EXTENSION__&&
+            window.__REDUX_DEVTOOLS_EXTENSION__()
+        )}>
+            <BrowserRouter>
+                <App/>
+            </BrowserRouter>
+        </Provider>
+    </React.StrictMode>
 );
 
 export default Root;

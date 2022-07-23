@@ -1,21 +1,12 @@
-<<<<<<< HEAD
-import { NavLink } from 'react-router-dom';
-import React, {useState, useEffect} from 'react';
-=======
 import { NavLink, useNavigate } from 'react-router-dom';
 import React, {useState} from 'react';
->>>>>>> db7f544152ecb9d2ec1c463840e1660e736f4aeb
 import styled from 'styled-components';
 import { useDispatch } from "react-redux";
-import { loginUser } from '../actions/userAction';
+import {  loginUser } from '../actions/userAction';
 
 
 
 const LoginForm = () => {
-<<<<<<< HEAD
-
-
-=======
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -32,14 +23,14 @@ const LoginForm = () => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
     //로그인을 진행하기 위해
-    //첫번째 useDispatch(액션)을 활용하여 액션을 dispatch 해준다.
+    // 첫번째 useDispatch(액션)을 활용하여 액션을 dispatch 해준다.
     const body = {
       email: Email,
       pw: Pw,
     };
     dispatch(loginUser(body)).then((res) => {
       console.log(res)
-      if(res.payload){
+      if(res.payload) {
         alert("로그인에 성공하였습니다!")
         navigate("/");
       } else {
@@ -50,7 +41,6 @@ const LoginForm = () => {
       console.log(err);
     });
   }
->>>>>>> db7f544152ecb9d2ec1c463840e1660e736f4aeb
 
 
   return (
@@ -74,7 +64,7 @@ const LoginForm = () => {
                 </NavLink>
               </SubBtn>
               <SignupText style={{ color : 'gainsboro'}}>'기부, 니가 좋아'의 회원이 아니세요?&nbsp;&nbsp;</SignupText>
-              <NavLink to={'/signup'}>
+              <NavLink to={'/login/create_account'}>
                 <SignupText style={{fontSize : "20px" , border : '1px solid white' , padding : '2px',borderRadius : '20px'}}>
                   지금 가입하세요!
                 </SignupText>
@@ -135,6 +125,7 @@ color : white;
 `
 
 const IdInput = styled.input`
+
 margin : 50px 0px 0px 0px;
 position : relative;
 background-color : white;
