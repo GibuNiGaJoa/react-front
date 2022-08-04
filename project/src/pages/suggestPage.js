@@ -14,7 +14,6 @@ const SuggestPage = () => {
                 <Navbar />
             </div>
             <DonateSuggestForm />
-            <Footer />
         </div>
     )
 }
