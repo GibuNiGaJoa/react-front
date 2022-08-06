@@ -1,32 +1,61 @@
-import { LOGIN_USER, REGISTER_USER, LOGOUT_USER } from "./types";
-import { request } from "../axios";
+import { CHECK_TOKEN, LOGIN_USER, REGISTER_USER, LOGOUT_USER, FIND_ACCOUNT_FIRST,FIND_ACCOUNT_SECOND,FIND_PASSWORD } from "./types";
+import { request, requestToken } from "../axios";
 
 
-//로그인액션
 const USER_URL = "/login";
+const CHECK_URL = "/checkToken";
 
+// 로그인
 export function loginUser(dataToSubmit) {
   const data = request("POST", USER_URL, dataToSubmit);
+  
   return {
     type: LOGIN_USER,
     payload: data,
   };
 }
-
-
+// 회원가입
 export function registerUser(dataToSubmit) {
   const data = request("POST",  USER_URL + "/create_account", dataToSubmit);
-
+  
   return {
     type: REGISTER_USER,
     payload: data,
   };
 }
-
-export function logoutUser(dataToSubmit) {
-  const data = request("post", USER_URL + "/logout" , dataToSubmit);
+// 아이디찾기 -1
+export function findAccountFirst(dataToSubmit) {
+  const data = request("POST", USER_URL + '/find_account_guide/first', dataToSubmit);
+  
   return {
-    type: LOGOUT_USER,
+    type: FIND_ACCOUNT_FIRST,
     payload: data,
   };
 }
+// 아이디 찾기 -2
+export function findAccountSecond(dataToSubmit) {
+  const data = request("POST", USER_URL + '/find_account_guide/second', dataToSubmit);
+  
+  return {
+    type: FIND_ACCOUNT_SECOND,
+    payload: data,
+  };
+}
+// 비밀번호 찾기(회원검증)
+export function findPassword(dataToSubmit) {
+  const data = request("POST", USER_URL + '/find_password', dataToSubmit);
+
+  return {
+    type: FIND_PASSWORD,
+    payload: data,
+  };
+}
+
+//토큰 체크용
+// export function checkToken() {
+//   const data = requestToken("GET", CHECK_URL );
+//   return {
+//     type: CHECK_TOKEN,
+//     payload: data,
+//   };
+// }

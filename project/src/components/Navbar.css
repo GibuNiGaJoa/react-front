@@ -25,14 +25,19 @@ nav {
   }
 
   #suggest-btn{
-      margin-right: 10px;
-      border-radius: 5px;
-      background-color: white;
-      font-family: "NavbarFont";
-      font-size: large;
+    width: 110px;
+    height: 75px;
+    margin-right: 50px;
+    margin-left: 100px;
+    border-radius: 5px;
+    background-color: white;
+    font-family: "NavbarFont";
+    font-size: large;
   }
 
   #login-btn{
+    width: 100px;
+    height: 75px;
       margin-left: 10px;
       border-radius: 5px;
       background-color: white;
@@ -44,6 +49,88 @@ nav {
       margin-left: 20px;
   }
 
+  #menu-btn{
+    width: 100px;
+    height: 75px;
+    
+    background : url('https://t1.kakaocdn.net/together_image/common/avatar/avatar02.png') no-repeat;
+    background-size: 100px 80px;
+    margin-left: 10px;
+    border-radius: 5px;
+    background-color: white;
+    font-family: "NavbarFont";
+    font-size: large;
+  }
+
+  #mypage-btn{
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    background-color: white;
+    outline: 0;
+    font-family: "NavbarFont";
+  }
+
   #logoImg{
       padding-bottom: 20px;
+  }
+    /*Dropdown css  */
+  @keyframes slide-fade-in-dropdown-animation {
+    0% {
+      transform: translateY(-100%);
+    }
+  
+    100% {
+      transform: translateY(0);
+    }
+  }
+  
+  .slide-fade-in-dropdown {
+    overflow: hidden;
+  }
+  
+  .slide-fade-in-dropdown > ul {
+    animation: slide-fade-in-dropdown-animation .4s ease;
+  }
+  
+  @keyframes slide-fade-out-dropdown-animation {
+    0% {
+      transform: translateY(0);
+    }
+  
+    100% {
+      transform: translateY(-100%);
+    }
+  }
+  
+  .slide-fade-out-dropdown {
+    overflow: hidden;
+    /* overflow : visible; */
+  }
+  
+  .slide-fade-out-dropdown > ul {
+    animation: slide-fade-out-dropdown-animation 0.4s ease;
+    animation-fill-mode: forwards;
+  }
+  
+  .components-dropdown > ul {
+    width : 110px;
+    position: relative;
+    margin-top: 0;
+    
+    margin-bottom: 5px;
+    padding-left: 0;
+    list-style: none;
+  }
+  .components-dropdown > ul  > button{
+    margin-top : 7px;
+    width: 100px;
+  /* width : 110px;
+  position: relative;
+  top: 5px;
+  margin-top: 0;
+  
+  margin-bottom: 5px;
+  padding-left: 0;
+  list-style: none; */
   }
