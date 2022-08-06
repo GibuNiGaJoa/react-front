@@ -1,5 +1,6 @@
 import axios from "axios";
 
+<<<<<<< HEAD
 axios.defaults.withCredentials = true; // 쿠키 데이터를 전송받기 위해
 
 
@@ -10,6 +11,14 @@ export const request = (method,url,data) => {
 
   return axios({
     method, 
+=======
+const Domain = "http://valuetogether.tk"
+
+// axios.defaults.withCredentials = true; // 쿠키 데이터를 전송받기 위해
+export const request = (method, url, data) => {
+  return axios({
+    method,
+>>>>>>> 83c0d7cad63f55d73c1ed70021a4eb3190949edd
     url: url,
     data,
   })

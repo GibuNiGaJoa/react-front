@@ -1,6 +1,7 @@
 import React from 'react';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
+import SearchForm from '../components/SearchForm';
 
 const SearchPage = () => {
     return (
@@ -8,7 +9,7 @@ const SearchPage = () => {
             <div className='navbar-container'>
                 <Navbar />
             </div>
-            <p>검색페이지</p>
+            <SearchForm />
             <Footer />
         </div>
     )

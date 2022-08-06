@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
+import TogetherDonateContent from '../components/TogetherDonateContent';
 
 const TogetherDonatePage = () => {
     return (
@@ -7,7 +8,7 @@ const TogetherDonatePage = () => {
             <div className='navbar-container'>
                 <Navbar />
             </div>
-            <p>같이기부 페이지</p>
+            <TogetherDonateContent />
         </div>
     )
 }
