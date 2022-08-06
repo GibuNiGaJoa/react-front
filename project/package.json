@@ -12,11 +12,7 @@
     "bootstrap": "^5.2.0",
     "quill-image-resize": "^3.0.9",
     "react": "^18.2.0",
-<<<<<<< HEAD
-    "react-cookie": "^4.1.1",
-=======
     "react-bootstrap": "^2.4.0",
->>>>>>> 83c0d7cad63f55d73c1ed70021a4eb3190949edd
     "react-dom": "^18.2.0",
     "react-full-page": "^0.1.12",
     "react-hook-form": "^7.34.0",
