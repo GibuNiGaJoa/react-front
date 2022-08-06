@@ -2,12 +2,13 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import { useDispatch } from "react-redux";
-import {  loginUser } from '../actions/userAction';
+import { loginUser } from '../actions/userAction';
+import axios from 'axios';
+
 
 
 
 const LoginForm = () => {
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -20,6 +21,7 @@ const LoginForm = () => {
   const onPwHandler = (e) => {
     setPw(e.currentTarget.value);
   }
+    //로그인용
   const onSubmitHandler = (e) => {
     e.preventDefault();
     //로그인을 진행하기 위해
@@ -28,11 +30,19 @@ const LoginForm = () => {
       email: Email,
       pw: Pw,
     };
-    dispatch(loginUser(body)).then((res) => {
-      console.log(res)
+    dispatch(loginUser(body))
+    .then((res) => {
+      console.log(res);
       if(res.payload) {
         alert("로그인에 성공하였습니다!")
         navigate("/");
+        
+        const token = res.payload.token;
+        localStorage.setItem('jwtToken',token);
+        localStorage.setItem('isLogin' , 'true');
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        window.location.reload();
+
       } else {
         alert("로그인에 실패하였습니다!");
       }
@@ -40,6 +50,7 @@ const LoginForm = () => {
     .catch((err) => {
       console.log(err);
     });
+
   }
 
 
@@ -56,11 +67,14 @@ const LoginForm = () => {
               <IdInput type={'email'} placeholder={"이메일 주소를 입력하세요."} value={Email} onChange={onEmailHandler} ></IdInput>
               <PasswordInput type={'password'} placeholder={'비밀번호를 입력하세요.'} value={Pw} onChange={onPwHandler} ></PasswordInput>
               <LoginBtn type='submit'>로그인</LoginBtn>
+              
               <SubBtn>
                 <SearchText>이미 회원이신가요?</SearchText>
-                <NavLink to={'/'}>
-                  <FindBtn>아이디 찾기&nbsp;&nbsp;&nbsp;&nbsp;</FindBtn>
-                  <FindBtn>비밀번호 찾기</FindBtn>
+                <NavLink to={'find_account_guide'}>
+                  <FindBtn>아이디 찾기</FindBtn>
+                </NavLink>
+                <NavLink to={'find_password'}>
+                  <FindBtn>비밀번호 찾기&nbsp;&nbsp;&nbsp;&nbsp;</FindBtn>
                 </NavLink>
               </SubBtn>
               <SignupText style={{ color : 'gainsboro'}}>'기부, 니가 좋아'의 회원이 아니세요?&nbsp;&nbsp;</SignupText>
@@ -70,6 +84,10 @@ const LoginForm = () => {
                 </SignupText>
               </NavLink>
             </form>
+            {/* <form onSubmit={onSubmitHandler2}>
+              <LoginBtn type='submit'>토큰확인용</LoginBtn>
+            </form> */}
+
           </InputBox>
         </LoginBox>
       </LoginContainer>
@@ -185,8 +203,9 @@ color : gainsboro;
 `
 const FindBtn = styled.div`
 
+margin-right : 30px;
 display : inline;
-font-size : 12px;
+font-size : 16px;
 color : yellow;
 `
 

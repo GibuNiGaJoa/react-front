@@ -3,4 +3,11 @@
 export const LOGIN_USER ="LOGIN_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
 export const REGISTER_USER = "REGISTER_USER";
+
+export const AUTH_USER = "AUTH_USER";
+export const CHECK_TOKEN = "CHECK_TOKEN";
+export const FIND_PASSWORD = "FIND_PASSWORD";
+export const FIND_ACCOUNT_FIRST = "FIND_ACCOUNT_FIRST";
+export const FIND_ACCOUNT_SECOND = "FIND_ACCOUNT_SECOND";
+
 export const IMAGE_HANDLER = "IMAGE_HANDLER";

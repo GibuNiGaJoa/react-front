@@ -12,3 +12,14 @@ export const request = (method, url, data) => {
   .then((res) => res.data)
   .catch((err) => console.log(err));
 };
+
+// // 토큰체크용
+// export const requestToken = (method,url) => {
+//   return axios({
+//     method,
+//     url:  url,
+//   })
+//   .then((res) => res.data)
+//   .catch((err) => console.log(err));
+// };
+
