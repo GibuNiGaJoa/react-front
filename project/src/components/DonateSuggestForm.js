@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import Editor from './Editor';
 import Swal from 'sweetalert2'
+import { useDispatch } from "react-redux";
+import { suggestPost } from '../actions/sugggestAction';
 
 
 
@@ -16,7 +18,12 @@ const DonateSuggestForm = () => {
     const [targetAmount, setTargetAmount] = useState();
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
+
     const [link, setLink] = useState('');
+    const [linkList, setLinkList] = useState([]);
+    const [nextId, setNextId] = useState(0);
+    const inputLink = useRef(null);
+
     const [tag, setTag] = useState('');
     
     // url만 타이핑하여 다이렉트로 들어오려는(로그인을 선행하지 않은 채) 것을 방지
@@ -31,11 +38,16 @@ const DonateSuggestForm = () => {
 
 
     
+    const [tagList, setTagList] = useState([]);
+    const [nextId2, setNextId2] = useState(0);
+    const inputTag = useRef(null);
+
 
     const topicSelectList = ['주제선택', '모두의교육', '기본생활지원', '안정된일자리', '건강한삶', '인권평화와역사', '동물', '지역공동체', '더나은사회', '환경'];
     const targetSelectList = ['대상선택', '아동|청소년', '청년', '여성', '실버세대', '장애인', '이주민|다문화', '지구촌', '어려운이웃', '우리사회', '유기동물', '야생동물'];
 
     
+    const dispatch =useDispatch();
 
     const goBack = () => {
         Swal.fire({
@@ -47,10 +59,10 @@ const DonateSuggestForm = () => {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes!'
         }).then((result) => {
-            if(result.isConfirmed){
+            if (result.isConfirmed) {
                 navigate('/suggest');
             }
-        }) 
+        })
     }
 
     const check =
@@ -61,53 +73,84 @@ const DonateSuggestForm = () => {
         target == '' ||
         targetAmount == '' ||
         startDate == endDate ||
-        tag == '';
+        tag == null;
 
     const EditorChangeInput = (values) => {
         setEditorValue(values);
-        console.log(values);
+        // console.log(values);
     }
 
     const onTitleHandler = (e) => {
         setTitle(e.currentTarget.value);
-        console.log(title);
+        // console.log(title);
     };
 
     const onSubTitleHandler = (e) => {
         setSubtitle(e.currentTarget.value);
-        console.log(subtitle);
+        // console.log(subtitle);
     }
 
     const onTopicHandler = (e) => {
         setTopic(e.currentTarget.value);
-        console.log(topic);
+        // console.log(topic);
     }
     const onTargetHandler = (e) => {
         setTarget(e.currentTarget.value);
-        console.log(target);
+        // console.log(target);
     }
     const onTargetAmountHandler = (e) => {
         setTargetAmount(e.currentTarget.value);
-        console.log(targetAmount);
+        // console.log(targetAmount);
     }
     const onStartDateHandler = (e) => {
         setStartDate(e.currentTarget.value);
-        console.log(startDate);
+        // console.log(startDate);
     }
     const onEndDateHandler = (e) => {
         setEndDate(e.currentTarget.value);
-        console.log(endDate);
+        // console.log(endDate);
     }
+
     const onLinkHandler = (e) => {
         setLink(e.currentTarget.value);
-        console.log(link);
+        // console.log(link);
     }
+    const addLink = () => {
+        const linkLists = linkList.concat({
+            id: nextId,
+            text: link
+        });
+        setNextId(nextId + 1);
+        setLinkList(linkLists);
+        setLink('');
+        console.log("추가하기")
+    }
+    const removeLink = (id) => {
+        const linkLists = linkList.filter((list) => list.id !== id);
+        setLinkList(linkLists);
+    }
+
     const onTagHandler = (e) => {
         setTag(e.currentTarget.value);
-        console.log(tag);
+        // console.log(tag);
+    }
+    const addTag = () => {
+        const tagLists = tagList.concat({
+            id: nextId2,
+            text: tag
+        });
+        setNextId2(nextId2 + 1);
+        setTagList(tagLists);
+        setTag('');
+        console.log("추가하기")
+    }
+    const removeTag = (id) => {
+        const tagLists = tagList.filter((list) => list.id !== id);
+        setTagList(tagLists);
     }
 
     const onSubmitHandler = (e) => {
+
         e.preventDefault();
         let body = {
             title: title,
@@ -118,10 +161,9 @@ const DonateSuggestForm = () => {
             targetAmount: targetAmount,
             startDate: startDate,
             endDate: endDate,
-            link: link,
-            tag: tag
+            link: linkList,
+            tag: tagList
         };
-
         //필수항목 검사
         if (check) {
             Swal.fire({
@@ -138,24 +180,37 @@ const DonateSuggestForm = () => {
             })
         }
         else {
-            Swal.fire({
-                icon: 'success',
-                title: 'Good job!',
-                text: '글 등록완료!'
-            }).then(()=>{
-                navigate('/');
+            dispatch(suggestPost(body)).then((res) => {
+                console.log(res);
+                if(res.payload){
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Good job!',
+                        text: '글 등록완료!'
+                    }).then(() => {
+                        navigate('/');
+                    })
+                }
             })
+            .catch((err) => {
+                console.log(err);
+            })  
         }
 
         console.log(body);
     };
+
+    // //Enter키 이벤트 막기
+    // document.myForm.addEventListener("keydown", evt => {
+    //     if(evt.code === "Enter") evt.preventDefault();
+    // })
 
     return (
         <Box>
             <Content></Content>
             <Content>
 
-                <form onSubmit={onSubmitHandler}>
+                <form onSubmit={onSubmitHandler} name="myForm" >
                     <table>
                         <caption><h1>기부 제안하기</h1></caption>
                         <tr>
@@ -199,9 +254,36 @@ const DonateSuggestForm = () => {
                             <td><em style={{ color: 'red' }}>* </em><EndDateInput onChange={onEndDateHandler} type={"date"} value={endDate} placeholder='종료일을 입력하세요.' ></EndDateInput></td></tr>
                         <tr>
                             <td><h3>관련 링크</h3></td>
-                            <td><em style={{ color: 'white' }}>* </em><LinkInput onChange={onLinkHandler} type={"url"} value={link} placeholder='관련링크를 입력하세요.' ></LinkInput></td>
+                            <td>
+                                <em style={{ color: 'white' }}>* </em>
+                                <LinkInput onChange={onLinkHandler} type={"url"} value={link} ref={inputLink} placeholder='관련링크를 입력하세요.' ></LinkInput>
+                                <button type='button' onClick={addLink}>추가하기</button>
+                                <ul><p>삭제하려면 링크를 더블클릭하세요!</p>
+                                    {linkList.map((list) => (
+                                        <li
+                                            key={list.key}
+                                            onDoubleClick={() => removeLink(list.id)}
+                                        >
+                                            {list.text}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </td>
                             <td><h3>관련태그</h3></td>
-                            <td><em style={{ color: 'red' }}>* </em><TagInput onChange={onTagHandler} type={"tag"} value={tag} placeholder='관련 태그를 입력하세요.' ></TagInput></td></tr>
+                            <td>
+                                <em style={{ color: 'red' }}>* </em>
+                                <TagInput onChange={onTagHandler} type={"tag"} value={tag} ref={inputTag} placeholder='관련 태그를 입력하세요.' ></TagInput>
+                                <button type='button' onClick={addTag}>추가하기</button>
+                                <ul><p>삭제하려면 태그를 더블클릭하세요!</p>
+                                    {tagList.map((list) => (
+                                        <li
+                                            key={list.key}
+                                            onDoubleClick={() => removeTag(list.id)}
+                                        >
+                                            {list.text}
+                                        </li>
+                                    ))}
+                                </ul></td></tr>
                         <tr>
                             <td><SuggestBtn type='submit'>제출하기</SuggestBtn></td>
                             <td><GobackBtn type="button" onClick={goBack}>뒤로가기</GobackBtn></td>
