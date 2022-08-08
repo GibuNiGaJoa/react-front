@@ -9,11 +9,11 @@ import TogetherActPage from "./pages/togetherActPage";
 import TogetherDonatePage from "./pages/togetherDonatePage";
 import SuggestPage from "./pages/suggestPage";
 import MyPage from "./pages/MyPage";
-
 import FindPasswordPage from "./pages/FindPasswordPage";
 import FindAccountGuidePage from "./pages/FindAccountGuidePage";
 import FindAccountFirstPage from "./pages/FindAccountFirstPage";
 import FindAccountSecondPage from "./pages/FindAccountSecondPage";
+import ChangePasswordPage from "./pages/ChangePasswordPage";
 
 
 function App(props) {
@@ -46,15 +46,16 @@ function App(props) {
         <Route exact path="/login/find_account_guide/second" element={<FindAccountSecondPage />} />
         
         <Route exact path="/login/find_password" element={<FindPasswordPage />} />
+        <Route exact path="/login/find_password/change_password" element={<ChangePasswordPage />} />
         <Route exact path="/search" element={<SearchPage />} />
-        <Route path="/suggest" element={<SuggestionPage />} />
+        <Route path="/fundraisings/propose" element={<SuggestionPage />} />
+        <Route path="/fundraisings/propose/project" element={<SuggestPage />} />
         
         {/* <Route path="/suggest" element={<PrivateRoute action={"suggest"}/> } /> */}
           
         
         <Route path="/togetherAct" element={<TogetherActPage />} />
         <Route path="/togetherDonate" element={<TogetherDonatePage />} />
-        <Route path="/suggest/id" element={<SuggestPage />} />
       </Routes>
     </div>
   );

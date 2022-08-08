@@ -44,7 +44,7 @@ const FindAccountGuide = () => {
 const BtnContainer = styled.div`
 width : 100vw;
 height : 80vh;
-margin-top : 100px;
+margin-top : 75px;
 // background-color : ivory;
 // justify-content : center;
 flex-direction : column;
@@ -89,12 +89,13 @@ outline :0;
 }
 // background : green;
 `
+
 const SubFooter = styled.div`
-margin-top :50px;
+// position :absolute;
+margin-top :250px;
 display : flex;
 justify-content : center;
 align-items : center;
-
 `
 const SubTitle = styled.div`
 width : auto;

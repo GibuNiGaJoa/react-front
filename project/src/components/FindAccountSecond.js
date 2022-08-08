@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { findAccountFirst, findAccountSecond } from '../actions/userAction';
@@ -7,10 +7,27 @@ import hand from '../img/DonateHand.png';
 
 const FindAccountSecond = () => {
   const dispatch = useDispatch();
+  const didMount = useRef(false);
+  
   const [Phone, setPhone] = useState('');
   const [NicknameOrName, setNicknameOrName] = useState('');
+
   //서버로 부터 받은 이메일 값 저장
   const [email, setEmail] = useState('');
+  const [Ret, setRet] = useState('');
+
+  useEffect(()=>{
+    if(didMount.current){
+      if(email){
+        setRet('성공')
+      }else{
+        setRet('실패');
+        alert("회원조회에 실패하였습니다. 다시 입력해주세요.")
+      }
+    }else{
+      didMount.current = true;
+    }
+  }, [email])
 
   const onNameHandler = (e) => {
     setNicknameOrName(e.currentTarget.value)
@@ -29,13 +46,13 @@ const FindAccountSecond = () => {
     };
     dispatch(findAccountSecond(body))
     .then((res)=> {
+      console.log(res);
       setEmail(res.payload.email);
     })
     .catch((err)=>{
       setEmail(null);
       console.log(err);
     });
-    // .catch(setEmail(null));
   }
 
     return (
@@ -49,9 +66,8 @@ const FindAccountSecond = () => {
                 <FindBtn type='submit'>찾기</FindBtn>
                 <div> 조회 결과</div>
                 {email
-                ? <GetEmail>성공<br/>{email}</GetEmail> 
-                : null
-                // <GetEmail> 실패<br/> </GetEmail>
+                ? <GetEmail>{Ret}<br/>{email}</GetEmail> 
+                : <GetEmail>{Ret}<br/> </GetEmail>
                 }
                 
                 <img alt='DonateHand' src={hand}  />
@@ -65,7 +81,6 @@ const FindAccountSecond = () => {
             <SubTitle>고객센터 </SubTitle>
             <SubTitle>공지사항 </SubTitle>
             <SubTitle>한국어 </SubTitle>
-            
           </SubFooter>
           <SubTitle>Copyright @Donate, Like you. All rights reserved.</SubTitle>
         </BtnContainer>
@@ -75,7 +90,7 @@ const FindAccountSecond = () => {
 const BtnContainer = styled.div`
 width : 100vw;
 height : 80vh;
-margin-top : 100px;
+margin-top : 75px;
 // background-color : ivory;
 // justify-content : center;
 flex-direction : column;
@@ -104,8 +119,8 @@ flex-direction : column;
 display : flex;
 // align-items : center;
 // justify-content : center;
-
 `
+
 const InputNick = styled.input`
 position : relatvie;
 width : auto;
@@ -155,22 +170,19 @@ color : brown;
 
 // background : green;
 `
-
 const SubFooter = styled.div`
-margin-top :50px;
+// position :absolute;
+margin-top :250px;
 display : flex;
 justify-content : center;
 align-items : center;
-
 `
+
 const SubTitle = styled.div`
 width : auto;
 color : black;
 position : relative;
 margin-right: 40px;
 margin-bottom : 40px;
-
 `
-
-
 export default FindAccountSecond;

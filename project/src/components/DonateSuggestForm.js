@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import Editor from './Editor';
@@ -7,6 +7,7 @@ import Swal from 'sweetalert2'
 
 
 const DonateSuggestForm = () => {
+    const navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [subtitle, setSubtitle] = useState('');
     const [editorValue, setEditorValue] = useState('');
@@ -16,12 +17,25 @@ const DonateSuggestForm = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [link, setLink] = useState('');
-    const [tag, setTag] = useState('')
+    const [tag, setTag] = useState('');
+    
+    // url만 타이핑하여 다이렉트로 들어오려는(로그인을 선행하지 않은 채) 것을 방지
+    // 첫 렌더링 시 Token값을 확인하여 true-> 프로젝트 진행 / false -> 로그인 선행 유도
+    useEffect(()=>{
+        if(!localStorage.getItem('jwtToken')){
+            alert("로그인을 선행해주십시오.");
+            navigate('/login');
+        }
+    },[]);
+
+
+
+    
 
     const topicSelectList = ['주제선택', '모두의교육', '기본생활지원', '안정된일자리', '건강한삶', '인권평화와역사', '동물', '지역공동체', '더나은사회', '환경'];
     const targetSelectList = ['대상선택', '아동|청소년', '청년', '여성', '실버세대', '장애인', '이주민|다문화', '지구촌', '어려운이웃', '우리사회', '유기동물', '야생동물'];
 
-    const navigate = useNavigate();
+    
 
     const goBack = () => {
         Swal.fire({

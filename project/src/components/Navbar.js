@@ -23,7 +23,7 @@ const Navbar = () => {
     },[loginCheck]);
     
     const suggestBtn = () => {
-        navigate('/suggest')
+        navigate('/fundraisings/propose')
     }
     
     const loginBtn = () => {

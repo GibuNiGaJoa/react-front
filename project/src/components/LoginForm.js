@@ -14,13 +14,40 @@ const LoginForm = () => {
 
   const [Email, setEmail] = useState("");
   const [Pw, setPw] = useState("");
+  const [EmailError, setEmailError] = useState(false);
+  const [PwError, setPwError] = useState(false);
 
   const onEmailHandler = (e) => {
-    setEmail(e.currentTarget.value);
+    const emailRegex = /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+
+    if (!e.target.value || emailRegex.test(e.target.value)){
+      setEmailError(false);
+    } else {
+      setEmailError(true)
+    };
+
+    setEmail(e.target.value);
   }
   const onPwHandler = (e) => {
-    setPw(e.currentTarget.value);
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+
+    if ((!e.target.value || (passwordRegex.test(e.target.value)))) {
+      setPwError(false);
+    }else {
+      setPwError(true);
+    }
+
+    setPw(e.target.value);
   }
+
+  const loginValid = () => {
+    if(!Email) setEmailError(true);
+    if(!Pw) setPwError(true);
+
+    if(Pw && Email) return true;
+    else return false;
+  }
+
     //로그인용
   const onSubmitHandler = (e) => {
     e.preventDefault();
@@ -40,7 +67,7 @@ const LoginForm = () => {
         const token = res.payload.token;
         localStorage.setItem('jwtToken',token);
         localStorage.setItem('isLogin' , 'true');
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        axios.defaults.headers.common['Authorization'] = `${token}`;
         window.location.reload();
 
       } else {
@@ -64,8 +91,10 @@ const LoginForm = () => {
               로그인
             </LoginTitle>
             <form onSubmit={onSubmitHandler}>
-              <IdInput type={'email'} placeholder={"이메일 주소를 입력하세요."} value={Email} onChange={onEmailHandler} ></IdInput>
-              <PasswordInput type={'password'} placeholder={'비밀번호를 입력하세요.'} value={Pw} onChange={onPwHandler} ></PasswordInput>
+              <IdInput type={'email'} placeholder={"이메일 주소를 입력하세요."} value={Email} onChange={onEmailHandler} />
+                {EmailError && <ValidInfo>이메일 형식을 확인하세요.</ValidInfo>}
+              <PasswordInput type={'password'} placeholder={'비밀번호를 입력하세요.'} value={Pw} onChange={onPwHandler} />
+                {PwError && <ValidInfo>비밀번호를 다시 확인해주세요.</ValidInfo>}
               <LoginBtn type='submit'>로그인</LoginBtn>
               
               <SubBtn>
@@ -95,6 +124,9 @@ const LoginForm = () => {
   )
 }
 
+const ValidInfo = styled.div`
+color : red;
+`
 const LoginBody = styled.div`
 background-image : url('https://www.gijangbok.or.kr/img/guide/sub2_img01.png');
 background-repeat : no-repeat;

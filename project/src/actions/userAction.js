@@ -1,4 +1,4 @@
-import { CHECK_TOKEN, LOGIN_USER, REGISTER_USER, LOGOUT_USER, FIND_ACCOUNT_FIRST,FIND_ACCOUNT_SECOND,FIND_PASSWORD } from "./types";
+import { CHECK_TOKEN, LOGIN_USER, REGISTER_USER, LOGOUT_USER, FIND_ACCOUNT_FIRST,FIND_ACCOUNT_SECOND,FIND_PASSWORD, CHANGE_PASSWORD } from "./types";
 import { request, requestToken } from "../axios";
 
 
@@ -50,6 +50,15 @@ export function findPassword(dataToSubmit) {
     payload: data,
   };
 }
+export function changePassword(dataToSubmit) {
+  const data = request("PUT", USER_URL+'/find_password/change_password', dataToSubmit);
+  
+  return {
+    type: CHANGE_PASSWORD,
+    payload: data,
+  };
+}
+
 
 //토큰 체크용
 // export function checkToken() {
