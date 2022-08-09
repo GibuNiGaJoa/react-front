@@ -66,7 +66,8 @@ const ChangePassword = () => {
       .then((res)=> {
         console.log(res);
         localStorage.removeItem('pwdToken');
-        navigate('/');
+        alert('비밀번호 재설정이 완료되었습니다.')
+        navigate('/login');
         
       })
       // 실패

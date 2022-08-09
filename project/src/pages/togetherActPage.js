@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
+import TogetherAct from '../components/TogetherAct';
 
 const TogetherActPage = () => {
     return (
@@ -7,7 +8,8 @@ const TogetherActPage = () => {
             <div className='navbar-container'>
                 <Navbar />
             </div>
-            <p>모두의 행동 페이지</p>
+            <TogetherAct />
+
         </div>
     )
 }

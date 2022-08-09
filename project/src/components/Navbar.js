@@ -54,7 +54,7 @@ const Navbar = () => {
             </Div>
             <div></div>
             <Div>
-                <NavLink to="/togetherDonate" style={{textDecoration: 'none'}}>
+                <NavLink to="/fundraisings/now" style={{textDecoration: 'none'}}>
                     <p id="navbar-font">같이기부</p>
                 </NavLink>
             </Div>

@@ -3,7 +3,6 @@ import { request, requestToken } from "../axios";
 
 
 const USER_URL = "/login";
-const CHECK_URL = "/checkToken";
 
 // 로그인
 export function loginUser(dataToSubmit) {

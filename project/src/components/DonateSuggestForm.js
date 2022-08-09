@@ -154,7 +154,7 @@ const DonateSuggestForm = () => {
         e.preventDefault();
         let body = {
             title: title,
-            subtitle: subtitle,
+            subTitle: subtitle,
             content: editorValue,
             topic: topic,
             target: target,
@@ -165,6 +165,8 @@ const DonateSuggestForm = () => {
             tag: tagList
         };
         //필수항목 검사
+
+        
         if (check) {
             Swal.fire({
                 icon: 'error',
@@ -172,7 +174,7 @@ const DonateSuggestForm = () => {
                 text: '필수항목을 모두 기입해주세요!'
             })
         }
-        else if (editorValue == '' || editorValue == '<p><br></p>') {
+        else if (editorValue === '' || editorValue === '<p><br></p>') {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -180,7 +182,8 @@ const DonateSuggestForm = () => {
             })
         }
         else {
-            dispatch(suggestPost(body)).then((res) => {
+            dispatch(suggestPost(body))
+            .then((res) => {
                 console.log(res);
                 if(res.payload){
                     Swal.fire({
