@@ -10,7 +10,7 @@ const SignupForm = (props) => {
 
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
-  const [ConfirmPassword, setConfirmPasword] = useState("");
+  const [ConfirmPassword, setConfirmPassword] = useState("");
   const [Name, setName] = useState("");
   const [Nickname, setNickname] = useState("");
   const [Birthday, setBirthday] = useState("");
@@ -18,40 +18,130 @@ const SignupForm = (props) => {
   const [Address, setAddress] = useState("");
   const [Gender, setGender] = useState("");
 
+  const [EmailError, setEmailError] = useState(false);
+  const [PasswordError, setPasswordError] = useState(false);
+  const [ConfirmPasswordError, setConfirmPasswordError] = useState(false);
+  const [NameError, setNameError] = useState(false);
+  const [NicknameError, setNicknameError] = useState(false);
+  const [BirthdayError, setBirthdayError] = useState(false);
+  const [PhoneError, setPhoneError] = useState(false);
+  const [AddressError, setAddressError] = useState(false);
+  const [GenderError, setGenderError] = useState(false);
+
+  
+
   const onEmailHandler = (e) => {
-    setEmail(e.currentTarget.value);
+    // setEmail(e.currentTarget.value);
+    const emailRegex = /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+        if (!e.target.value || emailRegex.test(e.target.value))
+          setEmailError(false);
+        else setEmailError(true);
+        setEmail(e.target.value);
   };
 
   const onNameHandler = (e) => {
-    setName(e.currentTarget.value);
+    if(e.target.value.length >=2 && e.target.value.length <= 6){
+      setNameError(false);
+    } else{
+      setNameError(true);
+    }
+    setName(e.target.value);
   };
 
   const onPasswordHanlder = (e) => {
-    setPassword(e.currentTarget.value);
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+    if ((!e.target.value || (passwordRegex.test(e.target.value)))) 
+      setPasswordError(false);
+    else 
+      setPasswordError(true);
+
+    setPassword(e.target.value);
   };
 
   const onConfirmPasswordHandler = (e) => {
-    setConfirmPasword(e.currentTarget.value);
+    // setConfirmPasword(e.currentTarget.value);
+    if (Password === e.target.value) setConfirmPasswordError(false);
+    else setConfirmPasswordError(true);
+    setConfirmPassword(e.target.value);
   };
+
   const onNicknameHandler = (e) => {
-    setNickname(e.currentTarget.value);
+    // setNickname(e.currentTarget.value);
+    if((e.target.value.length < 2 || e.target.value.length > 8) && e.target.value) {
+      setNicknameError(true);
+    }else{
+      setNicknameError(false);
+    }
+    setNickname(e.target.value);
   };
+
   const onBirthdayHandler = (e) => {
-    setBirthday(e.currentTarget.value);
+    const birtdayRegex = /^(19|20)\d\d([- /.])(0[1-9]|1[012])\2(0[1-9]|[12][0-9]|3[01])$/;
+    if (!e.target.value || birtdayRegex.test(e.target.value)){
+      setBirthdayError(false);
+    }  else {
+      setBirthdayError(true);
+    }
+    setBirthday(e.target.value);
   };
+
   const onPhoneHandler = (e) => {
-    setPhone(e.currentTarget.value);
+    // setPhone(e.currentTarget.value);
+    // const phoneRegex =  /^01(?:0|1|[6-9])[.-]?(\\d{3}|\\d{4})[.-]?(\\d{4})$/;
+    const phoneRegex = /^\d{3}-\d{3,4}-\d{4}$/;
+    if (!e.target.value || phoneRegex.test(e.target.value)){
+      setPhoneError(false);
+    }  else {
+      setPhoneError(true);
+    }
+    setPhone(e.target.value);
+
   };
+
   const onAddressHandler = (e) => {
-    setAddress(e.currentTarget.value);
+    // setAddress(e.currentTarget.value);
+    if(e.target.value.length > 4)  {
+      setAddressError(false);
+    }else{
+      setAddressError(true);
+    }
+    setAddress(e.target.value);
   };
+
   const onGenderHandler = (e) => {
-    setGender(e.currentTarget.value);
+    // setGender(e.currentTarget.value);
+    // if((e.target.value.length < 2 || e.target.value.length > 8) && e.target.value) 
+    if(e.target.value === 'Man' || e.target.value === 'Woman' )   {
+      setGenderError(false);
+    }else if(!e.target.value){
+      setGenderError(true);
+    } else{
+      setGenderError(true);
+    }
+    setGender(e.target.value);
   };
+
+
+  const validation = () => {
+    if(!Name) setNameError(true);
+    if(!Email) setEmailError(true);
+    if(!Password) setPasswordError(true);
+    if(!ConfirmPassword) setConfirmPasswordError(true);
+    if(!Phone) setPhoneError(true);
+    if(!Nickname) setNicknameError(true);
+    if(!Address) setAddressError(true);
+    if(!Birthday) setBirthdayError(true);
+    if(!Gender) setGenderError(true);
+
+    if(Email && Password && ConfirmPassword && Name && Nickname && Birthday && Phone && Address && Gender)
+    return true;
+    else return false;
+  }
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    if (Password === ConfirmPassword) {
+    // if (Password === ConfirmPassword) 
+    if(validation()) {
       let body = {
         email: Email,
         pw: Password,
@@ -70,19 +160,10 @@ const SignupForm = (props) => {
         }
       });
     } else {
-      alert("비밀번호가 일치하지 않습니다");
+      alert("회원가입 필수 조건을 확인하세요.");
     }
   };
-  //성별 체크박스 하나만 선택하기 !
-  // const checkOnlyOne = (checkThis) => {
-  //   const checkboxes = document.getElementsByName('gender')
-  //   for (let i = 0; i < checkboxes.length; i++) {
-  //     if (checkboxes[i] !== checkThis) {
-  //       checkboxes[i].checked = false
-  //     }
-  //   }
-  // }
-
+  
   return(
     <SignupBody>
       <SignupContainer> 
@@ -92,24 +173,24 @@ const SignupForm = (props) => {
             </SignupTitle>
           <form onSubmit={onSubmitHandler}>
             <InputBox>
-              <NameInput onChange={onNameHandler} type={"name"} value={Name} placeholder='이름을 입력하세요.'></NameInput>
-              <EmailInput onChange={onEmailHandler} type={'email'} value={Email} placeholder='이메일 주소를 입력하세요' ></EmailInput>
-              {/* <BirthInput type={'date'}></BirthInput> */}
-              <PasswordInput onChange={onPasswordHanlder} type={"password"} value={Password} placeholder='비밀번호를 입력하세요'></PasswordInput>
-              <PasswordInput onChange={onConfirmPasswordHandler} type={"password"} value={ConfirmPassword} placeholder='비밀번호를 다시 한번 입력하세요.'></PasswordInput>
-              <PasswordInput onChange={onPhoneHandler} type={"phone"} value={Phone} placeholder='전화번호를 입력하세요.'></PasswordInput>
-              <PasswordInput onChange={onNicknameHandler} type={"nickname"} value={Nickname} placeholder='닉네임을 입력하세요'></PasswordInput>
-              <PasswordInput onChange={onAddressHandler} type={"address"} value={Address} placeholder='주소를 입력하세요'></PasswordInput>
-              <PasswordInput onChange={onBirthdayHandler} type={"birthday"} value={Birthday} placeholder='생일을 입력하세요'></PasswordInput>
-              <PasswordInput onChange={onGenderHandler} type={"gender"} value={Gender} placeholder='성별을 입력하세요'></PasswordInput>
-              {/* <Gender>
-                <GenderText>남성</GenderText>
-                <GenderInput id={'male'}type={'checkbox'}></GenderInput>
-                <GenderInput type="checkbox" name="gender"  value="1" onChange={(e) => checkOnlyOne(e.target)}></GenderInput>
-                <GenderText>여성</GenderText>
-                <GenderInput type="checkbox" name="gender"  value="2" onChange={(e) => checkOnlyOne(e.target)}></GenderInput>
-                test builder!
-              </Gender> */}
+              <NameInput onChange={onNameHandler} type={"name"} value={Name} placeholder='이름을 입력하세요.'/>
+                {NameError && <ValidInfo>Required.  Name must be 2-6 letters.</ValidInfo>}
+              <EmailInput onChange={onEmailHandler} type={'email'} value={Email} placeholder='이메일 주소를 입력하세요' />
+                {EmailError && <ValidInfo >Please enter valid email format</ValidInfo>}
+              <PasswordInput onChange={onPasswordHanlder} type={"password"} value={Password} placeholder='비밀번호를 입력하세요'/>
+                {PasswordError && <ValidInfo>8글자 이상, 숫자+영문자+특수문자 조합으로 입력하세요.</ValidInfo>}
+              <PasswordInput onChange={onConfirmPasswordHandler} type={"password"} value={ConfirmPassword} placeholder='비밀번호를 다시 한번 입력하세요.'/>
+                {ConfirmPasswordError && <ValidInfo>Those passwords didn't match.</ValidInfo>}
+              <PasswordInput onChange={onPhoneHandler} type={"phone"} value={Phone} placeholder='전화번호를 입력하세요.'/>
+                {PhoneError && <ValidInfo>Please Check the phone.</ValidInfo>}
+              <PasswordInput onChange={onNicknameHandler} type={"nickname"} value={Nickname} placeholder='닉네임을 입력하세요'/>
+                {NicknameError && <ValidInfo>Nickname must 2 letters at least.</ValidInfo>}
+              <PasswordInput onChange={onAddressHandler} type={"address"} value={Address} placeholder='주소를 입력하세요' />
+                {AddressError && <ValidInfo>Please Check the address.</ValidInfo>}
+              <PasswordInput onChange={onBirthdayHandler} type={"text"} value={Birthday} placeholder='생일을 입력하세요'/>
+                {BirthdayError && <ValidInfo>Please Try the birthday  'YYYY-MM-DD' </ValidInfo>}
+              <PasswordInput onChange={onGenderHandler} type={"gender"} value={Gender} placeholder='성별을 입력하세요'/>
+                {GenderError && <ValidInfo>Please Enter "Woman" or "Man". </ValidInfo>}
 
               <SignupBtn type='submit' style={{fontSize : "20px" , border : '1px solid white' , padding : '2px',borderRadius : '20px'}} >계정 만들기</SignupBtn>
             </InputBox>
@@ -118,9 +199,12 @@ const SignupForm = (props) => {
       </SignupContainer>
     </SignupBody>
   )
-
+    
 }
 
+const ValidInfo = styled.div`
+color : red;
+`
 const SignupBody = styled.div`
 background-image : url('https://www.gijangbok.or.kr/img/guide/sub2_img01.png');
 background-repeat : no-repeat;

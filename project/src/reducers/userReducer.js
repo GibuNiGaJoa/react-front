@@ -1,4 +1,4 @@
-import { LOGOUT_USER, LOGIN_USER, REGISTER_USER, CHECK_TOKEN, FIND_PASSWORD,FIND_ACCOUNT_FIRST,FIND_ACCOUNT_SECOND } from "../actions/types";
+import { LOGOUT_USER, LOGIN_USER, REGISTER_USER, CHECK_TOKEN, FIND_PASSWORD,FIND_ACCOUNT_FIRST,FIND_ACCOUNT_SECOND, CHANGE_PASSWORD } from "../actions/types";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default function (state = {}, action) {
@@ -20,8 +20,11 @@ export default function (state = {}, action) {
 
     case FIND_ACCOUNT_FIRST:
       return {...state, success : action.payload};
-      
+
     case FIND_ACCOUNT_SECOND:
+      return {...state, success : action.payload};
+
+    case CHANGE_PASSWORD:
       return {...state, success : action.payload};
         
 

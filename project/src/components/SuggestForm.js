@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import SuggestImg from '../img/suggestImg.PNG'
@@ -6,8 +6,15 @@ import SuggestImg from '../img/suggestImg.PNG'
 const SuggestForm = () => {
     const navigate = useNavigate();
 
+    
+    // 기부 제안 전 토큰확인 -> 있으면 진행 없으면 로그인 선행 유도
     const moveToSuggest = () => {
-        navigate('/suggest/id')
+        if(localStorage.getItem('jwtToken')){
+            navigate('/fundraisings/propose/project');
+        } else {
+            alert('로그인을 선행해주십시오.');
+            navigate('/login');
+        }
     }
 
     return(
