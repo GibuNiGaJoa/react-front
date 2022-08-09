@@ -5,11 +5,12 @@ import SuggestImg from '../img/suggestImg.PNG'
 
 const SuggestForm = () => {
     const navigate = useNavigate();
-
+    
     
     // 기부 제안 전 토큰확인 -> 있으면 진행 없으면 로그인 선행 유도
     const moveToSuggest = () => {
-        if(localStorage.getItem('jwtToken')){
+        if(localStorage.getItem('isLogin')){
+            
             navigate('/fundraisings/propose/project');
         } else {
             alert('로그인을 선행해주십시오.');

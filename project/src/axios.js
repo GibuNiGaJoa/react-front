@@ -13,13 +13,23 @@ export const request = (method, url, data) => {
   .catch((err) => console.log(err));
 };
 
-// // 토큰체크용
-// export const requestToken = (method,url) => {
-//   return axios({
-//     method,
-//     url:  url,
-//   })
-//   .then((res) => res.data)
-//   .catch((err) => console.log(err));
-// };
+// 게시물 리턴값 받기 테스트용
+export const postingReq = (method,url) => {
+  return axios({
+    method,
+    url:  url,
+  })
+  .then((res) => res.data)
+  .catch((err) => console.log(err));
+};
+
+export const suggestCheckReq = (method,url) => {
+  return axios({
+    method,
+    url:  url,
+  })
+  .then((res) => res.data)
+  .catch((err) => console.log(err));
+};
+
 
