@@ -13,10 +13,60 @@ import ico_earth from "../img/ico_earth.png"
 import ico_neighborhood from "../img/ico_neighborhood.png"
 import ico_animal from "../img/ico_animal.png"
 import ico_culture from "../img/ico_culture.png"
+import actionTestImg from "../img/bannerTest4.PNG"
 
 
 
 const TogetherDonateContent = () => {
+    const contents = [
+        {
+            img: actionTestImg,
+            title: '우리 동네 작은가게 한번만 도와줍쇼',
+            organization: '사단법인 황재원'
+        },
+        {
+            img: actionTestImg,
+            title: '우리 동네 작은가게 한번만 도와줍쇼',
+            organization: '사단법인 황재원'
+        },
+        {
+            img: actionTestImg,
+            title: '우리 동네 작은가게 한번만 도와줍쇼',
+            organization: '사단법인 황재원'
+        },
+        {
+            img: actionTestImg,
+            title: '우리 동네 작은가게 한번만 도와줍쇼',
+            organization: '사단법인 황재원'
+        },
+        {
+            img: actionTestImg,
+            title: '우리 동네 작은가게 한번만 도와줍쇼',
+            organization: '사단법인 황재원'
+        },
+        {
+            img: actionTestImg,
+            title: '우리 동네 작은가게 한번만 도와줍쇼',
+            organization: '사단법인 황재원'
+        },
+        {
+            img: actionTestImg,
+            title: '우리 동네 작은가게 한번만 도와줍쇼',
+            organization: '사단법인 황재원'
+        },
+        {
+            img: actionTestImg,
+            title: '우리 동네 작은가게 한번만 도와줍쇼',
+            organization: '사단법인 황재원'
+        },
+        {
+            img: actionTestImg,
+            title: '우리 동네 작은가게 한번만 도와줍쇼',
+            organization: '사단법인 황재원'
+        },
+        
+    ]
+
 
     return (
         <Box>
@@ -24,65 +74,103 @@ const TogetherDonateContent = () => {
             <Wrapper>
                 <CategoryBox>
                     <Ul>
-                        <Li><NavLink exact to="/togetherDonate" style={{ textDecoration: 'none', }}>
-                            <img style={{ width: 50, height:50 }} className="ico_all" alt="ico_all" src={ico_all} /><p>전체</p></NavLink></Li>
-                        <Li><NavLink exact to="/togetherDonate" style={{ textDecoration: 'none' }}>
-                            <img style={{ width: 50, height:50 }} className="ico_kidz" alt="ico_kidz" src={ico_kidz} /><p>어린이</p></NavLink></Li>
-                        <Li><NavLink exact to="/togetherDonate" style={{ textDecoration: 'none' }}>
-                            <img style={{ width: 50, height:50 }} className="ico_young" alt="ico_young" src={ico_young} /><p>청년</p></NavLink></Li>
-                        <Li>
-                            <NavLink exact to="/togetherDonate" style={{ textDecoration: 'none' }}>
-                                <img style={{ width: 50, height:50 }} className="ico_woman" alt="ico_woman" src={ico_woman} /><p>여성</p></NavLink></Li>
-                        <Li> <NavLink exact to="/togetherDonate" style={{ textDecoration: 'none' }}>
-                            <img style={{ width: 50, height:50 }} className="ico_old" alt="ico_old" src={ico_old} /><p>어르신</p></NavLink></Li>
-                        <Li> <NavLink exact to="/togetherDonate" style={{ textDecoration: 'none' }}>
-                            <img style={{ width: 50, height:50 }} className="ico_accessible" alt="ico_accessible" src={ico_accessible} /><p>장애인</p></NavLink></Li>
-                        <Li><NavLink exact to="/togetherDonate" style={{ textDecoration: 'none' }}>
-                            <img style={{ width: 50, height:50 }} className="ico_social" alt="ico_social" src={ico_social} /><p>우리사회</p></NavLink></Li>
-                        <Li> <NavLink exact to="/togetherDonate" style={{ textDecoration: 'none' }}>
-                            <img style={{ width: 50, height:50 }} className="ico_earth" alt="ico_earth" src={ico_earth} /><p>지구촌</p></NavLink></Li>
-                        <Li>  <NavLink exact to="/togetherDonate" style={{ textDecoration: 'none' }}>
-                            <img style={{ width: 50, height:50 }} className="ico_neighborhood" alt="ico_neighborhood" src={ico_neighborhood} /><p>어려운이웃</p></NavLink></Li>
-                        <Li><NavLink exact to="/togetherDonate" style={{ textDecoration: 'none' }}>
-                            <img style={{ width: 50, height:50 }} className="ico_animal" alt="ico_animal" src={ico_animal} /><p>동물</p></NavLink></Li>
-                        <Li> <NavLink exact to="/togetherDonate" style={{ textDecoration: 'none' }}>
-                            <img style={{ width: 50, height:50 }} className="ico_culture" alt="ico_culture" src={ico_culture} /><p>환경</p></NavLink></Li>
+                        <Li><A href='#'>
+                            <img style={{ width: 40, height: 40 }} className="ico_all" alt="ico_all" src={ico_all} /><p>전체</p></A></Li>
+                        <Li><A href='#'>
+                            <img style={{ width: 40, height: 40 }} className="ico_kidz" alt="ico_kidz" src={ico_kidz} /><p>아동|청소년</p></A></Li>
+                        <Li><A href='#'>
+                            <img style={{ width: 40, height: 40 }} className="ico_young" alt="ico_young" src={ico_young} /><p>청년</p></A></Li>
+                        <Li><A href='#'>
+                            <img style={{ width: 40, height: 40 }} className="ico_woman" alt="ico_woman" src={ico_woman} /><p>여성</p></A></Li>
+                        <Li><A href='#'>
+                            <img style={{ width: 40, height: 40 }} className="ico_old" alt="ico_old" src={ico_old} /><p>실버세대</p></A></Li>
+                        <Li><A href='#'>
+                            <img style={{ width: 40, height: 40 }} className="ico_accessible" alt="ico_accessible" src={ico_accessible} /><p>장애인</p></A></Li>
+                        <Li><A href='#'>
+                            <img style={{ width: 40, height: 40 }} className="ico_social" alt="ico_social" src={ico_social} /><p>우리사회</p></A></Li>
+                        <Li><A href='#'>
+                            <img style={{ width: 40, height: 40 }} className="ico_earth" alt="ico_earth" src={ico_earth} /><p>지구촌</p></A></Li>
+                        <Li><A href='#'>
+                            <img style={{ width: 40, height: 40 }} className="ico_neighborhood" alt="ico_neighborhood" src={ico_neighborhood} /><p>어려운이웃</p></A></Li>
+                        <Li><A href='#'>
+                            <img style={{ width: 40, height: 40 }} className="ico_animal" alt="ico_animal" src={ico_animal} /><p>동물</p></A></Li>
+                        <Li><A href='#'>
+                            <img style={{ width: 40, height: 40 }} className="ico_culture" alt="ico_culture" src={ico_culture} /><p>환경</p></A></Li>
                     </Ul>
                 </CategoryBox>
                 <ContentBox>
-                    <h2>같이기부 게시글들</h2>
-                    <h2>이미지</h2>
-                    <h2>제목</h2>
+                            {contents.map((content) => {
+                                return (
+                                    <Content>
+                                        <Img src={content.img} />
+                                        <InnerContent>
+                                            <h3>{content.title}</h3>
+                                            <p>{content.organization}</p>
+                                        </InnerContent>
+                                    </Content>
+                                )
+                            })}
                 </ContentBox>
             </Wrapper>
             <Wrapper></Wrapper>
+          
         </Box>
     );
 };
 
 const Box = styled.div`
-display:flex;
-width: 100vw;`;
+width: 100vw;
+
+
+`;
 
 const Wrapper = styled.div`
-margin: auto;
-justify-content : center;
-text-align : center;
 `;
+
 const CategoryBox = styled.div`
-`;
-const ContentBox = styled.div`
 `;
 
 const Ul = styled.ul`
 list-style: none;
 font-size: large;
 font-weight: bold;
+display:flex;
+justify-content:center;
+text-align: center;
 `;
+
 const Li = styled.li`
 margin-left: 20px;
-float: left;
 border: 0;`;
+
+const A = styled.a`
+text-decoration: none;
+color: black;
+&:hover{
+    color: #828282;
+  }
+`;
+
+const ContentBox = styled.div`
+display: flex;
+text-align: center;
+flex-wrap: wrap;
+`;
+const Content = styled.div`
+flex:auto;
+width: 25%;
+margin-bottom: 10px;
+`;
+const InnerContent = styled.div``;
+const Img = styled.img`
+width: 300px;
+height: 200px;
+border-radius: 10%;
+transition: 0.3s;
+&:hover{
+    transform:scale(1.1);
+}
+`;
 
 
 export default TogetherDonateContent;

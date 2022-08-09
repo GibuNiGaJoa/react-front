@@ -5,13 +5,14 @@ import Editor from './Editor';
 import Swal from 'sweetalert2'
 import { useDispatch } from "react-redux";
 import { suggestPost } from '../actions/sugggestAction';
+import ImageEditor from './ImageEditor';
 
 
 
 const DonateSuggestForm = () => {
     const navigate = useNavigate();
     const [title, setTitle] = useState('');
-    const [subtitle, setSubtitle] = useState('');
+    const [proposer, setProposer] = useState('');
     const [editorValue, setEditorValue] = useState('');
     const [topic, setTopic] = useState('');
     const [target, setTarget] = useState('');
@@ -25,29 +26,26 @@ const DonateSuggestForm = () => {
     const inputLink = useRef(null);
 
     const [tag, setTag] = useState('');
-    
-    // url만 타이핑하여 다이렉트로 들어오려는(로그인을 선행하지 않은 채) 것을 방지
-    // 첫 렌더링 시 Token값을 확인하여 true-> 프로젝트 진행 / false -> 로그인 선행 유도
-    useEffect(()=>{
-        if(!localStorage.getItem('jwtToken')){
-            alert("로그인을 선행해주십시오.");
-            navigate('/login');
-        }
-    },[]);
-
-
-
-    
     const [tagList, setTagList] = useState([]);
     const [nextId2, setNextId2] = useState(0);
     const inputTag = useRef(null);
 
+    const [imageValue, setImageValue] = useState('');
+
+    // url만 타이핑하여 다이렉트로 들어오려는(로그인을 선행하지 않은 채) 것을 방지
+    // 첫 렌더링 시 Token값을 확인하여 true-> 프로젝트 진행 / false -> 로그인 선행 유도
+    useEffect(() => {
+        if (!localStorage.getItem('jwtToken')) {
+            alert("로그인을 선행해주십시오.");
+            navigate('/login');
+        }
+    }, []);
 
     const topicSelectList = ['주제선택', '모두의교육', '기본생활지원', '안정된일자리', '건강한삶', '인권평화와역사', '동물', '지역공동체', '더나은사회', '환경'];
     const targetSelectList = ['대상선택', '아동|청소년', '청년', '여성', '실버세대', '장애인', '이주민|다문화', '지구촌', '어려운이웃', '우리사회', '유기동물', '야생동물'];
 
-    
-    const dispatch =useDispatch();
+
+    const dispatch = useDispatch();
 
     const goBack = () => {
         Swal.fire({
@@ -67,7 +65,7 @@ const DonateSuggestForm = () => {
 
     const check =
         title == '' ||
-        subtitle == '' ||
+        proposer == '' ||
         editorValue == '' ||
         topic == '' ||
         target == '' ||
@@ -80,13 +78,17 @@ const DonateSuggestForm = () => {
         // console.log(values);
     }
 
+    const ImageChangeInput = (values) => {
+        setImageValue(values);
+    }
+
     const onTitleHandler = (e) => {
         setTitle(e.currentTarget.value);
         // console.log(title);
     };
 
-    const onSubTitleHandler = (e) => {
-        setSubtitle(e.currentTarget.value);
+    const onProposerHandler = (e) => {
+        setProposer(e.currentTarget.value);
         // console.log(subtitle);
     }
 
@@ -154,7 +156,7 @@ const DonateSuggestForm = () => {
         e.preventDefault();
         let body = {
             title: title,
-            subTitle: subtitle,
+            proposer: proposer,
             content: editorValue,
             topic: topic,
             target: target,
@@ -162,11 +164,12 @@ const DonateSuggestForm = () => {
             startDate: startDate,
             endDate: endDate,
             link: linkList,
-            tag: tagList
+            tag: tagList,
+            image: imageValue,
         };
         //필수항목 검사
 
-        
+
         if (check) {
             Swal.fire({
                 icon: 'error',
@@ -181,32 +184,35 @@ const DonateSuggestForm = () => {
                 text: '게시글 내용 검사 버튼을 클릭해주세요!'
             })
         }
+        else if (imageValue === '' || imageValue === '<p><br></p>') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: '이미지 등록 버튼을 클릭해주세요!'
+            })
+
+        }
         else {
             dispatch(suggestPost(body))
-            .then((res) => {
-                console.log(res);
-                if(res.payload){
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Good job!',
-                        text: '글 등록완료!'
-                    }).then(() => {
-                        navigate('/');
-                    })
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            })  
+                .then((res) => {
+                    console.log(res);
+                    if (res.payload) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Good job!',
+                            text: '글 등록완료!'
+                        }).then(() => {
+                            navigate('/');
+                        })
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
         }
 
         console.log(body);
     };
-
-    // //Enter키 이벤트 막기
-    // document.myForm.addEventListener("keydown", evt => {
-    //     if(evt.code === "Enter") evt.preventDefault();
-    // })
 
     return (
         <Box>
@@ -241,8 +247,8 @@ const DonateSuggestForm = () => {
                             <td><h3>제목</h3></td>
                             <td colSpan={"3"}><em style={{ color: 'red' }}>* </em><TitleInput onChange={onTitleHandler} type={"title"} value={title} placeholder='제목을 입력하세요.' ></TitleInput></td></tr>
                         <tr>
-                            <td><h3>부제목</h3></td>
-                            <td colSpan={"3"}><em style={{ color: 'red' }}>* </em><SubTitleInput onChange={onSubTitleHandler} type={"sub-title"} value={subtitle} placeholder='부제목을 입력하세요.' ></SubTitleInput></td></tr>
+                            <td><h3>제안자</h3></td>
+                            <td colSpan={"3"}><em style={{ color: 'red' }}>* </em><ProposerInput onChange={onProposerHandler} type={"proposer"} value={proposer} placeholder='제안자를 입력하세요.' ></ProposerInput></td></tr>
                         <tr>
                             <td><h3>목표금액</h3></td>
                             <td colSpan={"3"}><em style={{ color: 'red' }}>* </em><TargetAmountInput onChange={onTargetAmountHandler} type={"number"} value={targetAmount} placeholder='목표금액을 입력하세요.' ></TargetAmountInput></td></tr>
@@ -288,6 +294,10 @@ const DonateSuggestForm = () => {
                                     ))}
                                 </ul></td></tr>
                         <tr>
+                            <td colSpan={"4"}><h3>대표 이미지</h3><em style={{ color: 'red' }}>* </em>
+                                <ImageEditor values={imageValue} getValues={ImageChangeInput} /></td>
+                        </tr>
+                        <tr>
                             <td><SuggestBtn type='submit'>제출하기</SuggestBtn></td>
                             <td><GobackBtn type="button" onClick={goBack}>뒤로가기</GobackBtn></td>
                         </tr>
@@ -319,8 +329,8 @@ const TitleInput = styled.input`
 width: 40vw;
 height: 5vh;
 `;
-const SubTitleInput = styled.input`
-width: 40vw;
+const ProposerInput = styled.input`
+width: 15vw;
 height: 5vh;`;
 const TopicSelect = styled.select`
 width:15vw;
