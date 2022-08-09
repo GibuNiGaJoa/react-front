@@ -1,5 +1,5 @@
-import { IMAGE_HANDLER, SUGGEST_POST } from "./types";
-import { request } from "../axios";
+import { GET_SUGGEST_TOKEN, IMAGE_HANDLER, SUGGEST_POST } from "./types";
+import { request, suggestCheckReq } from "../axios";
 
 
 //제안하기 액션
@@ -12,6 +12,14 @@ export function imageConverter(dataToSubmit) {
     type: IMAGE_HANDLER,
     payload: data,
   };
+}
+
+export function suggestTokenCheck(dataToSubmit){
+  const data = suggestCheckReq("GET", "/fundraisings/propose",dataToSubmit);
+  return{
+    type: GET_SUGGEST_TOKEN,
+    payload: data,
+  }
 }
 
 export function suggestPost(dataToSubmit){
