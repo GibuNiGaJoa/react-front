@@ -4,7 +4,8 @@ import {
 } from "./types";
 import { getPosting } from "../axios";
 
-const URL = "/fundraisings/now"
+
+const URL = "http://valuetogether.tk/fundraisings/now"
 
 //전체 게시글 랜덤 조회
 export function getPostingAllRandom(dataToSubmit) {
