@@ -1,10 +1,9 @@
-import { NavLink, useNavigate } from 'react-router-dom';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from "react-redux";
-import axios from 'axios';
 import { getPostingInfo } from '../actions/postingAction';
 import Modal from "../components/Modal"
+import Footer from './Footer';
 import Comments from './Comments';
 
 
@@ -23,28 +22,28 @@ const PostingTest = () => {
   const [CommentLength, setCommentLength] = useState(0);
 
   //모달창
-  const [modalOpen, setModalOpen] = useState('false');
-  const modalClose = () => {
-    setModalOpen(!modalOpen);
+  const [visible, setVisible] = useState(false);
+  const modalOpen = () => {
+    setVisible(true);
   }
 
   // 내가 생각한건 -> 첫 렌더링 시 통신을 통해 해당 게시글번호에 대한 정보 받아오기 
   useEffect(() => {
     // 0809 14:00 -> content / endDate / startDate / subTitle / targetAmount / title
     dispatch(getPostingInfo())
-    .then((res) => {
-      console.log(res.payload);
-      setContent(res.payload.content);
-      setStartDate(res.payload.startDate);
-      setEndDate(res.payload.endDate);
-      setTitle(res.payload.title);
-      setSubTitle(res.payload.subTitle);
-      setTargetAmount(res.payload.targetAmount);
-      setMainImage(res.payload.image);
-    })
-    .catch((err) => {
-      console.log(err);
-      alert('해당 게시물이 없습니다.')
+      .then((res) => {
+        console.log(res.payload);
+        setContent(res.payload.content);
+        setStartDate(res.payload.startDate);
+        setEndDate(res.payload.endDate);
+        setTitle(res.payload.title);
+        setSubTitle(res.payload.subTitle);
+        setTargetAmount(res.payload.targetAmount);
+        setMainImage(res.payload.image);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert('해당 게시물이 없습니다.')
 
       });
 
@@ -72,32 +71,43 @@ const PostingTest = () => {
   return (
     <div>
       {/* 제목에 대한 정보가 있을 경우에만 렌더링 ! */}
-      {(Title ) && <HeaderBody>
+      {(Title) && <HeaderBody>
         <HeaderTitle><strong>{Title}</strong></HeaderTitle>
         <HeaderSubTitle><strong>{SubTitle}</strong></HeaderSubTitle>
         <Badge>
           {/* <HeaderBadge1 href='/'></HeaderBadge1>
           <HeaderBadge2 href='/'></HeaderBadge2> */}
-          
+
         </Badge>
       </HeaderBody>}
       <MainBody>
-        <MainContent dangerouslySetInnerHTML={{__html :  Content}}></MainContent>
+        <MainContent dangerouslySetInnerHTML={{ __html: Content }}></MainContent>
         {/* <MainContent>{Content}</MainContent> */}
         <MainContent />
-          {StartDate && <div>시작일:{StartDate}</div>}
-        <MainContent /> 
-          {EndDate && <div>종료일 : {EndDate}</div>}
+        {StartDate && <div>시작일:{StartDate}</div>}
         <MainContent />
-          {TargetAmount && <div>기부 금액 : {TargetAmount}원</div>}
-          {/* <MainContent />
+        {EndDate && <div>종료일 : {EndDate}</div>}
+        <MainContent />
+        {TargetAmount && <div>기부 금액 : {TargetAmount}원</div>}
+        {/* <MainContent />
           {<div>기부 금액 {TargetAmount}</div>} */}
       </MainBody>
-      <ModalOpenBtn onClick={modalClose}>기부하기</ModalOpenBtn>
-      { modalOpen && <Modal modalClose={modalClose} />}
+      
       <Comments >
         
       </Comments >
+      <DonateContent>
+        <CheerupBtn>응원</CheerupBtn>
+        <ShareBtn>공유</ShareBtn>
+        <ModalBtn onClick={modalOpen} >모달창 열기</ModalBtn>
+        {/* 모달창 */}
+        {
+          visible ? <Modal closeModal={() => {
+            // console.log('닫힘함수 불려짐')
+            setVisible(!visible)
+          }} /> : null
+        }
+      </DonateContent>
       
       
       
@@ -105,6 +115,17 @@ const PostingTest = () => {
     </div>
   )
 }
+
+const DonateContent = styled.div`
+position: fixed;
+left:1000px;
+bottom:400px;;`;
+
+const CheerupBtn =styled.button``;
+const ShareBtn = styled.button``;
+const ModalBtn = styled.button`
+`;
+
 const HeaderBody = styled.div`
 height : 30vh;
 width : 100vw;
