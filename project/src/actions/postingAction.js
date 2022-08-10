@@ -4,7 +4,7 @@ import { postingReq, request } from "../axios";
 
 //제안하기 액션
 
-const FUND_URL = "/fundraisings";
+const FUND_URL = "http://valuetogether.tk/fundraisings";
 
 export function getPostingInfo(dataToSubmit) {
   const data = postingReq("GET", FUND_URL+"/25", dataToSubmit);
@@ -15,7 +15,7 @@ export function getPostingInfo(dataToSubmit) {
 }
 
 export function commnentPost(dataToSubmit) {
-  const data = postingReq("GET", FUND_URL+"/25", dataToSubmit);
+  const data = postingReq("POST", FUND_URL+"/25", dataToSubmit);
   return {
     type: POSTING_COMMENT,
     payload: data,
