@@ -13,10 +13,6 @@ import ico_neighborhood from "../img/ico_neighborhood.png"
 import ico_animal from "../img/ico_animal.png"
 import ico_culture from "../img/ico_culture.png"
 
-
-
-
-
 const TogetherDonateContent = () => {
 
     const [getPosting, setGetPosting] = useState(<GetContentAll type={'random'} />);
