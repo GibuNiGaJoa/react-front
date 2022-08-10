@@ -5,6 +5,7 @@ import Editor from './Editor';
 import Swal from 'sweetalert2'
 import { useDispatch } from "react-redux";
 import { suggestPost } from '../actions/sugggestAction';
+import axios from 'axios';
 
 
 
@@ -154,7 +155,7 @@ const DonateSuggestForm = () => {
         e.preventDefault();
         let body = {
             title: title,
-            subTitle: subtitle,
+            proposer: subtitle,
             content: editorValue,
             topic: topic,
             target: target,
@@ -162,7 +163,9 @@ const DonateSuggestForm = () => {
             startDate: startDate,
             endDate: endDate,
             link: linkList,
-            tag: tagList
+            tag: tagList,
+            image : "https://mud-kage.kakaocdn.net/dn/c9NLPp/btrFWddriz9/tH8p2c63nIcDk0Kwtql9P0/c360.jpg"
+
         };
         //필수항목 검사
 
@@ -182,9 +185,11 @@ const DonateSuggestForm = () => {
             })
         }
         else {
+            axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwtToken')}}`;
             dispatch(suggestPost(body))
             .then((res) => {
                 console.log(res);
+                
                 if(res.payload){
                     Swal.fire({
                         icon: 'success',
@@ -241,7 +246,7 @@ const DonateSuggestForm = () => {
                             <td><h3>제목</h3></td>
                             <td colSpan={"3"}><em style={{ color: 'red' }}>* </em><TitleInput onChange={onTitleHandler} type={"title"} value={title} placeholder='제목을 입력하세요.' ></TitleInput></td></tr>
                         <tr>
-                            <td><h3>부제목</h3></td>
+                            <td><h3>제안자</h3></td>
                             <td colSpan={"3"}><em style={{ color: 'red' }}>* </em><SubTitleInput onChange={onSubTitleHandler} type={"sub-title"} value={subtitle} placeholder='부제목을 입력하세요.' ></SubTitleInput></td></tr>
                         <tr>
                             <td><h3>목표금액</h3></td>

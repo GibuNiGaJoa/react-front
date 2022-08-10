@@ -18,7 +18,7 @@ const PostingTest = () => {
   const [SubTitle, setSubTitle] = useState('');
   const [TargetAmount, setTargetAmount] = useState('');
   
-  // 내가 생각한건 첫 렌더링 시 통신을 통해 해당 게시글번호에 대한 정보 받아오기 
+  // 내가 생각한건 -> 첫 렌더링 시 통신을 통해 해당 게시글번호에 대한 정보 받아오기 
   useEffect(() => {
     // 0809 14:00 -> content / endDate / startDate / subTitle / targetAmount / title
     dispatch(getPostingInfo())
@@ -31,28 +31,37 @@ const PostingTest = () => {
       setSubTitle(res.payload.subTitle);
       setTargetAmount(res.payload.targetAmount);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      alert('해당 게시물이 없습니다.')
+
+      });
 
   }, []);
 
   return (
     <div>
-      <HeaderBody>
+      {/* 제목에 대한 정보가 있을 경우에만 렌더링 ! */}
+      {Title && <HeaderBody>
         <HeaderTitle><strong>{Title}</strong></HeaderTitle>
         <HeaderSubTitle><strong>{SubTitle}</strong></HeaderSubTitle>
         <Badge>
-          <HeaderBadge1 href='/'></HeaderBadge1>
-          <HeaderBadge2 href='/'></HeaderBadge2>
+          {/* <HeaderBadge1 href='/'></HeaderBadge1>
+          <HeaderBadge2 href='/'></HeaderBadge2> */}
           
         </Badge>
-      </HeaderBody>
+      </HeaderBody>}
       <MainBody>
         <MainContent dangerouslySetInnerHTML={{__html :  Content}}></MainContent>
         {/* <MainContent>{Content}</MainContent> */}
-        <MainContent>시작일 {StartDate}</MainContent>
-        <MainContent>종료일 {EndDate}</MainContent>
-        <MainContent>기부 금액 {EndDate}</MainContent>
-        <MainContent>기부 금액 {TargetAmount}</MainContent>
+        <MainContent />
+          {StartDate && <div>시작일:{StartDate}</div>}
+        <MainContent /> 
+          {EndDate && <div>종료일 : {EndDate}</div>}
+        <MainContent />
+          {TargetAmount && <div>기부 금액 {EndDate}</div>}
+          {/* <MainContent />
+          {<div>기부 금액 {TargetAmount}</div>} */}
       </MainBody>
     </div>
   )

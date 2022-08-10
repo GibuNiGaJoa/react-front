@@ -1,21 +1,37 @@
+import axios from 'axios';
 import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
+import { suggestTokenCheck } from '../actions/sugggestAction';
 import SuggestImg from '../img/suggestImg.PNG'
 
 const SuggestForm = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     
     
-    // 기부 제안 전 토큰확인 -> 있으면 진행 없으면 로그인 선행 유도
-    const moveToSuggest = () => {
-        if(localStorage.getItem('isLogin')){
-            
-            navigate('/fundraisings/propose/project');
-        } else {
-            alert('로그인을 선행해주십시오.');
+    
+
+
+    const onSubmitHandler = (e) => {
+        e.preventDefault();
+        // 기부 제안 전 토큰확인 -> 있으면 진행 없으면 로그인 선행 유도
+        // 통신 전, 로그인 여부 확인
+        if(localStorage.getItem('jwtToken')){
+            // 헤더에 토큰담기
+            axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwtToken')}`;
+            dispatch(suggestTokenCheck())
+            .then((res)=>{
+                console.log(res.payload);
+                navigate('project');
+            }).catch((err)=> console.log(err));
+        } else{
+            alert('로그인을 먼저 선행해주십시오.');
             navigate('/login');
         }
+
     }
 
     return(
@@ -23,11 +39,13 @@ const SuggestForm = () => {
             <Content></Content>
             <Content>
                 <Img src={SuggestImg} />
-                <TextContent>
-                    <h3>프로젝트 모금함</h3>
-                    <p>직접 기획한 프로젝트에 기부금을 사용할 수 있어요.</p>
-                    <p>전문기관의 심사를 받습니다<br/>모금 후 결과보고는 필수!<br/><a>모금 제안 가이드</a></p>
-                    <SuggestButton onClick={moveToSuggest} >제안하기</SuggestButton>
+                    <TextContent>
+                    <form onSubmit={onSubmitHandler}>
+                        <h3>프로젝트 모금함</h3>
+                        <p>직접 기획한 프로젝트에 기부금을 사용할 수 있어요.</p>
+                        <p>전문기관의 심사를 받습니다<br/>모금 후 결과보고는 필수!<br/><a>모금 제안 가이드</a></p>
+                        <SuggestButton type='submit' >제안하기</SuggestButton>
+                    </form>
                 </TextContent>
             </Content>
             <Content></Content>
