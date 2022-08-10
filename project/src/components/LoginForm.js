@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import { useDispatch } from "react-redux";
@@ -11,7 +11,8 @@ import axios from 'axios';
 const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const location  = useLocation();
+  
   const [Email, setEmail] = useState("");
   const [Pw, setPw] = useState("");
   const [EmailError, setEmailError] = useState(false);
@@ -62,8 +63,14 @@ const LoginForm = () => {
       console.log(res);
       if(res.payload) {
         alert("로그인에 성공하였습니다!")
-        navigate("/");
-        
+        // navigate("/");
+        if(res.payload.status){
+          if(!location.state?.from){
+            navigate('/');
+          } else{
+            navigate(location.state.from)
+          }
+        }
         const token = res.payload.token;
         localStorage.setItem('jwtToken',token);
         localStorage.setItem('isLogin' , 'true');
