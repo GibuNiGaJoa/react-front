@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { loginUser } from '../actions/userAction';
 import axios from 'axios';
 import { getPostingInfo } from '../actions/postingAction';
+import Modal from "../components/Modal"
 
 
 
@@ -17,6 +18,12 @@ const PostingTest = () => {
   const [EndDate, setEndDate] = useState('');
   const [SubTitle, setSubTitle] = useState('');
   const [TargetAmount, setTargetAmount] = useState('');
+
+  //모달창
+  const [modalOpen, setModalOpen] = useState('false');
+  const modalClose = () => {
+    setModalOpen(!modalOpen);
+  }
   
   // 내가 생각한건 첫 렌더링 시 통신을 통해 해당 게시글번호에 대한 정보 받아오기 
   useEffect(() => {
@@ -54,6 +61,8 @@ const PostingTest = () => {
         <MainContent>기부 금액 {EndDate}</MainContent>
         <MainContent>기부 금액 {TargetAmount}</MainContent>
       </MainBody>
+      <ModalOpenBtn onClick={modalClose}>기부하기</ModalOpenBtn>
+      { modalOpen && <Modal modalClose={modalClose} />}
     </div>
   )
 }
@@ -116,8 +125,9 @@ margin-right  : 400px;
 margin-left : 400px;
 // overflow : hidden;
 word-break:break-all;
-
 `
+
+const ModalOpenBtn = styled.button``;
 // const LoginContainer = styled.div`
 // position : relative;
 // flex-direction: column;

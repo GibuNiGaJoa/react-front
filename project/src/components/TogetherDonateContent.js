@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
-import BannerDonate from './BannerDonate'
-import { NavLink, useNavigate } from 'react-router-dom';
+import GetContent from './GetContent';
 import ico_all from "../img/ico_all.png"
 import ico_kidz from "../img/ico_kidz.png"
 import ico_young from "../img/ico_young.png"
@@ -13,61 +12,12 @@ import ico_earth from "../img/ico_earth.png"
 import ico_neighborhood from "../img/ico_neighborhood.png"
 import ico_animal from "../img/ico_animal.png"
 import ico_culture from "../img/ico_culture.png"
-import actionTestImg from "../img/bannerTest4.PNG"
+
 
 
 
 const TogetherDonateContent = () => {
-    const contents = [
-        {
-            img: actionTestImg,
-            title: '우리 동네 작은가게 한번만 도와줍쇼',
-            organization: '사단법인 황재원'
-        },
-        {
-            img: actionTestImg,
-            title: '우리 동네 작은가게 한번만 도와줍쇼',
-            organization: '사단법인 황재원'
-        },
-        {
-            img: actionTestImg,
-            title: '우리 동네 작은가게 한번만 도와줍쇼',
-            organization: '사단법인 황재원'
-        },
-        {
-            img: actionTestImg,
-            title: '우리 동네 작은가게 한번만 도와줍쇼',
-            organization: '사단법인 황재원'
-        },
-        {
-            img: actionTestImg,
-            title: '우리 동네 작은가게 한번만 도와줍쇼',
-            organization: '사단법인 황재원'
-        },
-        {
-            img: actionTestImg,
-            title: '우리 동네 작은가게 한번만 도와줍쇼',
-            organization: '사단법인 황재원'
-        },
-        {
-            img: actionTestImg,
-            title: '우리 동네 작은가게 한번만 도와줍쇼',
-            organization: '사단법인 황재원'
-        },
-        {
-            img: actionTestImg,
-            title: '우리 동네 작은가게 한번만 도와줍쇼',
-            organization: '사단법인 황재원'
-        },
-        {
-            img: actionTestImg,
-            title: '우리 동네 작은가게 한번만 도와줍쇼',
-            organization: '사단법인 황재원'
-        },
-        
-    ]
-
-
+    
     return (
         <Box>
             <Wrapper></Wrapper>
@@ -98,19 +48,7 @@ const TogetherDonateContent = () => {
                             <img style={{ width: 40, height: 40 }} className="ico_culture" alt="ico_culture" src={ico_culture} /><p>환경</p></A></Li>
                     </Ul>
                 </CategoryBox>
-                <ContentBox>
-                            {contents.map((content) => {
-                                return (
-                                    <Content>
-                                        <Img src={content.img} />
-                                        <InnerContent>
-                                            <h3>{content.title}</h3>
-                                            <p>{content.organization}</p>
-                                        </InnerContent>
-                                    </Content>
-                                )
-                            })}
-                </ContentBox>
+                <GetContent />
             </Wrapper>
             <Wrapper></Wrapper>
           
@@ -120,8 +58,6 @@ const TogetherDonateContent = () => {
 
 const Box = styled.div`
 width: 100vw;
-
-
 `;
 
 const Wrapper = styled.div`
@@ -150,27 +86,5 @@ color: black;
     color: #828282;
   }
 `;
-
-const ContentBox = styled.div`
-display: flex;
-text-align: center;
-flex-wrap: wrap;
-`;
-const Content = styled.div`
-flex:auto;
-width: 25%;
-margin-bottom: 10px;
-`;
-const InnerContent = styled.div``;
-const Img = styled.img`
-width: 300px;
-height: 200px;
-border-radius: 10%;
-transition: 0.3s;
-&:hover{
-    transform:scale(1.1);
-}
-`;
-
 
 export default TogetherDonateContent;

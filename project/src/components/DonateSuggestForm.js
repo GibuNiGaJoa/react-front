@@ -5,7 +5,8 @@ import Editor from './Editor';
 import Swal from 'sweetalert2'
 import { useDispatch } from "react-redux";
 import { suggestPost } from '../actions/sugggestAction';
-import ImageEditor from './ImageEditor';
+import axios from 'axios';
+import { imageConverter } from '../actions/sugggestAction';
 
 
 
@@ -30,7 +31,7 @@ const DonateSuggestForm = () => {
     const [nextId2, setNextId2] = useState(0);
     const inputTag = useRef(null);
 
-    const [imageValue, setImageValue] = useState('');
+    const [imageValue, setImageValue] = useState();
 
     // url만 타이핑하여 다이렉트로 들어오려는(로그인을 선행하지 않은 채) 것을 방지
     // 첫 렌더링 시 Token값을 확인하여 true-> 프로젝트 진행 / false -> 로그인 선행 유도
@@ -77,9 +78,33 @@ const DonateSuggestForm = () => {
         setEditorValue(values);
         // console.log(values);
     }
+    const fileInputRef = React.createRef();
+    const ImageInputClick = (e) => {
+        fileInputRef.current.click();
 
-    const ImageChangeInput = (values) => {
-        setImageValue(values);
+    }
+
+    const ImageChangeInput = (e) => {
+
+        console.log('온체인지');
+        const file = e.currentTarget.files[0];
+        const formData = new FormData();
+        formData.append('img', file); // formData는 키-밸류 구조
+
+        dispatch(imageConverter(formData)).then((res) => {
+            console.log(res);
+            if (res.payload) {
+                console.log(res.payload);
+                const IMG_URL = res.payload;
+                setImageValue(IMG_URL);
+            }
+            else {
+                console.log("이미지 업로드 실패");
+            }
+        })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
     const onTitleHandler = (e) => {
@@ -193,6 +218,7 @@ const DonateSuggestForm = () => {
 
         }
         else {
+            axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwtToken')}`
             dispatch(suggestPost(body))
                 .then((res) => {
                     console.log(res);
@@ -295,7 +321,8 @@ const DonateSuggestForm = () => {
                                 </ul></td></tr>
                         <tr>
                             <td colSpan={"4"}><h3>대표 이미지</h3><em style={{ color: 'red' }}>* </em>
-                                <ImageEditor values={imageValue} getValues={ImageChangeInput} /></td>
+                                <ImageUploadBtn type={"button"} onClick={ImageInputClick}>파일 업로드</ImageUploadBtn>
+                                <ImageInput ref={fileInputRef} style={{ display: "none" }} type={"file"} values={imageValue} onChange={ImageChangeInput} />{imageValue}</td>
                         </tr>
                         <tr>
                             <td><SuggestBtn type='submit'>제출하기</SuggestBtn></td>
@@ -355,6 +382,10 @@ height:5vh;`;
 const TagInput = styled.input`
 width:15vw;
 height:5vh;`;
+
+const ImageInput = styled.input``;
+const ImageUploadBtn = styled.button``;
+
 
 const SuggestBtn = styled.button`
 font-size: large;
