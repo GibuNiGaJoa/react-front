@@ -39,9 +39,6 @@ function App(props) {
         <Route path="/fundraisings/10001" element={<PostingTestPage />} />
         <Route path="/fundraisings/propose" element={<SuggestionPage />} />
         <Route path="/fundraisings/propose/project" element={<SuggestPage />} />
-        
-
-        
       
         <Route path="/togetherAct" element={<TogetherActPage />} />
       </Routes>
