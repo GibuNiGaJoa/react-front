@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import TogetherDonateContent from '../components/TogetherDonateContent';
+import Footer from '../components/Footer';
 
 const TogetherDonatePage = () => {
     return (
@@ -9,6 +10,7 @@ const TogetherDonatePage = () => {
                 <Navbar />
             </div>
             <TogetherDonateContent />
+            <Footer />
         </div>
     )
 }
