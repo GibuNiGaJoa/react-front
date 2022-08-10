@@ -1,4 +1,4 @@
-import { GET_POSTING_INFO, IMAGE_HANDLER, SUGGEST_POST } from "./types";
+import { GET_POSTING_INFO,  POSTING_COMMENT } from "./types";
 import { postingReq, request } from "../axios";
 
 
@@ -10,6 +10,14 @@ export function getPostingInfo(dataToSubmit) {
   const data = postingReq("GET", FUND_URL+"/25", dataToSubmit);
   return {
     type: GET_POSTING_INFO,
+    payload: data,
+  };
+}
+
+export function commnentPost(dataToSubmit) {
+  const data = postingReq("GET", FUND_URL+"/25", dataToSubmit);
+  return {
+    type: POSTING_COMMENT,
     payload: data,
   };
 }
