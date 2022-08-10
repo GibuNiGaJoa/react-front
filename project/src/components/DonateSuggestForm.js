@@ -217,9 +217,8 @@ const DonateSuggestForm = () => {
             })
 
         }
-// <<<<<<< HEAD
         else {
-            axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwtToken')}}`;
+            axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwtToken')}`
             dispatch(suggestPost(body))
                 .then((res) => {
                     console.log(res);

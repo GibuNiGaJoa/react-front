@@ -7,7 +7,7 @@ import { postingReq, request } from "../axios";
 const FUND_URL = "/fundraisings";
 
 export function getPostingInfo(dataToSubmit) {
-  const data = postingReq("GET", FUND_URL+"/15", dataToSubmit);
+  const data = postingReq("GET", FUND_URL+"/25", dataToSubmit);
   return {
     type: GET_POSTING_INFO,
     payload: data,

@@ -13,16 +13,24 @@ import Modal from "../components/Modal"
 const PostingTest = () => {
   const dispatch = useDispatch();
   const [Title, setTitle] = useState('');
+  const [MainImage, setMainImage] = useState('');
   const [Content, setContent] = useState('');
   const [StartDate, setStartDate] = useState('');
   const [EndDate, setEndDate] = useState('');
   const [SubTitle, setSubTitle] = useState('');
   const [TargetAmount, setTargetAmount] = useState('');
+  const [Comment, setComment] = useState('');
 
   //모달창
   const [modalOpen, setModalOpen] = useState('false');
   const modalClose = () => {
     setModalOpen(!modalOpen);
+  }
+
+  const onCommentHandler = (e) => {
+    e.preventDefault();
+    setComment(e.target.value.length);
+
   }
   
   // 내가 생각한건 -> 첫 렌더링 시 통신을 통해 해당 게시글번호에 대한 정보 받아오기 
@@ -37,6 +45,7 @@ const PostingTest = () => {
       setTitle(res.payload.title);
       setSubTitle(res.payload.subTitle);
       setTargetAmount(res.payload.targetAmount);
+      setMainImage(res.payload.image);
     })
     .catch((err) => {
       console.log(err);
@@ -49,7 +58,7 @@ const PostingTest = () => {
   return (
     <div>
       {/* 제목에 대한 정보가 있을 경우에만 렌더링 ! */}
-      {Title && <HeaderBody>
+      {(Title ) && <HeaderBody>
         <HeaderTitle><strong>{Title}</strong></HeaderTitle>
         <HeaderSubTitle><strong>{SubTitle}</strong></HeaderSubTitle>
         <Badge>
@@ -72,10 +81,116 @@ const PostingTest = () => {
       </MainBody>
       <ModalOpenBtn onClick={modalClose}>기부하기</ModalOpenBtn>
       { modalOpen && <Modal modalClose={modalClose} />}
+      <CommentDonateAmount><strong>카카오 지원 댓글 기부금</strong>&nbsp;&nbsp;&nbsp;69,900원</CommentDonateAmount>
+      <CommentBody>
+        <CommentBox>
+
+          <CommnetBoxTop>
+            <CompmentUserImg />
+            <CommenttInput onChange={onCommentHandler} placeholder='댓글을 입력해주세요.' />
+          </CommnetBoxTop>
+
+          <CommnetBoxBottom>
+          <CommentCountLen>{Comment}/500</CommentCountLen>
+          </CommnetBoxBottom>
+
+        </CommentBox>
+      </CommentBody>
+      
+      
+      
     </div>
   )
 }
+const CommnetBoxTop = styled.div`
+margin-left : 400px;
+margin-right : 400px;
+height : 9vh;
+width : 100vw;
+display : flex;
 
+border-top: 2px solid #555;
+// border-bottom: 2px solid #555;
+// justify-content : center;
+// align-items : center;
+// text-align : center;
+`
+const CommnetBoxBottom = styled.div`
+margin-left : 400px;
+margin-right : 400px;
+height : 18vh;
+width : 100vw;
+display : flex;
+
+// border-top: 2px solid #555;
+// border-bottom: 2px solid #555;
+justify-content : center;
+align-items : center;
+text-align : center;
+`
+const CommentCountLen = styled.span`
+margin-top : 150px;
+// justify-content : center;
+// align-items : center;
+// text-align : center;
+`
+const CommentDonateAmount = styled.div`
+margin-left : 400px;
+margin-right : 400px;
+margin-bottom : 10px;
+// height : 10vh;
+width : 100vw;
+display : flex;
+// justify-content : center;
+// align-items : center;
+// text-align : center;
+`
+
+const CompmentUserImg = styled.div`
+margin-top : 30px;
+margin-right : 30px;
+border-radius : 100px;
+width : 6.5vw;
+
+height : 7.5vh;
+background-image : url('https://t1.kakaocdn.net/together_image/common/avatar/avatar02.png');
+background-size : 100% 105%;
+
+`
+const CommentBody = styled.div`
+height : 10vh;
+width : 100vw;
+display : flex;
+justify-content : center;
+// align-items : center;
+// text-align : center;
+margin-bottom : 100px;
+`
+const CommentBox = styled.div`
+margin-left : 400px;
+margin-right : 400px;
+height : 18vh;
+width : 100vw;
+display : flex;
+
+// border-top: 2px solid #555;
+// border-bottom: 2px solid #555;
+// justify-content : center;
+// align-items : center;
+// text-align : center;
+`
+
+const CommenttInput = styled.textarea`
+display : inline-block;
+margin-top : 30px;
+width : 50vw;
+height : 7.5vh;
+// justify-content : center;
+// align-items : center;
+text-align : top;
+word-wrap:break-all;
+resize : none
+`
 
 const HeaderBody = styled.div`
 height : 30vh;
@@ -122,7 +237,7 @@ background-size : 100% 100%;
 `
 
 const MainBody = styled.div`
-height : 150vh;
+height : 100vh;
 width : 100vw;
 display : inline-block;
 justify-content : center;
