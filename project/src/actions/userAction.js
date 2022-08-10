@@ -2,7 +2,7 @@ import { LOGIN_USER, REGISTER_USER, FIND_ACCOUNT_FIRST,FIND_ACCOUNT_SECOND,FIND_
 import { request } from "../axios";
 
 
-const USER_URL = "/login";
+const USER_URL = "http://valuetogether.tk/login";
 
 // 로그인
 export function loginUser(dataToSubmit) {
