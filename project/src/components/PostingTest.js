@@ -112,7 +112,7 @@ const PostingTest = () => {
 
 const DonateContent = styled.div`
 position: fixed;
-left:1000px;
+left:80px;
 bottom:400px;;`;
 
 const CheerupBtn =styled.button``;
