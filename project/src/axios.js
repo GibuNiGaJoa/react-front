@@ -42,4 +42,13 @@ export const suggestCheckReq = (method,url) => {
   .catch((err) => console.log(err));
 };
 
+export const getSearch = (method,url) => {
+  return axios({
+    method,
+    url:  url,
+  })
+  .then((res) => res.data)
+  .catch((err) => console.log(err));
+};
+
 
