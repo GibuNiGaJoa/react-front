@@ -1,4 +1,5 @@
 
+import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -46,29 +47,29 @@ const ChangePassword = () => {
     if(!Pw) setPwError(true);
     if(!Pw2) setPw2Error(true);
 
-    if(Pw && Pw2) return true
+    if(Pw === Pw2) return true
     else return false;
+
   }
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
     
     // 서버에 전달할 값
-    const body = {
+    let body = {
       pw : Pw
     };
     
     // 통신 전 비밀번호 입력값 일치여부 확인
     if(passwordvalid()) {
       // 통신
+      axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('pwdToken')}`;
       dispatch(changePassword(body))
-      // 성공
       .then((res)=> {
         console.log(res);
         localStorage.removeItem('pwdToken');
         alert('비밀번호 재설정이 완료되었습니다.')
-        navigate('/login');
-        
+        // navigate('/login');
       })
       // 실패
       .catch((err)=>{

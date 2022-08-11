@@ -26,13 +26,14 @@ const Comments = () => {
     // 로그인 없이 댓글 작성하다 버튼 눌렀을 떄 
     // 로그인 정보 없으면 login화면으로 보내는데, 이때 from이란 인자를 넣어서 전달
     // 로그인폼에서 확인하고 해당 from으로 다시 돌아오게끔함.
-    if(!localStorage.getItem('isLogin')){
+    if(localStorage.getItem('isLogin') === 'false'){
       alert('로그인을 선행해주세요.');
       navigate('/login', {state:{from :"/fundraisings/10001"}});
     } else {
+      console.log(body.content);
       axios.defaults.headers.common['Authorizaion'] =`${localStorage.getItem('jwtToken')}`;
       // dispatch()
-      alert(body.content, );
+      // alert(body.content);
     }
     
 
@@ -72,6 +73,7 @@ margin-bottom : 10px;
 // height : 10vh;
 width : auto;
 display : flex;
+color : #DC287C;
 `
 const CommentPushBtn = styled.button`
 margin-left : 50px;
