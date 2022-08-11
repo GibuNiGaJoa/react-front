@@ -7,7 +7,7 @@ import BannerDonate from '../components/BannerDonate';
 import Footer from '../components/Footer'
 import { FullPage, Slide } from 'react-full-page';
 import "../pages/HomePage.css"
-import NavbarV2 from '../components/NavbarV2';
+// import NavbarV2 from '../components/NavbarV2';
 
 const HomePage = (props) => {
     
