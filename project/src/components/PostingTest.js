@@ -3,10 +3,13 @@ import styled from 'styled-components';
 import { useDispatch } from "react-redux";
 import { getPostingInfo } from '../actions/postingAction';
 import Modal from "../components/Modal"
-import Footer from './Footer';
 import Comments from './Comments';
-
-
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'
+import { BiDonateHeart } from "react-icons/bi";
+import { BsShare } from "react-icons/bs";
+import HeartButton from './HeartButton';
+import Notification from './Notification';
 
 
 const PostingTest = () => {
@@ -22,10 +25,47 @@ const PostingTest = () => {
   const [CommentLength, setCommentLength] = useState(0);
 
   //모달창
+  const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
   const modalOpen = () => {
-    setVisible(true);
+    if (localStorage.getItem('isLogin') === 'false') {
+      Swal.fire({
+        icon: 'question',
+        title: 'Ooops...',
+        text: '로그인 하셨나요??'
+      }).then(() => {
+        navigate('/login', { state: { from: "/fundraisings/10001" } });
+      })
+
+    } else {
+      setVisible(true);
+    }
+
   }
+  //찜하기 버튼
+  const [like,setLike] = useState(false);
+  const [notiStatus, setNotiStatus] = useState(false);
+  
+  const heartClick = () => {
+    setLike(!like);
+    if(!like){
+      setNotiStatus(true);
+      console.log("응원됨");
+      console.log(like); 
+    }else{
+      setNotiStatus(false);
+      console.log(like);
+    };
+  }
+  useEffect(()=> {
+    if(notiStatus){
+      setTimeout(()=>{
+        setNotiStatus(false);
+      },1000)
+    }
+  },[notiStatus])
+
+
 
   // 내가 생각한건 -> 첫 렌더링 시 통신을 통해 해당 게시글번호에 대한 정보 받아오기 
   useEffect(() => {
@@ -60,7 +100,7 @@ const PostingTest = () => {
     e.preventDefault();
 
     let body = {
-      content : Comment
+      content: Comment
     }
     dispatch()
 
@@ -69,7 +109,7 @@ const PostingTest = () => {
 
 
   return (
-    <div>
+    <Wrapper>
       {/* 제목에 대한 정보가 있을 경우에만 렌더링 ! */}
       {(Title) && <HeaderBody>
         <HeaderTitle><strong>{Title}</strong></HeaderTitle>
@@ -92,38 +132,63 @@ const PostingTest = () => {
         {/* <MainContent />
           {<div>기부 금액 {TargetAmount}</div>} */}
       </MainBody>
-      
+
       <Comments >
-        
+
       </Comments >
       <DonateContent>
-        <CheerupBtn>응원</CheerupBtn>
-        <ShareBtn>공유</ShareBtn>
-        <ModalBtn onClick={modalOpen} >모달창 열기</ModalBtn>
-        {/* 모달창 */}
-        {
-          visible ? <Modal closeModal={() => {
-            // console.log('닫힘함수 불려짐')
-            setVisible(!visible)
-          }} /> : null
-        }
+        <table>
+          <tr><HeartButton like={like} onClick={heartClick} /></tr>
+          <tr><ShareBtn><BsShare /> 공유하기</ShareBtn></tr>
+          <tr><ModalBtn onClick={modalOpen} ><BiDonateHeart /> 기부하기</ModalBtn>
+            {/* 모달창 */}
+            {
+              visible ? <Modal closeModal={() => {
+                // console.log('닫힘함수 불려짐')
+                setVisible(!visible)
+              }} /> : null
+            }</tr>
+        </table>
       </DonateContent>
-      
-      
-      
-      
-    </div>
+      <Notification state={notiStatus} msg="100원 적립" />
+    </Wrapper>
   )
 }
-
+const Wrapper = styled.div`
+font-family: "NavbarFont";
+`;
 const DonateContent = styled.div`
 position: fixed;
-left:80px;
-bottom:400px;;`;
+bottom:400px;
+`;
 
-const CheerupBtn =styled.button``;
-const ShareBtn = styled.button``;
+
+const ShareBtn = styled.button`
+width:300px;
+height: 50px;
+font-size: large;
+font-weight:bold;
+padding: 0.375rem 0.75rem;
+border-radius: 3px;
+border: 3px solid #444;
+background : #444;
+color: white;
+&:hover{
+  background: #5a5a5a;
+}`;
 const ModalBtn = styled.button`
+width:300px;
+height: 50px;
+font-size: large;
+font-weight:bold;
+padding: 0.375rem 0.75rem;
+border-radius: 3px;
+border: 3px solid #dc287c;
+background : #dc287c;
+color: white;
+&:hover{
+    background: #FF1493;
+  }
 `;
 
 const HeaderBody = styled.div`

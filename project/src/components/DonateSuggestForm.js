@@ -59,7 +59,7 @@ const DonateSuggestForm = () => {
             confirmButtonText: 'Yes!'
         }).then((result) => {
             if (result.isConfirmed) {
-                navigate('/suggest');
+                navigate('/fundraisings/propose');
             }
         })
     }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import Swal from 'sweetalert2'
 
 const Modal = (props) => {
   const close = () => {
@@ -42,6 +43,18 @@ const Modal = (props) => {
     console.log(pay);
   }
 
+  const paySuccess = () => {
+    console.log('결제하기 버튼 눌림');
+    Swal.fire({
+      icon: 'success',
+      title: 'Good job!',
+      text: '결제 완료!'
+  }).then(()=> {
+    props.closeModal();
+  })
+    
+  }
+
   return (
     <ModalContainer onClick={close}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
@@ -67,7 +80,7 @@ const Modal = (props) => {
               <FiftymillionBtn type='button' onClick={plusPay500000}>+ 50만원</FiftymillionBtn>
             </td>
             <td>
-              <OnemillionBtn type='button' onClick={plusPay10000}>+ 1만원</OnemillionBtn>
+              <OnemillionBtn type={'button'} onClick={plusPay10000}>+ 1만원</OnemillionBtn>
               <ZeroBtn type='button' onClick={plusPay0}>다시 입력</ZeroBtn>
             </td>
           </tr>
@@ -88,13 +101,14 @@ const Modal = (props) => {
           </tr>
           <tr>
             <Td3 colSpan={4}>
-              <PayBtn type={'button'}>결제하기</PayBtn>
+              <PayBtn type={'button'} onClick={paySuccess}>결제하기</PayBtn>
             </Td3>
           </tr>
         </table>
 
       </ModalContent>
     </ModalContainer>
+ 
 
   );
 };
