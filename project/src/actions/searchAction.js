@@ -18,7 +18,7 @@ export function getSearchRandomTag(dataToSubmit) {
 export function getSearchKeyword(qs,dataToSubmit) {
   
   console.log(qs);
-  const data = getSearch("GET", SEARCH_URL+qs, dataToSubmit);
+  const data = getSearch("POST", SEARCH_URL+qs, dataToSubmit);
   return {
     type: GET_SEARCH_KEYWORD,
     payload: data,
