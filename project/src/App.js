@@ -17,6 +17,7 @@ import ChangePasswordPage from "./pages/ChangePasswordPage";
 import PostingTestPage from "./pages/PostingTestPage";
 
 
+
 function App(props) {
 
   return (
@@ -35,6 +36,8 @@ function App(props) {
         <Route path="/login/find_password/change_password" element={<ChangePasswordPage />} />
 
         <Route path="/search" element={<SearchPage />} />
+        
+        
         <Route path="/fundraisings/now" element={<TogetherDonatePage />} />
         <Route path="/fundraisings/10001" element={<PostingTestPage />} />
         <Route path="/fundraisings/propose" element={<SuggestionPage />} />
