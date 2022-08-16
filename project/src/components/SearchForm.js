@@ -21,6 +21,7 @@ const SearchForm = (  ) => {
     const [OnTag, setOnTag] = useState([]);
     const [RandomTag, setRandomTag] = useState([]);
     const [searchParams, setSearchParams] = useSearchParams('');
+    const [getKeyPosting, setGetKeyPosting] = useState(<SearchKeyword type={''}/>)
     const searchOnKeyword = searchParams.get('keyword') ||'';
     
     // 첫 렌더링시, 태그찾기의 랜덤태그들 받음.
@@ -30,17 +31,10 @@ const SearchForm = (  ) => {
         setRandomTag([...res.payload.tag.map(e=>e.name)]);
       })
     }, []);
-
-    // 쿼리스트링 입력되면 변화!(물론 첫렌더링시에는 안받음)
+    
     useEffect(()=>{
       if(didMount.current) {
-        dispatch(getSearchKeyword(`${location.search}`))
-        .then((res)=>{
-            console.log(res.payload);
-          // setPostAll(res.payload.post_all);
-          // setPostTitle(...res.payload.post_title);
-          // setOnTag(...res.payload.tag);
-        })
+        setGetKeyPosting(`${location.search}`);
       } else {
         didMount.current = true; 
       }
@@ -53,10 +47,6 @@ const SearchForm = (  ) => {
     
     const onSubmitHandler = (e) => {
       e.preventDefault();
-      console.log(PostAll);
-      console.log(PostTitle);
-      console.log(OnTag);
-      
       if(!Input){
         navigate('/search');
         window.location.reload();
