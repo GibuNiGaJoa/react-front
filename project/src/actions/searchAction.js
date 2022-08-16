@@ -4,7 +4,8 @@ import { getSearch  } from "../axios";
 
 //검색 액션
 
-const SEARCH_URL = "http://valuetogether.tk/search";
+const SEARCH_URL = "http://valuetogether.tk/search"
+const SEARCH_KEYWORD_URL = "http://valuetogether.tk/search?keyword=";
 
 // 검색 첫 화면 랜덤 태그 받기
 export function getSearchRandomTag(dataToSubmit) {
@@ -16,9 +17,7 @@ export function getSearchRandomTag(dataToSubmit) {
 }
 
 export function getSearchKeyword(qs,dataToSubmit) {
-  
-  console.log(qs);
-  const data = getSearch("GET", SEARCH_URL+qs, dataToSubmit);
+  const data = getSearch("POST", SEARCH_KEYWORD_URL+qs, dataToSubmit);
   return {
     type: GET_SEARCH_KEYWORD,
     payload: data,
