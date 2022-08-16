@@ -36,7 +36,7 @@ const SearchForm = (  ) => {
       if(didMount.current) {
         dispatch(getSearchKeyword(`${location.search}`))
         .then((res)=>{
-          
+            console.log(res.payload);
           // setPostAll(res.payload.post_all);
           // setPostTitle(...res.payload.post_title);
           // setOnTag(...res.payload.tag);
