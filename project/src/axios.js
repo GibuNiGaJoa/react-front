@@ -42,6 +42,7 @@ export const suggestCheckReq = (method,url) => {
   .catch((err) => console.log(err));
 };
 
+// 검색기능용 
 export const getSearch = (method,url) => {
   return axios({
     method,
