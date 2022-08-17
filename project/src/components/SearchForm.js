@@ -16,9 +16,6 @@ const SearchForm = (  ) => {
     const navigate = useNavigate();
     const didMount = useRef(false);
     const [Input, setInput] = useState('');
-    const [PostAll, setPostAll] = useState([]);
-    const [PostTitle, setPostTitle] = useState([]);
-    const [OnTag, setOnTag] = useState([]);
     const [RandomTag, setRandomTag] = useState([]);
     const [searchParams, setSearchParams] = useSearchParams('');
     const [getKeyPosting, setGetKeyPosting] = useState(<SearchKeyword type={''}/>)

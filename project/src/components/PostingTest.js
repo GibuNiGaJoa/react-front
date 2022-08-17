@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { getPostingInfo } from '../actions/postingAction';
 import Modal from "../components/Modal"
 import Comments from './Comments';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useMatch, useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2'
 import { BiDonateHeart } from "react-icons/bi";
 import { BsShare } from "react-icons/bs";
@@ -14,6 +14,8 @@ import Notification from './Notification';
 
 const PostingTest = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+
   const [Title, setTitle] = useState('');
   const [MainImage, setMainImage] = useState('');
   const [Content, setContent] = useState('');
@@ -70,9 +72,10 @@ const PostingTest = () => {
   // 내가 생각한건 -> 첫 렌더링 시 통신을 통해 해당 게시글번호에 대한 정보 받아오기 
   useEffect(() => {
     // 0809 14:00 -> content / endDate / startDate / subTitle / targetAmount / title
-    dispatch(getPostingInfo())
+    dispatch(getPostingInfo(location.state.id))
       .then((res) => {
         console.log(res.payload);
+        setMainImage(res.payload.image);
         setContent(res.payload.content);
         setStartDate(res.payload.startDate);
         setEndDate(res.payload.endDate);
@@ -111,7 +114,7 @@ const PostingTest = () => {
   return (
     <Wrapper>
       {/* 제목에 대한 정보가 있을 경우에만 렌더링 ! */}
-      {(Title) && <HeaderBody>
+      {(Title) && <HeaderBody img={MainImage}>
         <HeaderTitle><strong>{Title}</strong></HeaderTitle>
         <HeaderSubTitle><strong>{SubTitle}</strong></HeaderSubTitle>
         <Badge>
@@ -151,6 +154,7 @@ const PostingTest = () => {
         </table>
       </DonateContent>
       <Notification state={notiStatus} msg="100원 적립" />
+      
     </Wrapper>
   )
 }
@@ -200,11 +204,10 @@ flex-direction : column;
 justify-content : center;
 align-items : center;
 text-align : center;
-
 border-radius : 0 0 100px 100px;
-background-image : url('https://mud-kage.kakaocdn.net/dn/AqJsP/btrF6Jyjjo3/69hb6GedUfaZK1AkYMvtLk/c360.jpg');
+background-image : url(${props => props.img ? props.img : null});
 background-repeat : no-repeat;
-background-size : 100% 100%;
+background-size : 100% 150%;
 `
 const HeaderTitle = styled.div`
 color : yellow;
