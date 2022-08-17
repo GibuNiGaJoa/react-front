@@ -6,12 +6,16 @@ import {
     getPostingKids, getPostingYoung, getPostingWoman, getPostingOlds, getPostingDisabled, getPostingSocial,
     getPostingEarth, getPostingNeighborhood, getPostingAnimal, getPostingEnvironment
 } from '../actions/getPostingAction';
+import {  useNavigate } from 'react-router-dom';
+
 
 const GetContentAll = ({ type }) => {
-
+    const navigate = useNavigate();
     const dispatch = useDispatch();
-
     const [contents, setContents] = useState([]);
+    const [postEndDate, setPostEndDate] = useState();
+    const [postId, setPostId] = useState();
+
 
     useEffect(() => {
         if (type === 'random') {
@@ -110,19 +114,40 @@ const GetContentAll = ({ type }) => {
         }
     }, [type]);
 
+    
+
+    const onClickHandler = (e) => {
+        e.preventDefault();
+        const regex = /[^0-9]/g;
+        const postingId = e.target.className.replace(regex,"");
+
+        
+
+        navigate(`/fundraisings/${postingId}`, {
+            state:{
+                id : postingId,
+                
+            }
+        });
+
+    }
+
     return (
         <ContentBox>
             {contents.map((content) => {
                 return (
                     <Content>
-                        <Img src={content.image} />
+                        {/* <Img  onClick={onClickHandler}src={content.image} /> */}
+                        
+                        <Img className={content.id} onClick={onClickHandler}src={content.image} />
                         <InnerContent>
                             <h3>{content.title}</h3>
                             <p>by {content.proposer}</p>
                         </InnerContent>
                     </Content>
                 )
-            })}
+            }) 
+        }
         </ContentBox>
     );
 };
@@ -145,6 +170,7 @@ border-radius: 10%;
 transition: 0.3s;
 &:hover{
     transform:scale(1.1);
+    cursor : pointer;
 }
 `;
 

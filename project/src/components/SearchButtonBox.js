@@ -16,20 +16,7 @@ const SearchButtonBox = (  ) => {
 
     const searchKeyword = searchParams.get('keyword') ||'';
     
-  
-    // const [search,setSearch] = useState('')
-    // const [Input, setInput] = useState('');
-    // const [RandomTag, setRandomTag] = useState([]);
-    
-    // 첫 렌더링시, 태그찾기의 랜덤태그들 받음.
-    // useEffect(()=> {
-    //   dispatch(getSearchRandomTag())
-    //   .then((res) => {
-    //     setRandomTag([...res.payload.tag.map(e=>e.name)]);
-    //   })
-    // }, []);
 
-    // 쿼리스트링 입력되면 변화!(물론 첫렌더링시에는 안받음)
     useEffect(()=>{
       if(didMount.current) {
 

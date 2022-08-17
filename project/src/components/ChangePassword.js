@@ -56,7 +56,7 @@ const ChangePassword = () => {
     e.preventDefault();
     
     // 서버에 전달할 값
-    let body = {
+    const body = {
       pw : Pw
     };
     
@@ -69,7 +69,7 @@ const ChangePassword = () => {
         console.log(res);
         localStorage.removeItem('pwdToken');
         alert('비밀번호 재설정이 완료되었습니다.')
-        // navigate('/login');
+        
       })
       // 실패
       .catch((err)=>{

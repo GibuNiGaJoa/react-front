@@ -4,9 +4,6 @@ import { useDispatch } from 'react-redux';
 import styled from "styled-components";
 import { getSearchKeyword  } from '../actions/searchAction';
 
-
-
-
 const SearchKeyword = ( {type} ) => {
     const dispatch = useDispatch();
     const [Contents, setContents]=  useState([]);
@@ -35,25 +32,21 @@ const SearchKeyword = ( {type} ) => {
     
     const onAllViewHandler = (e) => {
       e.preventDefault();
-      console.log('label 눌림');
       setViewMode('all');
     }
 
     const onTitleViewHandler = (e) => {
       e.preventDefault();
-      console.log('라벨 눌림!');
       setViewMode('title');
     }
-    
-    
 
   
     return (<>
       <SearchContainer>
         <KeywordTitle>
           <CountProject>프로젝트 모금함 &nbsp;&nbsp;&nbsp;
-             <span style={{color : "#DC287C"}}>{CountContents}</span>
-             </CountProject>
+            <span style={{color : "#DC287C"}}>{CountContents}</span>
+            </CountProject>
           <SearchSort  onClick={onAllViewHandler} >제목+본문 검색</SearchSort>
           <SearchSort onClick={onTitleViewHandler}>제목 검색</SearchSort>
         </KeywordTitle>
@@ -61,8 +54,13 @@ const SearchKeyword = ( {type} ) => {
           {
             Contents.map((item) => {
               return (
-              <KeywordOnPost src={item.image}/>
+                <Content>
 
+                  <KeywordOnImg src={item.image}/>
+                  <span style={{fontSize : '12px' , color : 'brown'}}>{item.title} </span><br/>
+                  <span style={{fontSize : '12px' , color : 'blue'}}>{item.proposer} </span><br/>
+                  <span style={{fontSize : '12px' , color : 'red'}}>{item.endDate} </span><br/>
+                </Content>
               )
             })
           }
@@ -73,6 +71,28 @@ const SearchKeyword = ( {type} ) => {
       </>
     );
 };
+const KeywordPost = styled.div`
+margin: 25px 400px 50px 400px;
+padding : 0px;
+`
+const Content = styled.ul`
+display : inline-block;
+width: 20%;
+height : 20vh;
+margin-bottom: 100px;
+margin-right : 50px;
+padding : 0px;
+
+`;
+const SearchSort = styled.li`
+list-style-type : lower-roman;
+margin-right : 100px;
+display : inline;
+font-size : 20px;
+&:hover {
+  cursor : pointer;
+}
+`
 
 const KeywordTitle = styled.div`
 margin-left : 400px;
@@ -83,26 +103,23 @@ width : auto;
 `
 const CountProject = styled.span`
 font-size : 26px;
-margin-right : 200px;
-`
-const SearchSort = styled.label`
-margin-right : 200px;
-font-size : 20px;
+margin-right :350px;
 `
 
-const KeywordOnPost = styled.img`
-width : 150px;
-height : 150px;
-border-radius : 70%;
+
+const KeywordOnImg = styled.img`
+width : 100%;
+height : 100%;
+border-radius : 10%;
 overflow : hidden;
 margin-bottom : 20px;
-margin-top : 10px;
+// margin-right : 10px;
+// margin-top : 10px;
+&:hover{
+  transform:scale(1.12);
+  cursor : pointer;
+}
 `
-
-const KeywordPost = styled.div`
-margin: 25px 400px 50px 400px;
-`
-
 const SearchContainer = styled.div`
 `
 
