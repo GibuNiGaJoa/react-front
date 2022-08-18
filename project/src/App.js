@@ -39,7 +39,7 @@ function App(props) {
         
         
         <Route path="/fundraisings/now" element={<TogetherDonatePage />} />
-        <Route path="/fundraisings/10001" element={<PostingTestPage />} />
+        <Route exact path="/fundraisings/:id" element={<PostingTestPage /> }/> 
         <Route path="/fundraisings/propose" element={<SuggestionPage />} />
         <Route path="/fundraisings/propose/project" element={<SuggestPage />} />
       

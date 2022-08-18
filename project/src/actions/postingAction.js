@@ -4,10 +4,11 @@ import { postingReq, request } from "../axios";
 
 //제안하기 액션
 
-const FUND_URL = "http://valuetogether.tk/fundraisings";
+const FUND_URL = "http://valuetogether.tk/fundraisings/";
 
-export function getPostingInfo(dataToSubmit) {
-  const data = postingReq("GET", FUND_URL+"/25", dataToSubmit);
+export function getPostingInfo(id) {
+  console.log(id);
+  const data = postingReq("GET", FUND_URL+id);
   return {
     type: GET_POSTING_INFO,
     payload: data,
