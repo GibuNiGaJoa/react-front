@@ -10,6 +10,7 @@ import { BiDonateHeart } from "react-icons/bi";
 import { BsShare } from "react-icons/bs";
 import HeartButton from './HeartButton';
 import Notification from './Notification';
+import ShareModal from './ShareModal';
 
 
 const PostingTest = () => {
@@ -43,27 +44,45 @@ const PostingTest = () => {
 
   }
   //찜하기 버튼
-  const [like,setLike] = useState(false);
+  const [like, setLike] = useState(false);
   const [notiStatus, setNotiStatus] = useState(false);
-  
+
   const heartClick = () => {
     setLike(!like);
-    if(!like){
+    if (!like) {
       setNotiStatus(true);
       console.log("응원됨");
-      console.log(like); 
-    }else{
+      console.log(like);
+    } else {
       setNotiStatus(false);
       console.log(like);
     };
   }
-  useEffect(()=> {
-    if(notiStatus){
-      setTimeout(()=>{
+  useEffect(() => {
+    if (notiStatus) {
+      setTimeout(() => {
         setNotiStatus(false);
-      },1000)
+      }, 1000)
     }
-  },[notiStatus])
+  }, [notiStatus])
+
+  //공유 모달
+  const [shareVisible, setShareVisible] = useState(false);
+  const shareModalOpen = () => {
+    if (localStorage.getItem('isLogin') === 'false') {
+      Swal.fire({
+        icon: 'question',
+        title: 'Ooops...',
+        text: '로그인 하셨나요??'
+      }).then(() => {
+        navigate('/login', { state: { from: "/fundraisings/10001" } });
+      })
+    } else {
+      setShareVisible(true);
+    }
+
+  }
+
 
 
 
@@ -139,7 +158,14 @@ const PostingTest = () => {
       <DonateContent>
         <table>
           <tr><HeartButton like={like} onClick={heartClick} /></tr>
-          <tr><ShareBtn><BsShare /> 공유하기</ShareBtn></tr>
+          <tr><ShareBtn onClick={shareModalOpen}><BsShare /> 공유하기</ShareBtn>
+            {/* 공유 모달창 */}
+            {
+              shareVisible ? <ShareModal closeModal={() => {
+                // console.log('닫힘함수 불려짐')
+                setShareVisible(!shareVisible)
+              }} /> : null
+            }</tr>
           <tr><ModalBtn onClick={modalOpen} ><BiDonateHeart /> 기부하기</ModalBtn>
             {/* 모달창 */}
             {
@@ -151,7 +177,7 @@ const PostingTest = () => {
         </table>
       </DonateContent>
       <Notification state={notiStatus} msg="100원 적립" />
-    </Wrapper>
+    </Wrapper >
   )
 }
 const Wrapper = styled.div`

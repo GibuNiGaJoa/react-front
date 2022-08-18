@@ -19,7 +19,7 @@ const Notification = ({ state, msg }) => {
 const Container = styled.div`
 position: fixed;
 font-family: "NavbarFont";
-top:100px;
+top:50px;
 width:300px;
 height: 50px;
 font-size: 40px;
