@@ -15,6 +15,7 @@ import FindAccountFirstPage from "./pages/FindAccountFirstPage";
 import FindAccountSecondPage from "./pages/FindAccountSecondPage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
 import PostingTestPage from "./pages/PostingTestPage";
+import SearchTagPage from "./pages/SearchTagPage";
 
 
 
@@ -36,6 +37,8 @@ function App(props) {
         <Route path="/login/find_password/change_password" element={<ChangePasswordPage />} />
 
         <Route path="/search" element={<SearchPage />} />
+
+        <Route path="/tags/:id" element={<SearchTagPage />} />
         
         
         <Route path="/fundraisings/now" element={<TogetherDonatePage />} />

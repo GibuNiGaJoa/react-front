@@ -34,3 +34,5 @@ export const GET_POSTING_ENVIRONMENT = "GET_POSTING_ENVIRONMENT";
 // 검색 태그별 랜덤조회
 export const GET_RANDOM_SEARCH = "GET_RANDOM_SEARCH";
 export const GET_SEARCH_KEYWORD = "GET_SEARCH_KEYWORD";
+// 검색 태그 클릭 후 해당 게시물 조회
+export const GET_KEYWORD_CLICK = "GET_KEYWORD_CLICK";
