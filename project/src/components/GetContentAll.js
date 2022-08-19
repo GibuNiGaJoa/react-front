@@ -13,8 +13,8 @@ const GetContentAll = ({ type }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [contents, setContents] = useState([]);
-    const [postEndDate, setPostEndDate] = useState();
-    const [postId, setPostId] = useState();
+    // const [postEndDate, setPostEndDate] = useState();
+    // const [postId, setPostId] = useState();
 
 
     useEffect(() => {
@@ -120,9 +120,6 @@ const GetContentAll = ({ type }) => {
         e.preventDefault();
         const regex = /[^0-9]/g;
         const postingId = e.target.className.replace(regex,"");
-
-        
-
         navigate(`/fundraisings/${postingId}`, {
             state:{
                 id : postingId,

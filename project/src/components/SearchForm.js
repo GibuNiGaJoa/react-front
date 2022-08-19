@@ -48,11 +48,21 @@ const SearchForm = (  ) => {
         navigate('/search');
         window.location.reload();
       } else{
-        // const qs = encodeURI(encodeURIComponent(`?keyword=${Input}`));
         const qs = `?keyword=${Input}`;
         navigate(`${qs}`);
       }
     }
+
+    const onClickHandler = (e) => {
+      e.preventDefault();
+      const tagName = e.target.innerHTML.replace('#', '');
+      console.log(e)
+      navigate(`/tags/${tagName}`, {
+        state: {
+          name : tagName
+        }
+      })
+    } 
 
   
     return (<>
@@ -64,18 +74,18 @@ const SearchForm = (  ) => {
           </SearchTop>
         </form>
         {!location.search ? 
-            <><TagTitle><strong>태그로 찾기</strong></TagTitle>
-              <SearchTag>
-                <TagBtn><strong>#{RandomTag[0]}</strong></TagBtn>
-                <TagBtn><strong>#{RandomTag[1]}</strong></TagBtn>
-                <TagBtn><strong>#{RandomTag[2]}</strong></TagBtn>
-                <TagBtn><strong>#{RandomTag[3]}</strong></TagBtn>
-                <TagBtn><strong>#{RandomTag[4]}</strong></TagBtn>
-                <TagBtn><strong>#{RandomTag[5]}</strong></TagBtn>
-                <TagBtn><strong>#{RandomTag[6]}</strong></TagBtn>
-                <TagBtn><strong>#{RandomTag[7]}</strong></TagBtn>
-                <TagBtn><strong>#{RandomTag[8]}</strong></TagBtn>
-                <TagBtn><strong>#{RandomTag[9]}</strong></TagBtn>
+            <><TagTitle>태그로 찾기</TagTitle>
+              <SearchTag >
+                <TagBtn onClick={onClickHandler}>{RandomTag[0]}</TagBtn>
+                <TagBtn onClick={onClickHandler}>{RandomTag[1]}</TagBtn>
+                <TagBtn onClick={onClickHandler}>{RandomTag[2]}</TagBtn>
+                <TagBtn onClick={onClickHandler}>{RandomTag[3]}</TagBtn>
+                <TagBtn onClick={onClickHandler}>{RandomTag[4]}</TagBtn>
+                <TagBtn onClick={onClickHandler}>{RandomTag[5]}</TagBtn>
+                <TagBtn onClick={onClickHandler}>{RandomTag[6]}</TagBtn>
+                <TagBtn onClick={onClickHandler}>{RandomTag[7]}</TagBtn>
+                <TagBtn onClick={onClickHandler}>{RandomTag[8]}</TagBtn>
+                <TagBtn onClick={onClickHandler}>{RandomTag[9]}</TagBtn>
               </SearchTag>
             <SearchButtonBox /> </> 
             : <SearchKeyword type={searchOnKeyword}/>}
@@ -101,72 +111,17 @@ border: 0;
   cursor : pointer;
 }
 `
-const TopicImg = styled.img`
-width : 150px;
-height : 150px;
-border-radius : 70%;
-overflow : hidden;
-margin-bottom : 20px;
-margin-top : 10px;
-`
-const TargetImg = styled.img`
-width : 150px;
-height : 150px;
-border-radius : 70%;
-overflow : hidden;
-margin-bottom : 20px;
-margin-top : 10px;
-`
+
 const TagTitle = styled.h2`
 margin-left : 400px;
 margin-right : 400px;
 margin-bottom : 0px;
 color :pink;
 `
-const TopicTitle = styled.h2`
-margin-left : 400px;
-margin-right : 400px;
-margin-bottom : 0px;
-color :pink;
-`
-const TargetTitle = styled.h2`
-margin-left : 400px;
-margin-right : 400px;
-margin-bottom : 0px;
-color :pink;
-`
-
 const SearchTag = styled.div`
 margin: 25px 400px 50px 400px;
 `
-const TopicTag = styled.div`
-margin: 25px 400px 50px 400px;
-`
-const TargetTag = styled.div`
-margin: 25px 400px 50px 400px;
-`
-const TopicBtn = styled.a`
-text-align : center;
-display : inline-block;
-width : 150px;
-height : 150px;
-margin-right : 31.0px;
-word-break:break-all;
-&:hover {
-  cursor : pointer;
-}
-`
-const TargetBtn = styled.a`
-text-align : center;
-display : inline-block;
-width : 150px;
-height : 150px;
-margin-right : 31.0px;
-word-break:break-all;
-&:hover {
-  cursor : pointer;
-}
-`
+
 const TagBtn = styled.button`
 width : 120px;
 height : 100px;
@@ -178,6 +133,7 @@ margin-bottom : 10px;
 word-break:break-all;
 &:hover {
   cursor : pointer;
+  transform:scale(1.1);
 }
 `
 
