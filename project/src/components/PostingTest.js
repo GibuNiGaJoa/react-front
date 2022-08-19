@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { getPostingInfo } from '../actions/postingAction';
 import Modal from "../components/Modal"
 import Comments from './Comments';
-import { useLocation, useMatch, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useMatch, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import Swal from 'sweetalert2'
 import { BiDonateHeart } from "react-icons/bi";
 import { BsShare } from "react-icons/bs";
@@ -26,6 +26,8 @@ const PostingTest = () => {
   const [TargetAmount, setTargetAmount] = useState('');
   const [Comment, setComment] = useState('');
   const [CommentLength, setCommentLength] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams('');
+  const searchOnKeyword = searchParams.get('keyword') ||'';
 
   //모달창
   const navigate = useNavigate();
@@ -37,7 +39,10 @@ const PostingTest = () => {
         title: 'Ooops...',
         text: '로그인 하셨나요??'
       }).then(() => {
-        navigate('/login', { state: { from: "/fundraisings/10001" } });
+        navigate('/login', { 
+          state: {
+             from: `/fundraisings/now` 
+        } });
       })
 
     } else {
