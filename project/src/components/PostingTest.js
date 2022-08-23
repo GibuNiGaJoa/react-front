@@ -39,9 +39,9 @@ const PostingTest = () => {
         title: 'Ooops...',
         text: '로그인 하셨나요??'
       }).then(() => {
-        navigate('/login', { 
-          state: {
-            from: `/fundraisings/now` 
+        navigate('/login', { state: { 
+          from: location.pathname ,
+          id: location.state.id
         } });
       })
 
@@ -82,7 +82,10 @@ const PostingTest = () => {
         title: 'Ooops...',
         text: '로그인 하셨나요??'
       }).then(() => {
-        navigate('/login', { state: { from: "/fundraisings/10001" } });
+        navigate('/login', { state: { 
+          from: location.pathname ,
+          id: location.state.id
+        } });
       })
     } else {
       setShareVisible(true);
