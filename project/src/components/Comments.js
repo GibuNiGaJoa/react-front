@@ -38,8 +38,7 @@ const Comments = ({PostId}) => {
     } else {
       console.log(body.content);
       axios.defaults.headers.common['Authorizaion'] =`${localStorage.getItem('jwtToken')}`;
-      // dispatch()
-      // alert(body.content);
+      
     }
   }
 
