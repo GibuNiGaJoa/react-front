@@ -68,14 +68,17 @@ const LoginForm = () => {
           if(!location.state?.from){
             navigate('/');
           } else{
-            navigate(location.state.from)
+            console.log(location.state);
+            navigate(location.state.from, {state:{
+              id : location.state.id
+            }})
           }
         }
         const token = res.payload.token;
         localStorage.setItem('jwtToken',token);
         localStorage.setItem('isLogin' , 'true');
         axios.defaults.headers.common['Authorization'] = `${token}`;
-        window.location.reload();
+        // window.location.reload();
 
       } else {
         alert("로그인에 실패하였습니다!");

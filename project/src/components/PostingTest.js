@@ -15,7 +15,7 @@ import Notification from './Notification';
 const PostingTest = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-
+  const [postId, setPostId] = useState('');
   const [Title, setTitle] = useState('');
   const [MainImage, setMainImage] = useState('');
   const [Content, setContent] = useState('');
@@ -40,7 +40,7 @@ const PostingTest = () => {
       }).then(() => {
         navigate('/login', { 
           state: {
-             from: `/fundraisings/now` 
+            from: `/fundraisings/now` 
         } });
       })
 
@@ -72,8 +72,6 @@ const PostingTest = () => {
     }
   },[notiStatus])
 
-
-
   // 내가 생각한건 -> 첫 렌더링 시 통신을 통해 해당 게시글번호에 대한 정보 받아오기 
   useEffect(() => {
     // 0809 14:00 -> content / endDate / startDate / subTitle / targetAmount / title
@@ -88,6 +86,8 @@ const PostingTest = () => {
         setSubTitle(res.payload.subTitle);
         setTargetAmount(res.payload.targetAmount);
         setMainImage(res.payload.image);
+        // setPostId(location.state.id);
+        
       })
       .catch((err) => {
         console.log(err);
@@ -141,7 +141,7 @@ const PostingTest = () => {
           {<div>기부 금액 {TargetAmount}</div>} */}
       </MainBody>
 
-      <Comments >
+      <Comments id={location.state.id}>
 
       </Comments >
       <DonateContent>
