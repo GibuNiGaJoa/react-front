@@ -5,6 +5,8 @@ import postingReducer from "./postingReducer";
 import getPostingReducer from "./getPostingReducer";
 import searchReducer from "./searchReducer";
 import tagClickReducer from "./tagClickReducer";
+import donationReducer from "./donationReducer";
+
 
 const rootReducer = combineReducers({
   user,
@@ -13,6 +15,7 @@ const rootReducer = combineReducers({
   getPostingReducer,
   searchReducer,
   tagClickReducer,
+  donationReducer
 });
 
 export default rootReducer;

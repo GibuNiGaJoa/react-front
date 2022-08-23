@@ -36,3 +36,6 @@ export const GET_RANDOM_SEARCH = "GET_RANDOM_SEARCH";
 export const GET_SEARCH_KEYWORD = "GET_SEARCH_KEYWORD";
 // 검색 태그 클릭 후 해당 게시물 조회
 export const GET_KEYWORD_CLICK = "GET_KEYWORD_CLICK";
+
+//회원별 기부하기
+export const POST_DONATION = "POST_DONATION";
