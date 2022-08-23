@@ -59,11 +59,18 @@ const PostingTest = () => {
         title: 'Ooops...',
         text: '로그인 하셨나요??'
       }).then(() => {
+<<<<<<< HEAD
         navigate('/login', {
           state: {
             from: `/fundraisings/now`
           }
         });
+=======
+        navigate('/login', { state: { 
+          from: location.pathname ,
+          id: location.state.id
+        } });
+>>>>>>> 6fcef2dd2909e972dff1ab69aa98c2f6821a0cbf
       })
 
     } else {
@@ -126,7 +133,10 @@ const PostingTest = () => {
         title: 'Ooops...',
         text: '로그인 하셨나요??'
       }).then(() => {
-        navigate('/login', { state: { from: "/fundraisings/10001" } });
+        navigate('/login', { state: { 
+          from: location.pathname ,
+          id: location.state.id
+        } });
       })
     } else {
       setShareVisible(true);
