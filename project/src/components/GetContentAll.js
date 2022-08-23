@@ -123,7 +123,6 @@ const GetContentAll = ({ type }) => {
         navigate(`/fundraisings/${postingId}`, {
             state:{
                 id : postingId,
-                
             }
         });
 

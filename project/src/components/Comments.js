@@ -1,15 +1,17 @@
-import { Navigate, NavLink, useNavigate } from 'react-router-dom';
+import { Navigate, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import { useDispatch } from "react-redux";
 import axios from 'axios';
 
 
-const Comments = () => {
+const Comments = ({PostId}) => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const navigate = useNavigate();
   const [Comment, setComment] = useState('');
   const [CommentLength, setCommentLength] = useState(0);
+  
 
   const onCommentHandler = (e) => {
     e.preventDefault();
@@ -28,12 +30,15 @@ const Comments = () => {
     // 로그인폼에서 확인하고 해당 from으로 다시 돌아오게끔함.
     if(localStorage.getItem('isLogin') === 'false'){
       alert('로그인을 선행해주세요.');
-      navigate('/login', {state:{from :"/fundraisings/10001"}});
+      console.log(location);
+      navigate('/login', {state:{
+        from :location.pathname,
+        id : location.state.id
+      }});
     } else {
       console.log(body.content);
       axios.defaults.headers.common['Authorizaion'] =`${localStorage.getItem('jwtToken')}`;
-      // dispatch()
-      // alert(body.content);
+      
     }
   }
 

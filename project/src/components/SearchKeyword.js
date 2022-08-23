@@ -1,13 +1,17 @@
 import React, {useEffect,    useState} from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 // import {   useLocation, useNavigate  } from 'react-router-dom';
 import styled from "styled-components";
 import { getSearchKeyword  } from '../actions/searchAction';
 
 const SearchKeyword = ( {type} ) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [Contents, setContents]=  useState([]);
     const [CountContents, setCountContents] =  useState([]);
+    const [countTag, setCountTag] = useState();
+    const [tagArray, setTagArray] = useState([]);
     const [ViewMode, setViewMode] = useState('all');
     // const [textColor, setTextColor] = useState('black');
 
@@ -15,16 +19,22 @@ const SearchKeyword = ( {type} ) => {
     // 첫 렌더링시, 태그찾기의 랜덤태그들 받음.
     useEffect(()=> {
       if(ViewMode ===  'all') {
-          dispatch(getSearchKeyword(type))
-          .then((res) => {
-            setContents(res.payload.post_all);
-            setCountContents(res.payload.post_all.length);
-          })
-        } else {
-          dispatch(getSearchKeyword(type))
-          .then((res) => {
-            setContents(res.payload.post_title);
-            setCountContents(res.payload.post_title.length);
+        dispatch(getSearchKeyword(type))
+        .then((res) => {
+          setContents(res.payload.post_all);
+          setCountContents(res.payload.post_all.length);
+          setCountTag(res.payload.tag.length);
+          setTagArray(res.payload.tag.map(e => e.name));
+          
+        })
+      } else {
+        dispatch(getSearchKeyword(type))
+        .then((res) => {
+          setContents(res.payload.post_title);
+          setCountContents(res.payload.post_title.length);
+          setCountTag(res.payload.tag.length);
+          setTagArray(res.payload.tag.map((e) => e.name ));
+            
         })
       }
     }, [type , ViewMode]);
@@ -40,9 +50,39 @@ const SearchKeyword = ( {type} ) => {
       setViewMode('title');
     }
 
+    const onClickHandler = (e) => {
+      e.preventDefault();
+      const tagName = e.target.innerHTML.replace(/#/g, '');
+      navigate(`/tags/${tagName}`, {
+        state : {
+          name : tagName
+        }
+      })
+    }
+
   
     return (<>
       <SearchContainer>
+        { !(countTag === 0) &&
+        <>
+          <ResultKeyword>태그&nbsp;&nbsp;&nbsp;
+            <span style={{color:'#DC287C'}}>{countTag}</span>
+          </ResultKeyword>
+
+          <KeywordPost>
+            {
+              tagArray.map((item) => {
+                return (
+                <ResultTagBtn onClick={onClickHandler}>#{item}</ResultTagBtn>
+                // <ResultTagBtn onClick={onClickHandler}>#{item.replace(/#/g, '')}</ResultTagBtn>
+                )
+              })
+            }
+          </KeywordPost>
+          </>
+          
+        }
+          
         <KeywordTitle>
           <CountProject>프로젝트 모금함 &nbsp;&nbsp;&nbsp;
             <span style={{color : "#DC287C"}}>{CountContents}</span>
@@ -71,6 +111,25 @@ const SearchKeyword = ( {type} ) => {
       </>
     );
 };
+const ResultKeyword = styled.div`
+margin: 25px 400px 50px 400px;
+font-size : 26px;
+`
+const ResultTagBtn = styled.button`
+border : 0;
+border-radius : 25px;
+margin : 0 50px 50px 0;
+width : auto;
+min-width : 7vw;
+padding: 0 25px 0 25px;
+font-size : 26px;
+background-color : #bc77a9;
+
+&:hover {
+  cursor : pointer;
+  transform : scaleY(1.3);
+}
+`
 const KeywordPost = styled.div`
 margin: 25px 400px 50px 400px;
 padding : 0px;

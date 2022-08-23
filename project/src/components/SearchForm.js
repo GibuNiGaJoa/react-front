@@ -21,15 +21,17 @@ const SearchForm = (  ) => {
     const [getKeyPosting, setGetKeyPosting] = useState(<SearchKeyword type={''}/>)
     const searchOnKeyword = searchParams.get('keyword') ||'';
     
+    const [randomColor, setRandomColor] = useState("#" + Math.floor(Math.random() * 16777215).toString(16));
+    // const [randomColor, setRandomColor] = useState([]);
+
+    
     // 첫 렌더링시, 태그찾기의 랜덤태그들 받음.
-    useEffect(()=> {
+    useEffect(()=>{
       dispatch(getSearchRandomTag())
       .then((res) => {
         setRandomTag([...res.payload.tag.map(e=>e.name)]);
+        setRandomColor(randomColor);
       })
-    }, []);
-    
-    useEffect(()=>{
       if(didMount.current) {
         setGetKeyPosting(`${location.search}`);
       } else {
@@ -56,7 +58,6 @@ const SearchForm = (  ) => {
     const onClickHandler = (e) => {
       e.preventDefault();
       const tagName = e.target.innerHTML.replace('#', '');
-      console.log(e)
       navigate(`/tags/${tagName}`, {
         state: {
           name : tagName
@@ -76,16 +77,16 @@ const SearchForm = (  ) => {
         {!location.search ? 
             <><TagTitle>태그로 찾기</TagTitle>
               <SearchTag >
-                <TagBtn onClick={onClickHandler}>{RandomTag[0]}</TagBtn>
-                <TagBtn onClick={onClickHandler}>{RandomTag[1]}</TagBtn>
-                <TagBtn onClick={onClickHandler}>{RandomTag[2]}</TagBtn>
-                <TagBtn onClick={onClickHandler}>{RandomTag[3]}</TagBtn>
-                <TagBtn onClick={onClickHandler}>{RandomTag[4]}</TagBtn>
-                <TagBtn onClick={onClickHandler}>{RandomTag[5]}</TagBtn>
-                <TagBtn onClick={onClickHandler}>{RandomTag[6]}</TagBtn>
-                <TagBtn onClick={onClickHandler}>{RandomTag[7]}</TagBtn>
-                <TagBtn onClick={onClickHandler}>{RandomTag[8]}</TagBtn>
-                <TagBtn onClick={onClickHandler}>{RandomTag[9]}</TagBtn>
+                <TagBtn backColor={randomColor} onClick={onClickHandler}>{RandomTag[0]}</TagBtn>
+                <TagBtn backColor={randomColor} onClick={onClickHandler}>{RandomTag[1]}</TagBtn>
+                <TagBtn backColor={randomColor} onClick={onClickHandler}>{RandomTag[2]}</TagBtn>
+                <TagBtn backColor={randomColor} onClick={onClickHandler}>{RandomTag[3]}</TagBtn>
+                <TagBtn backColor={randomColor} onClick={onClickHandler}>{RandomTag[4]}</TagBtn>
+                <TagBtn backColor={randomColor} onClick={onClickHandler}>{RandomTag[5]}</TagBtn>
+                <TagBtn backColor={randomColor} onClick={onClickHandler}>{RandomTag[6]}</TagBtn>
+                <TagBtn backColor={randomColor} onClick={onClickHandler}>{RandomTag[7]}</TagBtn>
+                <TagBtn backColor={randomColor} onClick={onClickHandler}>{RandomTag[8]}</TagBtn>
+                <TagBtn backColor={randomColor} onClick={onClickHandler}>{RandomTag[9]}</TagBtn>
               </SearchTag>
             <SearchButtonBox /> </> 
             : <SearchKeyword type={searchOnKeyword}/>}
@@ -131,6 +132,7 @@ outline :0px;
 margin-right : 15px;
 margin-bottom : 10px;
 word-break:break-all;
+background-color : ${props => props.backColor};
 &:hover {
   cursor : pointer;
   transform:scale(1.1);
