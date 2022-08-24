@@ -13,6 +13,8 @@ import Notification from './Notification';
 import ShareModal from './ShareModal';
 import { donatePost } from '../actions/donationAction';
 import axios from 'axios';
+import walkAnimation from "../icons/walk_move_ing.gif"
+import walk from "../img/img_chart.png"
 
 
 const PostingTest = () => {
@@ -39,15 +41,17 @@ const PostingTest = () => {
   const [amountShare, setAmountShare] = useState(0);
   const [amountComment, setAmountComment] = useState(0);
   const [countDirect, setCountDirect] = useState(0); //직접기부 인원수
-  const [countAttend,setCountAttend] = useState(0); //참여기부 인원수
-  const [amountAttend,setAmountAttend] = useState(0); //참여기부 금액
-  const [donationType, setDonationType] = useState(''); //기부 종류
-  
+  const [countAttend, setCountAttend] = useState(0); //참여기부 인원수
+  const [amountAttend, setAmountAttend] = useState(0); //참여기부 금액
+  const [percent, setPercent] = useState(0); //기부 진행정도
+
   var today = new Date();
   var year = today.getFullYear();
   var month = ('0' + (today.getMonth() + 1)).slice(-2);
   var day = ('0' + today.getDate()).slice(-2);
-  var dateString = year + '-' + month  + '-' + day;
+  var dateString = year + '-' + month + '-' + day;
+
+
 
   //모달창
   const navigate = useNavigate();
@@ -58,19 +62,13 @@ const PostingTest = () => {
         icon: 'question',
         title: 'Ooops...',
         text: '로그인 하셨나요??'
-      }).then(() => {
-<<<<<<< HEAD
-        navigate('/login', {
+      }).then(() => {     navigate('/login', {
           state: {
-            from: `/fundraisings/now`
+            from: location.pathname,
+            id: location.state.id
           }
         });
-=======
-        navigate('/login', { state: { 
-          from: location.pathname ,
-          id: location.state.id
-        } });
->>>>>>> 6fcef2dd2909e972dff1ab69aa98c2f6821a0cbf
+
       })
 
     } else {
@@ -84,32 +82,34 @@ const PostingTest = () => {
 
   const heartClick = () => {
     let body = {
-      postId : location.state.id,
+      postId: location.state.id,
       donationType: "응원참여",
       donationDate: dateString
-  };
+    };
     setLike(!like);
     if (!like) {
       setNotiStatus(true);
       console.log("응원됨");
       console.log(like);
-      if(localStorage.getItem('isLogin') === 'false'){
+      if (localStorage.getItem('isLogin') === 'false') {
         alert('로그인을 선행해주세요.');
         console.log(location);
-        navigate('/login', {state:{
-          from :location.pathname,
-          id : location.state.id
-        }});
+        navigate('/login', {
+          state: {
+            from: location.pathname,
+            id: location.state.id
+          }
+        });
       } else {
         axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwtToken')}`;
         console.log(body);
         dispatch(donatePost(body)).
-        then((res) => {
-          console.log(res)
-        })
-        .catch((err) => {
-          console.log(err);
-        })
+          then((res) => {
+            console.log(res)
+          })
+          .catch((err) => {
+            console.log(err);
+          })
       }
     } else {
       setNotiStatus(false);
@@ -133,10 +133,12 @@ const PostingTest = () => {
         title: 'Ooops...',
         text: '로그인 하셨나요??'
       }).then(() => {
-        navigate('/login', { state: { 
-          from: location.pathname ,
-          id: location.state.id
-        } });
+        navigate('/login', {
+          state: {
+            from: location.pathname,
+            id: location.state.id
+          }
+        });
       })
     } else {
       setShareVisible(true);
@@ -165,10 +167,10 @@ const PostingTest = () => {
         setAmountShare(res.payload.donation.amountShare);
         setAmountDirect(res.payload.donation.amountDirect);
         setCountDirect(res.payload.donation.countDirect);
-        setCountAttend((amountCheer+amountComment+amountShare)/100);
-        setAmountAttend(amountCheer+amountComment+amountShare);
+        setCountAttend((amountCheer + amountComment + amountShare) / 100);
+        setAmountAttend(amountCheer + amountComment + amountShare);
         // setPostId(location.state.id);
-
+        setPercent((totalAmount/TargetAmount*100).toFixed(2));
       })
       .catch((err) => {
         console.log(err);
@@ -176,7 +178,7 @@ const PostingTest = () => {
 
       });
 
-  }, [totalAmount,amountCheer,amountComment,amountShare, amountDirect, countDirect, countAttend, amountAttend]);
+  }, [totalAmount, amountCheer, amountComment, amountShare, amountDirect, countDirect, countAttend, amountAttend]);
 
   const onCommentHandler = (e) => {
     e.preventDefault();
@@ -217,15 +219,20 @@ const PostingTest = () => {
         <MainContent />
         {EndDate && <div>종료일 : {EndDate}</div>}
         <MainContent />
-        <div>{totalAmount}원</div>
-        <div>{TargetAmount}원 목표</div>
-        <div>직접기부({countDirect}명) : {amountDirect}원</div>
-        <div>참여기부({countAttend}명) : {amountAttend}원</div>
-        <div>응원기부 : {amountCheer}원</div>
-        <div>댓글기부 : {amountComment}원</div>
-        <div>공유기부 : {amountShare}원</div>
-        {/* <MainContent />
-          {<div>기부 금액 {TargetAmount}</div>} */}
+        <DonationContent>
+          <TotalAmountDiv>{totalAmount}원</TotalAmountDiv>
+          <TargetAmountDiv>{TargetAmount}원 목표<br /></TargetAmountDiv>
+          
+          <DonateDiv><br />직접기부({countDirect}명) : {amountDirect}원</DonateDiv>
+          <DonateDiv>참여기부({countAttend}명) : {amountAttend}원</DonateDiv>
+          <div>ㄴ 응원기부 : {amountCheer}원</div>
+          <div>ㄴ 댓글기부 : {amountComment}원</div>
+          <div>ㄴ 공유기부 : {amountShare}원</div>
+        </DonationContent>
+        <DonationAnimate>
+          <div><img src={walkAnimation}></img>
+          <Percent>{percent}%</Percent></div>
+        </DonationAnimate>
       </MainBody>
 
       <Comments id={location.state.id}>
@@ -256,6 +263,27 @@ const PostingTest = () => {
     </Wrapper >
   )
 }
+const Percent = styled.span`
+font-weight: 500;
+font-size:30px;
+color: #dc287c;
+`;
+const DonationAnimate = styled.div``;
+
+const TotalAmountDiv =styled.div`
+font-weight: 500;
+font-size:70px;
+color: #dc287c;`;
+const TargetAmountDiv = styled.div`
+font-weight: 500;
+font-size:25px;
+`;
+const DonateDiv = styled.div`
+font-weight: 500;
+font-size:25px;`;
+const DonationContent = styled.div`
+text-align: center;`;
+
 const Wrapper = styled.div`
 font-family: "NavbarFont";
 `;
