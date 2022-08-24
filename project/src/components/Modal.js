@@ -1,8 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Swal from 'sweetalert2'
+import { donatePost } from '../actions/donationAction';
+import axios from 'axios';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch } from "react-redux";
 
 const Modal = (props) => {
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const location = useLocation();
+
+  var today = new Date();
+  var year = today.getFullYear();
+  var month = ('0' + (today.getMonth() + 1)).slice(-2);
+  var day = ('0' + today.getDate()).slice(-2);
+  var dateString = year + '-' + month + '-' + day;
+
+  const [comment,setComment] = useState('');
+
   const close = () => {
     props.closeModal();
     // console.log('닫힘버튼 실행됨')
@@ -43,16 +60,50 @@ const Modal = (props) => {
     console.log(pay);
   }
 
+  const onCommentChange = (e) => {
+    setComment(e.currentTarget.value);
+    console.log(e.currentTarget.value);
+  }
+
   const paySuccess = () => {
     console.log('결제하기 버튼 눌림');
-    Swal.fire({
-      icon: 'success',
-      title: 'Good job!',
-      text: '결제 완료!'
-  }).then(()=> {
-    props.closeModal();
-  })
-    
+    let body = {
+      postId: location.state.id,
+      donationType: "직접참여",
+      donationAmount: pay,
+      donationDate: dateString,
+      commentContent: comment
+  };
+
+    if (localStorage.getItem('isLogin') === 'false') {
+      alert('로그인을 선행해주세요.');
+      console.log(location);
+      navigate('/login', {
+        state: {
+          from: location.pathname,
+          id: location.state.id
+        }
+      });
+    } else {
+      axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwtToken')}`;
+      console.log(body);
+      dispatch(donatePost(body)).
+        then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+      Swal.fire({
+        icon: 'success',
+        title: 'Good job!',
+        text: '결제 완료!'
+      }).then(() => {
+        props.closeModal();
+      })
+    }
+
+
   }
 
   return (
@@ -91,7 +142,7 @@ const Modal = (props) => {
           <tr>
             <td colSpan={4}>
               <h2>응원 댓글 쓰기</h2>
-              <CommentInput type={'text'} placeholder={'따뜻한 한마디를 남겨주세요.'}></CommentInput>
+              <CommentInput onChange={onCommentChange} type={'text'} placeholder={'따뜻한 한마디를 남겨주세요.'}></CommentInput>
             </td>
           </tr>
           <tr>
@@ -108,7 +159,7 @@ const Modal = (props) => {
 
       </ModalContent>
     </ModalContainer>
- 
+
 
   );
 };

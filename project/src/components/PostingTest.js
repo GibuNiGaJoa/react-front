@@ -11,6 +11,10 @@ import { BsShare } from "react-icons/bs";
 import HeartButton from './HeartButton';
 import Notification from './Notification';
 import ShareModal from './ShareModal';
+import { donatePost } from '../actions/donationAction';
+import axios from 'axios';
+import walkAnimation from "../icons/walk_move_ing.gif"
+import walk from "../img/img_chart.png"
 
 
 const PostingTest = () => {
@@ -22,9 +26,31 @@ const PostingTest = () => {
   const [StartDate, setStartDate] = useState('');
   const [EndDate, setEndDate] = useState('');
   const [SubTitle, setSubTitle] = useState('');
-  const [TargetAmount, setTargetAmount] = useState('');
+
+  const [Comment, setComment] = useState('');
+  const [CommentLength, setCommentLength] = useState(0);
   const [commentList, setCommentList] = useState([]);
   
+
+  //기부내역
+  const [totalAmount, setTotalAmount] = useState(0); //현재기부내역
+  const [TargetAmount, setTargetAmount] = useState(0); //기부목표금액
+  const [amountDirect, setAmountDirect] = useState(0);
+  const [amountCheer, setAmountCheer] = useState(0);
+  const [amountShare, setAmountShare] = useState(0);
+  const [amountComment, setAmountComment] = useState(0);
+  const [countDirect, setCountDirect] = useState(0); //직접기부 인원수
+  const [countAttend, setCountAttend] = useState(0); //참여기부 인원수
+  const [amountAttend, setAmountAttend] = useState(0); //참여기부 금액
+  const [percent, setPercent] = useState(0); //기부 진행정도
+
+  var today = new Date();
+  var year = today.getFullYear();
+  var month = ('0' + (today.getMonth() + 1)).slice(-2);
+  var day = ('0' + today.getDate()).slice(-2);
+  var dateString = year + '-' + month + '-' + day;
+
+
 
   //모달창
   const navigate = useNavigate();
@@ -35,11 +61,13 @@ const PostingTest = () => {
         icon: 'question',
         title: 'Ooops...',
         text: '로그인 하셨나요??'
-      }).then(() => {
-        navigate('/login', { state: { 
-          from: location.pathname ,
-          id: location.state.id
-        } });
+      }).then(() => {     navigate('/login', {
+          state: {
+            from: location.pathname,
+            id: location.state.id
+          }
+        });
+
       })
 
     } else {
@@ -52,11 +80,36 @@ const PostingTest = () => {
   const [notiStatus, setNotiStatus] = useState(false);
 
   const heartClick = () => {
+    let body = {
+      postId: location.state.id,
+      donationType: "응원참여",
+      donationDate: dateString
+    };
     setLike(!like);
     if (!like) {
       setNotiStatus(true);
       console.log("응원됨");
       console.log(like);
+      if (localStorage.getItem('isLogin') === 'false') {
+        alert('로그인을 선행해주세요.');
+        console.log(location);
+        navigate('/login', {
+          state: {
+            from: location.pathname,
+            id: location.state.id
+          }
+        });
+      } else {
+        axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwtToken')}`;
+        console.log(body);
+        dispatch(donatePost(body)).
+          then((res) => {
+            console.log(res)
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+      }
     } else {
       setNotiStatus(false);
       console.log(like);
@@ -79,10 +132,12 @@ const PostingTest = () => {
         title: 'Ooops...',
         text: '로그인 하셨나요??'
       }).then(() => {
-        navigate('/login', { state: { 
-          from: location.pathname ,
-          id: location.state.id
-        } });
+        navigate('/login', {
+          state: {
+            from: location.pathname,
+            id: location.state.id
+          }
+        });
       })
     } else {
       setShareVisible(true);
@@ -104,8 +159,16 @@ const PostingTest = () => {
         setSubTitle(res.payload.subTitle);
         setTargetAmount(res.payload.targetAmount);
         setMainImage(res.payload.image);
+        setTotalAmount(res.payload.donation.totalAmount);
+        setAmountCheer(res.payload.donation.amountCheer);
+        setAmountComment(res.payload.donation.amountComment);
+        setAmountShare(res.payload.donation.amountShare);
+        setAmountDirect(res.payload.donation.amountDirect);
+        setCountDirect(res.payload.donation.countDirect);
+        setCountAttend((amountCheer + amountComment + amountShare) / 100);
+        setAmountAttend(amountCheer + amountComment + amountShare);
         setCommentList(res.payload.comment);
-
+setPercent((totalAmount/TargetAmount*100).toFixed(2));
       })
       .catch((err) => {
         console.log(err);
@@ -135,13 +198,20 @@ const PostingTest = () => {
         <MainContent />
         {EndDate && <div>종료일 : {EndDate}</div>}
         <MainContent />
-        {TargetAmount && <div>기부 금액 : {TargetAmount}원</div>}
-        {/* <MainContent />
-          {<div>기부 금액 {TargetAmount}</div>} */}
-          <div>
-            
-            
-          </div>
+        <DonationContent>
+          <TotalAmountDiv>{totalAmount}원</TotalAmountDiv>
+          <TargetAmountDiv>{TargetAmount}원 목표<br /></TargetAmountDiv>
+          
+          <DonateDiv><br />직접기부({countDirect}명) : {amountDirect}원</DonateDiv>
+          <DonateDiv>참여기부({countAttend}명) : {amountAttend}원</DonateDiv>
+          <div>ㄴ 응원기부 : {amountCheer}원</div>
+          <div>ㄴ 댓글기부 : {amountComment}원</div>
+          <div>ㄴ 공유기부 : {amountShare}원</div>
+        </DonationContent>
+        <DonationAnimate>
+          <div><img src={walkAnimation}></img>
+          <Percent>{percent}%</Percent></div>
+        </DonationAnimate>
       </MainBody>
 
       {/* <Comments id={location.state.id} content={comment}> */}
@@ -173,6 +243,27 @@ const PostingTest = () => {
     </Wrapper >
   )
 }
+const Percent = styled.span`
+font-weight: 500;
+font-size:30px;
+color: #dc287c;
+`;
+const DonationAnimate = styled.div``;
+
+const TotalAmountDiv =styled.div`
+font-weight: 500;
+font-size:70px;
+color: #dc287c;`;
+const TargetAmountDiv = styled.div`
+font-weight: 500;
+font-size:25px;
+`;
+const DonateDiv = styled.div`
+font-weight: 500;
+font-size:25px;`;
+const DonationContent = styled.div`
+text-align: center;`;
+
 const Wrapper = styled.div`
 font-family: "NavbarFont";
 `;
@@ -269,114 +360,6 @@ word-break:break-all;
 `
 
 const ModalOpenBtn = styled.button``;
-// const LoginContainer = styled.div`
-// position : relative;
-// flex-direction: column;
-// display : flex;
-// justify-content : center;
-// align-items : center;
-// border-radius:20px;
-// background-color : rgba(0,0,0, .75);
-// top : 30px;
-// width : 30vw;
-// // min-height : 100vh;
-// height : 70vh;
-// margin : auto auto 50px;
-// padding : 20px;
-// `;
-
-// const LoginBox = styled.div`
-// position : relative;
-// // border-radius : 20px;
-// width : 90%;
-// height : 90%;
-// padding : 0px 25px ;
-
-// `
-
-// const InputBox = styled.div`
-// position : relative;
-// width : 100%;
-// height : 100%;
-// // border : 2px solid blue;
-// // background-color : green;
-// `
-
-// const LoginTitle = styled.h1`
-// justify-content : center;
-// align-items : center;
-// width : 100%;
-// // background-color : white;
-// display : inline;
-// color : white;
-// `
-
-// const IdInput = styled.input`
-
-// margin : 50px 0px 0px 0px;
-// position : relative;
-// background-color : white;
-// border-radius : 15px;
-// border : 0;
-// outline : 0;
-// width : 100%;
-// height : 7vh;
-// ::placeholder {
-//   color : black;
-// }
-// `
-// const PasswordInput = styled.input`
-// margin : 50px 0px 0px 0px;
-// position : relative;
-// border-radius : 15px;
-// border : 0;
-// outline : 0;
-// background-color : white;
-// width : 100%;
-// height : 7vh;
-// ::placeholder {
-//   color : black;
-// }
-// `
-
-// const LoginBtn = styled.button`
-// margin : 50px 0px 0px 0px;
-// position : relative;
-// border-radius : 15px;
-// border : 0;
-// outline : 0;
-// background-color : white;
-// width : 100%;
-// height : 50px;
-// &:hover{
-//   cursor : pointer;
-// }
-// `
-
-// const SignupText = styled.h2`
-// justify-content : center;
-// align-items: center;
-// margin : 6% 0px 0px 0px;
-// display : flex;
-// color : yellow;
-// `
-// const SubBtn = styled.div`
-// position : relative;
-// margin : 7.5% 0 0 10%;
-// display : flex;
-// width : 100%;
-// `
-// const SearchText = styled.h4`
-// margin : 0 15% 0% 0;
-// color : gainsboro;
-// `
-// const FindBtn = styled.div`
-
-// margin-right : 30px;
-// display : inline;
-// font-size : 16px;
-// color : yellow;
-// `
 
 
 
