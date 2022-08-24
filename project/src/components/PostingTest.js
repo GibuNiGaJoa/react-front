@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { getPostingInfo } from '../actions/postingAction';
 import Modal from "../components/Modal"
 import Comments from './Comments';
-import { useLocation, useMatch, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useLocation, useMatch, useNavigate, useParams,  } from 'react-router-dom';
 import Swal from 'sweetalert2'
 import { BiDonateHeart } from "react-icons/bi";
 import { BsShare } from "react-icons/bs";
@@ -16,7 +16,6 @@ import ShareModal from './ShareModal';
 const PostingTest = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const [postId, setPostId] = useState('');
   const [Title, setTitle] = useState('');
   const [MainImage, setMainImage] = useState('');
   const [Content, setContent] = useState('');
@@ -24,10 +23,8 @@ const PostingTest = () => {
   const [EndDate, setEndDate] = useState('');
   const [SubTitle, setSubTitle] = useState('');
   const [TargetAmount, setTargetAmount] = useState('');
-  const [Comment, setComment] = useState('');
-  const [CommentLength, setCommentLength] = useState(0);
-  const [searchParams, setSearchParams] = useSearchParams('');
-  const searchOnKeyword = searchParams.get('keyword') ||'';
+  const [commentList, setCommentList] = useState([]);
+  
 
   //모달창
   const navigate = useNavigate();
@@ -93,7 +90,6 @@ const PostingTest = () => {
 
   }
 
-
   // 내가 생각한건 -> 첫 렌더링 시 통신을 통해 해당 게시글번호에 대한 정보 받아오기 
   useEffect(() => {
     // 0809 14:00 -> content / endDate / startDate / subTitle / targetAmount / title
@@ -108,8 +104,8 @@ const PostingTest = () => {
         setSubTitle(res.payload.subTitle);
         setTargetAmount(res.payload.targetAmount);
         setMainImage(res.payload.image);
-        // setPostId(location.state.id);
-        
+        setCommentList(res.payload.comment);
+
       })
       .catch((err) => {
         console.log(err);
@@ -118,25 +114,6 @@ const PostingTest = () => {
       });
 
   }, []);
-
-  const onCommentHandler = (e) => {
-    e.preventDefault();
-    setCommentLength(e.target.value.length);
-    setComment(e.target.value);
-
-  }
-
-  const onCommentPosingHandler = (e) => {
-    e.preventDefault();
-
-    let body = {
-      content: Comment
-    }
-    dispatch()
-
-
-  }
-
 
   return (
     <Wrapper>
@@ -161,9 +138,14 @@ const PostingTest = () => {
         {TargetAmount && <div>기부 금액 : {TargetAmount}원</div>}
         {/* <MainContent />
           {<div>기부 금액 {TargetAmount}</div>} */}
+          <div>
+            
+            
+          </div>
       </MainBody>
 
-      <Comments id={location.state.id}>
+      {/* <Comments id={location.state.id} content={comment}> */}
+      <Comments list={commentList}>
 
       </Comments >
       <DonateContent>
@@ -230,7 +212,7 @@ color: white;
 
 const HeaderBody = styled.div`
 height : 30vh;
-width : 100vw;
+width : 100%;
 // margin : 0 100px 0 100px;
 display : flex;
 flex-direction : column;
@@ -273,7 +255,7 @@ background-size : 100% 100%;
 
 const MainBody = styled.div`
 height : 100vh;
-width : 100vw;
+width : 100%;
 display : inline-block;
 justify-content : center;
 // align-items : center;

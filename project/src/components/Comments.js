@@ -3,16 +3,20 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import { useDispatch } from "react-redux";
 import axios from 'axios';
+import { commentPost, getPostingInfo } from '../actions/postingAction';
+import likebutton from '../img/likebtn.png'
+import { pressLike } from '../actions/commentAction';
 
 
-const Comments = ({PostId}) => {
+
+const Comments = ( {list} ) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const [Comment, setComment] = useState('');
+  
   const [CommentLength, setCommentLength] = useState(0);
   
-
   const onCommentHandler = (e) => {
     e.preventDefault();
     setCommentLength(e.target.value.length);
@@ -21,13 +25,11 @@ const Comments = ({PostId}) => {
 
   const onCommentPosingHandler = (e) => {
     e.preventDefault();
-
     let body = {
-      content : Comment
+      content : Comment,
+      date : new Date()
     }
-    // 로그인 없이 댓글 작성하다 버튼 눌렀을 떄 
-    // 로그인 정보 없으면 login화면으로 보내는데, 이때 from이란 인자를 넣어서 전달
-    // 로그인폼에서 확인하고 해당 from으로 다시 돌아오게끔함.
+
     if(localStorage.getItem('isLogin') === 'false'){
       alert('로그인을 선행해주세요.');
       console.log(location);
@@ -36,18 +38,46 @@ const Comments = ({PostId}) => {
         id : location.state.id
       }});
     } else {
-      console.log(body.content);
-      axios.defaults.headers.common['Authorizaion'] =`${localStorage.getItem('jwtToken')}`;
+      console.log(body);
+      axios.defaults.headers.common['Authorization'] =`${localStorage.getItem('jwtToken')}`;
+      dispatch(commentPost(location.state.id, body))
+      .then((res) => {
+        console.log(res.payload);
+      })
+      .catch((err) => console.log(err));
       
     }
   }
+
+  const pressLikeBtn = (e) => {
+    if(localStorage.getItem('isLogin') === 'false'){
+      alert("로그인을 선행해주세요.");
+      navigate('/login', {state:{
+        from: location.pathname,
+        id : location.state.id
+      }})
+    } else{
+      const postId = e.target.alt;
+      axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwtToken')}`
+      dispatch(pressLike(postId))
+      .then((res) => {
+        console.log(res.payload);
+        window.location.reload();
+      })
+      .catch((err) => console.log(err))
+    }
+  }
+
 
 
   return (
   <>
   <CommentDonateAmount >
-    <strong>카카오 지원 댓글 기부금 &nbsp;&nbsp;&nbsp;69,900원</strong>
+      <strong>카카오 지원 댓글 기부금 
+        <span style={{color : "#DC287C"}}>&nbsp;&nbsp;&nbsp;69,900원</span>
+        </strong>
   </CommentDonateAmount >
+    
 
   <PostingCommentBody>
     <CommentBox onSubmit={onCommentPosingHandler}>
@@ -55,8 +85,8 @@ const Comments = ({PostId}) => {
       <CommnentBoxTop>
         <CompmentUserImg />
         <CommenttInput onChange={onCommentHandler} placeholder='댓글을 입력해주세요.' />
-
       </CommnentBoxTop>
+
       <CommentBoxBottom>
           <CommentCountLen>{CommentLength}/500</CommentCountLen>
           <CommentPushBtn type='submit'><strong>등록</strong></CommentPushBtn>
@@ -64,10 +94,133 @@ const Comments = ({PostId}) => {
 
     </CommentBox>
   </PostingCommentBody>
+  
+  <CommentInfo>
+      <CommentsCount>
+        <strong>댓글
+          <span style={{color:"#DC287C"}}>&nbsp;&nbsp;&nbsp;784</span>
+        </strong>
+      </CommentsCount>
+      <DonatePeopleShowBtn/>
+      <DonatePeopleShow>
+        <strong>직접 기부자만 보기</strong>
+      </DonatePeopleShow>
+  </CommentInfo>
+
+      {list.map((item) => {
+        return (
+          <div>
+            <ShowComment>
+              <PeoplePicture></PeoplePicture>
+              <ShowBox>
+                <PeopleName><strong>{item.name}</strong></PeopleName>
+                <PeopleComment>{item.content}&nbsp;</PeopleComment>
+                <SubBtn>
+                  <CommentDate>{item.date}</CommentDate>
+                  <LikeBtn onClick={pressLikeBtn} >
+                    <img style={{width : "30px" , height : '30px'}}src={likebutton} alt={item.id}/>
+                    <span style={{fontSize : "20px"}}>좋아요</span>
+                    <span style={{fontSize : "22px"}}>&nbsp;&nbsp;{item.likes}</span>
+                  </LikeBtn>
+
+                </SubBtn>
+
+
+              </ShowBox>
+              
+              {/* {item.id}&nbsp;  */}
+            </ShowComment>
+          </div>
+        )
+      })}
+    
+
   </>
     
   )
 }
+
+const CommentInfo = styled.div`
+margin-left : 400px;
+margin-right : 400px;
+height : 10vh;
+width : 100vw;
+display : flex;
+// justify-content : center;
+// margin-bottom : 125px;
+`
+const ShowBox = styled.div`
+
+width : 100%;
+display : flex;
+flex-direction : column;
+padding-left : 10px;
+padding
+`
+const DonatePeopleShowBtn = styled.button`
+margin-left : 880px;
+height : 2vh;
+border-radius : 100%;
+margin-right : 5px;
+`
+const SubBtn = styled.div`
+display : flex;
+justify-content : right;
+`
+const LikeBtn = styled.button`
+// width : 300px;
+outline : 0px;
+border : 0px;
+background-color : white;
+margin-left : 550px;
+margin-right: 50px;
+margin-top :10px;
+
+
+
+`
+const DonatePeopleShow = styled.div`
+`
+const CommentDate = styled.span`
+display : flex;
+width : 250px;
+font-size : 14px;
+padding-left :10px;
+margin-top : 10px;
+// width : auto;
+`
+const PeopleComment = styled.div`
+text-align : left;
+background-color : #f7f8f9;
+border-radius : 12px;
+padding-left : 10px;
+padding-top : 10px;
+min-height : 3vh;
+
+`
+const PeopleName = styled.span`
+
+`
+const PeoplePicture = styled.div`
+width : 5vw;
+heigth : 10vw;
+background-image : url('https://yt3.ggpht.com/ytc/AMLnZu88fElvXTdbMhtfvYjqbMGb3ULvOF_jPcBM_LPhIA=s900-c-k-c0x00ffffff-no-rj');
+background-size: 100% 100%;
+`
+
+const CommentsCount = styled.div`
+width : auto;
+display : flex;
+`
+const ShowComment = styled.div`
+margin-left : 400px;
+margin-right : 400px;
+margin-bottom : 50px;
+height : 7.5vh;
+// width : 100%;
+display : flex;
+font-size : 20px;
+`
 const CommentDonateAmount = styled.div`
 margin-left : 400px;
 margin-right : 400px;
@@ -75,8 +228,9 @@ margin-bottom : 10px;
 // height : 10vh;
 width : auto;
 display : flex;
-color : #DC287C;
+// color : #DC287C;
 `
+
 const CommentPushBtn = styled.button`
 margin-left : 50px;
 border : 0;
@@ -141,7 +295,7 @@ height : 10vh;
 width : 100vw;
 display : flex;
 justify-content : center;
-margin-bottom : 100px;
+margin-bottom : 125px;
 `
 
 export default Comments;
