@@ -124,9 +124,6 @@ const LoginForm = () => {
                 </SignupText>
               </NavLink>
             </form>
-            {/* <form onSubmit={onSubmitHandler2}>
-              <LoginBtn type='submit'>토큰확인용</LoginBtn>
-            </form> */}
 
           </InputBox>
         </LoginBox>

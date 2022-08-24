@@ -39,3 +39,7 @@ export const GET_KEYWORD_CLICK = "GET_KEYWORD_CLICK";
 
 //회원별 기부하기
 export const POST_DONATION = "POST_DONATION";
+
+// 댓글 등록
+export const POST_COMMENT = "POST_COMMENT";
+export const PRESS_LIKE = "PRESS_LIKE";
