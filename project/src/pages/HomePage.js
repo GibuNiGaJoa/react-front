@@ -7,6 +7,7 @@ import BannerDonate from '../components/BannerDonate';
 import Footer from '../components/Footer'
 import { FullPage, Slide } from 'react-full-page';
 import "../pages/HomePage.css"
+import LastPageForm from '../components/LastPageForm';
 // import NavbarV2 from '../components/NavbarV2';
 
 const HomePage = (props) => {
@@ -25,6 +26,7 @@ const HomePage = (props) => {
                 </Slide>
                 <Slide>
                     <Navbar />
+                    <LastPageForm />
                     <Footer />
                 </Slide>
             </FullPage>
