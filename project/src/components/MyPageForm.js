@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
-import avatar from "../img/avatar05.png"
 import { useDispatch } from 'react-redux';
-import { getDonationMember } from '../actions/donationAction';
+import { getDonationMember, getMyMember } from '../actions/donationAction';
 import axios from 'axios';
-import { map } from 'jquery';
+import man from "../icons/man.gif";
+import girl from "../icons/girl.gif";
 
 const MyPageForm = () => {
     const dispatch = useDispatch();
     const [donations, setDonations] = useState([]);
+    const [myContents, setMyContents] = useState([]);
+    const [comments,setComments] = useState([]);
 
     useEffect(() => {
         axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwtToken')}`;
@@ -18,60 +20,137 @@ const MyPageForm = () => {
                 setDonations(res.payload);
             })
             .catch((err) => console.log(err));
+
+        dispatch(getMyMember())
+            .then((res) => {
+                console.log(res.payload);
+                console.log(res.payload.comments);
+                setMyContents(res.payload);
+                setComments(res.payload.comments);
+            })
+            .catch((err) => console.log(err));
     }, []);
     return (
         <Box>
             <Content>
                 <NicknameContent>
-                    <table>
-                        <tr>
-                            <td>
-                                <tr>
-                                    <td ><h4>기부천사</h4></td>
-                                </tr>
-                                <tr>
-                                    <td ><h2>재원</h2></td>
-                                </tr>
-                                <tr>
-                                    <td><a href='#'>설정</a></td>
-                                </tr>
-                            </td>
-                            <td><img src={avatar}></img></td>
-                        </tr>
-                    </table>
+                    {
+                        myContents.gender === 'Man'
+                        ? <ImgGender src={man}></ImgGender>
+                        : <ImgGender src={girl}></ImgGender>
+                    }
+                    <Nickname><h3>{myContents.memberName}</h3></Nickname>
                 </NicknameContent>
-                <DonationDetail>
-                    <h3>기부내역</h3>
+             
+                <Donations>
+                    <Div>
+                        <div>
+                            <h2>기부내역</h2>
+                            <p><h5>총 기부금</h5></p>
+                            <h3>{myContents.totalAmount}원</h3>
+                        </div>
+                        <div>
+                            <Table>
+                                <tr>
+                                    <td><h5>기부 횟수</h5></td>
+                                    <td>{myContents.countDonation}회</td>
+                                </tr>
+                                <tr>
+                                    <td><h5>직접 기부</h5></td>
+                                    <td>{myContents.amountDirect}원</td>
+                                </tr>
+                                <tr>
+                                    <td><h5>참여 기부</h5></td>
+                                    <td>{myContents.amountParticipation}원</td>
+                                </tr>
+                            </Table>
+                        </div>
+                    </Div>
                     {donations.map((donation) => {
                         return (
-                            <div>
+                            <DonationDetail>
                                 <table>
                                     <tr>
-                                        <td colSpan={2}><h5>{donation.donationDate.substr(0,10)}</h5></td>
+                                        <td colSpan={2}>{donation.donationDate.substr(0,10)}</td>
                                     </tr>
                                     <tr>
-                                        <td colSpan={2}> <h5>{donation.postTitle}</h5></td>
+                                        <td colSpan={2}>{donation.postTitle}</td>
                                     </tr>
                                     <tr>
-                                        <td><h5>{donation.donationAmount}</h5></td>
-                                        <td><h5>{donation.donationType}</h5></td>
+                                        <td>{donation.donationAmount}원</td>
+                                        <td>{donation.donationType}</td>
                                     </tr>
                                 </table>
-                            </div>
+                            </DonationDetail>
                         )
                     })
                     }
-                </DonationDetail>
+                </Donations>
+                <br />
                 <CommentDetail>
-                    <h3>댓글</h3>
-                </CommentDetail>
+                    <table>
+                        <tr>
+                            <td><h2>댓글</h2></td>
+                            <td style={{color:"red"}}>{myContents.countComment}</td>
+                        </tr>
+                    </table>
+                    {comments.map((comment) => {
+                        return (
+                            <DonationDetail>
+                                <table>
+                                    <tr>
+                                        <td>{comment.date}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{comment.postTitle}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><CommentContentTr>{comment.content}</CommentContentTr></td>
+                                    </tr>
+                                </table>
+                            </DonationDetail>
+                        )
+                    })
+                    }             
+                    </CommentDetail>
+                <br />
             </Content>
         </Box>
     );
 };
+
+const CommentContentTr = styled.div`
+text-align : left;
+background-color : #c8c8c8;
+border-radius : 12px;
+padding-left : 10px;
+padding-top : 10px;
+min-height : 3vh;
+`;
+const Table = styled.table`
+text-align: right;
+`;
+const Div = styled.div`
+display: flex;
+justify-content: space-between;
+`;
+const ImgGender = styled.img`
+width: 200px;
+height: 200px;
+border-radius: 10%;
+`;
+const Nickname = styled.div``;
 const NicknameContent = styled.div``;
-const DonationDetail = styled.div``;
-const CommentDetail = styled.div``;
+const Donations = styled.div`
+text-align: left;
+box-shadow: 0 5px 20px silver;`;
+const DonationDetail = styled.div`
+font-size:20px;
+font-weight: 700;
+box-shadow: 0 5px 20px silver inset;`;
+const CommentDetail = styled.div`
+text-align: left;
+box-shadow: 0 5px 20px silver;`;
 const Box = styled.div`
 font-size: 20px;
 font-weight: 400;
@@ -80,7 +159,7 @@ display:flex;
 `;
 const Content = styled.div`
 margin: auto;
-width:30%;
+width:70%;
 text-align : center;
 `;
 
