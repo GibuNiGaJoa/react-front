@@ -1,6 +1,7 @@
 import React from "react";
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
+import MyPageForm from "../components/MyPageForm";
 
 
 const MyPage = () => {
@@ -9,9 +10,8 @@ const MyPage = () => {
         <div className='main-container'>
             <div className='navbar-container'>
                 <Navbar />
-                
             </div>
-            마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?마이페이지?
+            <MyPageForm />
             <Footer />
         </div>
     )
