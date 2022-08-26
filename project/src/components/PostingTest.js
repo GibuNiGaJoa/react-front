@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { getPostingInfo } from '../actions/postingAction';
 import Modal from "../components/Modal"
 import Comments from './Comments';
-import { useLocation, useMatch, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useLocation, useMatch, useNavigate, useParams,  } from 'react-router-dom';
 import Swal from 'sweetalert2'
 import { BiDonateHeart } from "react-icons/bi";
 import { BsShare } from "react-icons/bs";
@@ -20,7 +20,6 @@ import walk from "../img/img_chart.png"
 const PostingTest = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const [postId, setPostId] = useState('');
   const [Title, setTitle] = useState('');
   const [MainImage, setMainImage] = useState('');
   const [Content, setContent] = useState('');
@@ -30,8 +29,8 @@ const PostingTest = () => {
 
   const [Comment, setComment] = useState('');
   const [CommentLength, setCommentLength] = useState(0);
-  const [searchParams, setSearchParams] = useSearchParams('');
-  const searchOnKeyword = searchParams.get('keyword') || '';
+  const [commentList, setCommentList] = useState([]);
+  
 
   //기부내역
   const [totalAmount, setTotalAmount] = useState(0); //현재기부내역
@@ -146,7 +145,6 @@ const PostingTest = () => {
 
   }
 
-
   // 내가 생각한건 -> 첫 렌더링 시 통신을 통해 해당 게시글번호에 대한 정보 받아오기 
   useEffect(() => {
     // 0809 14:00 -> content / endDate / startDate / subTitle / targetAmount / title
@@ -169,8 +167,8 @@ const PostingTest = () => {
         setCountDirect(res.payload.donation.countDirect);
         setCountAttend((amountCheer + amountComment + amountShare) / 100);
         setAmountAttend(amountCheer + amountComment + amountShare);
-        // setPostId(location.state.id);
-        setPercent((totalAmount/TargetAmount*100).toFixed(2));
+        setCommentList(res.payload.comment);
+setPercent((totalAmount/TargetAmount*100).toFixed(2));
       })
       .catch((err) => {
         console.log(err);
@@ -178,26 +176,7 @@ const PostingTest = () => {
 
       });
 
-  }, [totalAmount, amountCheer, amountComment, amountShare, amountDirect, countDirect, countAttend, amountAttend]);
-
-  const onCommentHandler = (e) => {
-    e.preventDefault();
-    setCommentLength(e.target.value.length);
-    setComment(e.target.value);
-
-  }
-
-  const onCommentPosingHandler = (e) => {
-    e.preventDefault();
-
-    let body = {
-      content: Comment
-    }
-    dispatch()
-
-
-  }
-
+  }, []);
 
   return (
     <Wrapper>
@@ -235,7 +214,8 @@ const PostingTest = () => {
         </DonationAnimate>
       </MainBody>
 
-      <Comments id={location.state.id}>
+      {/* <Comments id={location.state.id} content={comment}> */}
+      <Comments list={commentList}>
 
       </Comments >
       <DonateContent>
@@ -323,7 +303,7 @@ color: white;
 
 const HeaderBody = styled.div`
 height : 30vh;
-width : 100vw;
+width : 100%;
 // margin : 0 100px 0 100px;
 display : flex;
 flex-direction : column;
@@ -366,7 +346,7 @@ background-size : 100% 100%;
 
 const MainBody = styled.div`
 height : 100vh;
-width : 100vw;
+width : 100%;
 display : inline-block;
 justify-content : center;
 // align-items : center;

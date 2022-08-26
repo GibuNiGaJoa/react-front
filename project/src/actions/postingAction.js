@@ -7,7 +7,6 @@ import { postingReq, request } from "../axios";
 const FUND_URL = "http://valuetogether.tk/fundraisings/";
 
 export function getPostingInfo(id) {
-  console.log(id);
   const data = postingReq("GET", FUND_URL+id);
   return {
     type: GET_POSTING_INFO,
@@ -15,8 +14,9 @@ export function getPostingInfo(id) {
   };
 }
 
-export function commnentPost(dataToSubmit) {
-  const data = postingReq("POST", FUND_URL+"/25", dataToSubmit);
+export function commentPost(postId,dataToSubmit) {
+  console.log(postId);
+  const data = postingReq("POST", FUND_URL+postId+'/comment', dataToSubmit);
   return {
     type: POSTING_COMMENT,
     payload: data,

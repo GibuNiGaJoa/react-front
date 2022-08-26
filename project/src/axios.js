@@ -22,10 +22,11 @@ export const getPosting = (method, url) => {
 }
 
 // 게시물 리턴값 받기 테스트용
-export const postingReq = (method,url) => {
+export const postingReq = (method,url, data) => {
   return axios({
     method,
     url:  url,
+    data,
   })
   .then((res) => res.data)
   .catch((err) => console.log(err));
@@ -50,4 +51,22 @@ export const getSearch = (method,url) => {
   .catch((err) => console.log(err));
 };
 
+export const comment = (method, url) => {
+  return axios({
+    method, 
+    url : url
+  })
+  .then((res) => res.data)
+  .catch((err) => console.log(err))
+}
+
+
+export const likeAdd =(method, url) => {
+  return axios({
+    method, 
+    url : url
+  })
+  .then((res) => res.data)
+  .catch((err) =>console.log(err));
+}
 

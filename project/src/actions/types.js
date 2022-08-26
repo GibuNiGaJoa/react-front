@@ -40,6 +40,8 @@ export const GET_KEYWORD_CLICK = "GET_KEYWORD_CLICK";
 //회원별 기부하기
 export const POST_DONATION = "POST_DONATION";
 export const GET_DONATION_MEMBER = "GET_DONATION_MEMBER";
-
-//마이페이지
 export const GET_MY_MEMBER = "GET_MY_MEMBER";
+
+// 댓글 등록
+export const POST_COMMENT = "POST_COMMENT";
+export const PRESS_LIKE = "PRESS_LIKE";
