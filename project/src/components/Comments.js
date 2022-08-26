@@ -6,11 +6,11 @@ import axios from 'axios';
 import { commentPost, getPostingInfo } from '../actions/postingAction';
 import likebutton from '../img/likebtn.png'
 import { pressLike } from '../actions/commentAction';
-import ava1 from '../img/avatar01.png'
-import ava2 from '../img/avatar02.png'
-import ava3 from '../img/avatar03.png'
-import ava4 from '../img/avatar04.png'
-import ava5 from '../img/avatar05.png'
+// import ava1 from '../img/avatar01.png'
+// import ava2 from '../img/avatar02.png'
+// import ava3 from '../img/avatar03.png'
+// import ava4 from '../img/avatar04.png'
+// import ava5 from '../img/avatar05.png'
 
 
 
@@ -80,11 +80,7 @@ const Comments = ( {list} ) => {
   return (
   <>
   
-  <CommentDonateAmount >
-      <strong>카카오 지원 댓글 기부금 
-        <span style={{color : "#DC287C"}}>&nbsp;&nbsp;&nbsp;69,900원</span>
-        </strong>
-  </CommentDonateAmount >
+  
     
 
   <PostingCommentBody>
@@ -106,7 +102,7 @@ const Comments = ( {list} ) => {
   <CommentInfo>
       <CommentsCount>
         <strong>댓글
-          <span style={{color:"#DC287C"}}>&nbsp;&nbsp;&nbsp;784</span>
+          <span style={{color:"#DC287C"}}>&nbsp;&nbsp;&nbsp;{list.length}</span>
         </strong>
       </CommentsCount>
       <DonatePeopleShowBtn/>
@@ -121,7 +117,12 @@ const Comments = ( {list} ) => {
             <ShowComment>
               <PeoplePicture />
               <ShowBox>
-                <PeopleName><strong>{item.nickname}</strong></PeopleName>
+                <PeopleName><strong>{item.nickname}&nbsp;</strong>
+                    {
+                      item.donationAmount !== null && 
+                      <strong>{item.donationAmount}원</strong>
+                    }
+                </PeopleName>
                 <PeopleComment>{item.content}&nbsp;</PeopleComment>
                 <SubBtn>
                   <CommentDate>{item.date}</CommentDate>
@@ -229,15 +230,15 @@ height : 7.5vh;
 display : flex;
 font-size : 20px;
 `
-const CommentDonateAmount = styled.div`
-margin-left : 400px;
-margin-right : 400px;
-margin-bottom : 10px;
-// height : 10vh;
-width : auto;
-display : flex;
-// color : #DC287C;
-`
+// const CommentDonateAmount = styled.div`
+// margin-left : 400px;
+// margin-right : 400px;
+// margin-bottom : 10px;
+// // height : 10vh;
+// width : auto;
+// display : flex;
+// // color : #DC287C;
+// `
 
 const CommentPushBtn = styled.button`
 margin-left : 50px;

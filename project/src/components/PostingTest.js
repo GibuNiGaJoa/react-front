@@ -214,7 +214,11 @@ setPercent((totalAmount/TargetAmount*100).toFixed(2));
         </DonationAnimate>
       </MainBody>
 
-      {/* <Comments id={location.state.id} content={comment}> */}
+      <CommentDonateAmount >
+      <strong>카카오 지원 댓글 기부금 
+        <span style={{color : "#DC287C"}}>&nbsp;&nbsp;{amountComment}</span>
+        </strong>
+      </CommentDonateAmount >
       <Comments list={commentList}>
 
       </Comments >
@@ -243,6 +247,15 @@ setPercent((totalAmount/TargetAmount*100).toFixed(2));
     </Wrapper >
   )
 }
+const CommentDonateAmount = styled.div`
+margin-left : 400px;
+margin-right : 400px;
+margin-bottom : 10px;
+// height : 10vh;
+width : auto;
+display : flex;
+// color : #DC287C;
+`
 const Percent = styled.span`
 font-weight: 500;
 font-size:30px;
