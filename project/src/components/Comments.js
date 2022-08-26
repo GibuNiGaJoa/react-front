@@ -6,6 +6,11 @@ import axios from 'axios';
 import { commentPost, getPostingInfo } from '../actions/postingAction';
 import likebutton from '../img/likebtn.png'
 import { pressLike } from '../actions/commentAction';
+import ava1 from '../img/avatar01.png'
+import ava2 from '../img/avatar02.png'
+import ava3 from '../img/avatar03.png'
+import ava4 from '../img/avatar04.png'
+import ava5 from '../img/avatar05.png'
 
 
 
@@ -13,10 +18,10 @@ const Comments = ( {list} ) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+  
   const [Comment, setComment] = useState('');
-  
   const [CommentLength, setCommentLength] = useState(0);
-  
+
   const onCommentHandler = (e) => {
     e.preventDefault();
     setCommentLength(e.target.value.length);
@@ -29,7 +34,6 @@ const Comments = ( {list} ) => {
       content : Comment,
       date : new Date()
     }
-
     if(localStorage.getItem('isLogin') === 'false'){
       alert('로그인을 선행해주세요.');
       console.log(location);
@@ -43,6 +47,8 @@ const Comments = ( {list} ) => {
       dispatch(commentPost(location.state.id, body))
       .then((res) => {
         console.log(res.payload);
+        alert('등록완료!');
+        window.location.reload();
       })
       .catch((err) => console.log(err));
       
@@ -62,6 +68,7 @@ const Comments = ( {list} ) => {
       dispatch(pressLike(postId))
       .then((res) => {
         console.log(res.payload);
+        
         window.location.reload();
       })
       .catch((err) => console.log(err))
@@ -72,6 +79,7 @@ const Comments = ( {list} ) => {
 
   return (
   <>
+  
   <CommentDonateAmount >
       <strong>카카오 지원 댓글 기부금 
         <span style={{color : "#DC287C"}}>&nbsp;&nbsp;&nbsp;69,900원</span>
@@ -111,9 +119,9 @@ const Comments = ( {list} ) => {
         return (
           <div>
             <ShowComment>
-              <PeoplePicture></PeoplePicture>
+              <PeoplePicture />
               <ShowBox>
-                <PeopleName><strong>{item.name}</strong></PeopleName>
+                <PeopleName><strong>{item.nickname}</strong></PeopleName>
                 <PeopleComment>{item.content}&nbsp;</PeopleComment>
                 <SubBtn>
                   <CommentDate>{item.date}</CommentDate>
@@ -144,7 +152,7 @@ const CommentInfo = styled.div`
 margin-left : 400px;
 margin-right : 400px;
 height : 10vh;
-width : 100vw;
+
 display : flex;
 // justify-content : center;
 // margin-bottom : 125px;
@@ -158,7 +166,7 @@ padding-left : 10px;
 padding
 `
 const DonatePeopleShowBtn = styled.button`
-margin-left : 880px;
+margin-left : 600px;
 height : 2vh;
 border-radius : 100%;
 margin-right : 5px;
@@ -209,7 +217,7 @@ background-size: 100% 100%;
 `
 
 const CommentsCount = styled.div`
-width : auto;
+width : 300px;
 display : flex;
 `
 const ShowComment = styled.div`
