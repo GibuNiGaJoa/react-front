@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import { tagSearch } from '../actions/tagAction';
-import Fundraiser from './Fundraiser';
 
 
 
 
 const TagSearch = (  ) => {
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
   const [subject, setSubject] = useState('');
@@ -19,6 +18,7 @@ const TagSearch = (  ) => {
   useEffect(()=> {
     dispatch(tagSearch(location.state.name))
     .then((res) => {
+      console.log(res.payload.post);
       setSubject(location.state.name);
       setContents(res.payload.post);
       setRandomColor("#" + Math.floor(Math.random() * 16777215).toString(16));
@@ -26,8 +26,20 @@ const TagSearch = (  ) => {
     })
     .catch((err) => console.log(err));
   } ,[])
+
+
+  const showPost = (e) => {
+    e.preventDefault();
+    // console.log(e.target.className);
+    const postNum=e.target.className.replace(/[^0-9]/g,'');
+    navigate(`/fundraisings/${postNum}`, {
+      state : {
+        id : postNum
+      }
+    });
+  };
   
-    return (<>
+    return (
       <TotalWrapper>
 
         <SubjectInform backColor={randomColor}>
@@ -36,18 +48,49 @@ const TagSearch = (  ) => {
 
         <DonateAmount>15,933,954,782원</DonateAmount>
         <DonateGroup>11,830,557명 기부</DonateGroup>
+        {
+          contents.map((item) => {
+            return(
+              <Content>
+                  
+                  <KeywordOnImg onClick={showPost} className={item.id} src={item.image}/>
+                  <span style={{fontSize : '12px' , color : 'brown'}}>{item.title} </span><br/>
+                  <span style={{fontSize : '12px' , color : 'blue'}}>{item.proposer} </span><br/>
+                  <span style={{fontSize : '12px' , color : 'red'}}>{item.endDate} </span><br/>
+                </Content>
+            )
+          })
+        }
       </TotalWrapper>
-
-        
-      
-      <Fundraiser data={contents}/>
-      </>
+  
     );
 };
 
 const TotalWrapper = styled.div`
 margin: 20px 400px 25px 400px;
 // background-color : yellow;
+`
+const Content = styled.ul`
+display : inline-block;
+width: 20%;
+height : 20vh;
+margin-bottom: 100px;
+margin-right : 50px;
+padding : 0px;
+
+`;
+const KeywordOnImg = styled.img`
+width : 100%;
+height : 100%;
+border-radius : 10%;
+overflow : hidden;
+margin-bottom : 20px;
+// margin-right : 10px;
+// margin-top : 10px;
+&:hover{
+  transform:scale(1.12);
+  cursor : pointer;
+}
 `
 const SubjectInform = styled.div`
 margin-bottom : 25px;
@@ -70,7 +113,6 @@ font-family: KakaoBig Bold,sans-serif;
 const DonateAmount = styled.div`
 text-align : center;
 font-size : 28px;
-
 margin-bottom : 20px;
 `
 const DonateGroup = styled.div`
@@ -78,7 +120,6 @@ text-align : center;
 font-size : 16px;
 font-weight: 400;
 font-family : "NavbarFont";
-
 margin-bottom : 20px;
 `
 export default TagSearch;
