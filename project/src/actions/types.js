@@ -45,3 +45,5 @@ export const GET_MY_MEMBER = "GET_MY_MEMBER";
 // 댓글 등록
 export const POST_COMMENT = "POST_COMMENT";
 export const PRESS_LIKE = "PRESS_LIKE";
+export const REMOVE_LIKE = "REMOVE_LIKE";
+export const REMOVE_COMMENT = "REMOVE_COMMENT";

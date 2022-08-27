@@ -148,6 +148,7 @@ const PostingTest = () => {
   // 내가 생각한건 -> 첫 렌더링 시 통신을 통해 해당 게시글번호에 대한 정보 받아오기 
   useEffect(() => {
     // 0809 14:00 -> content / endDate / startDate / subTitle / targetAmount / title
+    // axios.defaults.headers.common['Authorization'] =`${localStorage.getItem('jwtToken')}`;
     dispatch(getPostingInfo(location.state.id))
       .then((res) => {
         console.log(res.payload);
@@ -168,7 +169,7 @@ const PostingTest = () => {
         setCountAttend((amountCheer + amountComment + amountShare) / 100);
         setAmountAttend(amountCheer + amountComment + amountShare);
         setCommentList(res.payload.comment);
-setPercent((totalAmount/TargetAmount*100).toFixed(2));
+        setPercent((totalAmount/TargetAmount*100).toFixed(2));
       })
       .catch((err) => {
         console.log(err);
@@ -177,6 +178,22 @@ setPercent((totalAmount/TargetAmount*100).toFixed(2));
       });
 
   }, []);
+
+  useEffect(()=> {
+    if(localStorage.getItem('isLogin') === 'true'){
+      axios.defaults.headers.common['Authorization'] =`${localStorage.getItem('jwtToken')}`;
+      dispatch(getPostingInfo(location.state.id))
+      .then((res) => {
+        console.log(res.payload);
+        setCommentList(res.payload.comment);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert('해당 게시물이 없습니다.')
+
+      });
+    }
+  },[localStorage.getItem('isLogin')]);
 
   return (
     <Wrapper>
