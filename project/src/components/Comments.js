@@ -4,8 +4,10 @@ import styled from 'styled-components';
 import { useDispatch } from "react-redux";
 import axios from 'axios';
 import { commentPost, getPostingInfo } from '../actions/postingAction';
-import likebutton from '../img/likebtn.png'
-import { pressLike } from '../actions/commentAction';
+import { pressLike, removeComment, removeLike } from '../actions/commentAction';
+import HeartImg from "../img/Heart.png";
+import EmptyHeartImg from "../img/EmptyHeart.png";
+import Swal from 'sweetalert2';
 // import ava1 from '../img/avatar01.png'
 // import ava2 from '../img/avatar02.png'
 // import ava3 from '../img/avatar03.png'
@@ -46,8 +48,7 @@ const Comments = ( {list} ) => {
       axios.defaults.headers.common['Authorization'] =`${localStorage.getItem('jwtToken')}`;
       dispatch(commentPost(location.state.id, body))
       .then((res) => {
-        console.log(res.payload);
-        alert('등록완료!');
+        alert("등록완료");
         window.location.reload();
       })
       .catch((err) => console.log(err));
@@ -62,7 +63,7 @@ const Comments = ( {list} ) => {
         from: location.pathname,
         id : location.state.id
       }})
-    } else{
+    } else if(e.target.title === 'false'){
       const postId = e.target.alt;
       axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwtToken')}`
       dispatch(pressLike(postId))
@@ -72,17 +73,44 @@ const Comments = ( {list} ) => {
         window.location.reload();
       })
       .catch((err) => console.log(err))
+    } else if(e.target.title === 'true') {
+      const postId = e.target.alt;
+      axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwtToken')}`
+      dispatch(removeLike(postId))
+      .then((res) => {
+        console.log(res.payload);
+        window.location.reload();
+      })
+      .catch((err) => console.log(err))
     }
+  }
+
+  const removeClick = (e) => {
+    Swal.fire({
+      icon: 'question',
+            text: '댓글을 삭제하시겠습니까?',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+              axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwtToken')}`;
+              const postNum=e.target.className.replace(/[^0-9]/g,'');
+              dispatch(removeComment(postNum))
+              .then((res) => {
+                window.location.reload();
+              })
+              .catch((err) => console.log(err));
+                
+            }
+    })
   }
 
 
 
   return (
   <>
-  
-  
-    
-
   <PostingCommentBody>
     <CommentBox onSubmit={onCommentPosingHandler}>
 
@@ -124,20 +152,16 @@ const Comments = ( {list} ) => {
                     }
                 </PeopleName>
                 <PeopleComment>{item.content}&nbsp;</PeopleComment>
+                <CommentDate>{item.date}</CommentDate>
                 <SubBtn>
-                  <CommentDate>{item.date}</CommentDate>
                   <LikeBtn onClick={pressLikeBtn} >
-                    <img style={{width : "30px" , height : '30px'}}src={likebutton} alt={item.id}/>
+                    <img style={{width : "30px" , height : '30px'}}src={item.likeStatus?HeartImg:EmptyHeartImg} alt={item.id} title={`${item.likeStatus}`}/>
                     <span style={{fontSize : "20px"}}>좋아요</span>
                     <span style={{fontSize : "22px"}}>&nbsp;&nbsp;{item.likes}</span>
                   </LikeBtn>
-
+                  {item.status && <RemoveBtn className={item.id}onClick={removeClick}>삭제</RemoveBtn>}
                 </SubBtn>
-
-
               </ShowBox>
-              
-              {/* {item.id}&nbsp;  */}
             </ShowComment>
           </div>
         )
@@ -149,11 +173,23 @@ const Comments = ( {list} ) => {
   )
 }
 
+const RemoveBtn = styled.button`
+margin-top : 10px;
+outline:0px;
+border : 0px;
+border-radius : 25px;
+margin-left : 10px;
+&:hover {
+  cursor : pointer;
+}
+`
+
+
+
 const CommentInfo = styled.div`
 margin-left : 400px;
 margin-right : 400px;
 height : 10vh;
-
 display : flex;
 // justify-content : center;
 // margin-bottom : 125px;
@@ -164,7 +200,7 @@ width : 100%;
 display : flex;
 flex-direction : column;
 padding-left : 10px;
-padding
+
 `
 const DonatePeopleShowBtn = styled.button`
 margin-left : 600px;
@@ -173,8 +209,10 @@ border-radius : 100%;
 margin-right : 5px;
 `
 const SubBtn = styled.div`
+margin-top : -20px;
 display : flex;
 justify-content : right;
+
 `
 const LikeBtn = styled.button`
 // width : 300px;
@@ -182,10 +220,9 @@ outline : 0px;
 border : 0px;
 background-color : white;
 margin-left : 550px;
-margin-right: 50px;
-margin-top :10px;
-
-
+&:hover {
+  cursor : pointer;
+}
 
 `
 const DonatePeopleShow = styled.div`
@@ -230,16 +267,6 @@ height : 7.5vh;
 display : flex;
 font-size : 20px;
 `
-// const CommentDonateAmount = styled.div`
-// margin-left : 400px;
-// margin-right : 400px;
-// margin-bottom : 10px;
-// // height : 10vh;
-// width : auto;
-// display : flex;
-// // color : #DC287C;
-// `
-
 const CommentPushBtn = styled.button`
 margin-left : 50px;
 border : 0;
