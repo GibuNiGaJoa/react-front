@@ -13,9 +13,7 @@ const SearchKeyword = ( {type} ) => {
     const [countTag, setCountTag] = useState();
     const [tagArray, setTagArray] = useState([]);
     const [ViewMode, setViewMode] = useState('all');
-    // const [textColor, setTextColor] = useState('black');
 
-    
     // 첫 렌더링시, 태그찾기의 랜덤태그들 받음.
     useEffect(()=> {
       if(ViewMode ===  'all') {
@@ -25,7 +23,6 @@ const SearchKeyword = ( {type} ) => {
           setCountContents(res.payload.post_all.length);
           setCountTag(res.payload.tag.length);
           setTagArray(res.payload.tag.map(e => e.name));
-          
         })
       } else {
         dispatch(getSearchKeyword(type))
@@ -34,7 +31,6 @@ const SearchKeyword = ( {type} ) => {
           setCountContents(res.payload.post_title.length);
           setCountTag(res.payload.tag.length);
           setTagArray(res.payload.tag.map((e) => e.name ));
-            
         })
       }
     }, [type , ViewMode]);
@@ -60,26 +56,30 @@ const SearchKeyword = ( {type} ) => {
       })
     }
 
+    const showPost = (e) => {
+      e.preventDefault();
+      // console.log(e.target.className);
+      const postNum=e.target.className.replace(/[^0-9]/g,'');
+      navigate(`/fundraisings/${postNum}`, {
+        state : {
+          id : postNum
+        }
+      });
+
+    }
+
   
     return (<>
       <SearchContainer>
         { !(countTag === 0) &&
-        <>
-          <ResultKeyword>태그&nbsp;&nbsp;&nbsp;
+        <><ResultKeyword>태그&nbsp;&nbsp;&nbsp;
             <span style={{color:'#DC287C'}}>{countTag}</span>
           </ResultKeyword>
-
           <KeywordPost>
-            {
-              tagArray.map((item) => {
-                return (
-                <ResultTagBtn onClick={onClickHandler}>#{item}</ResultTagBtn>
-                // <ResultTagBtn onClick={onClickHandler}>#{item.replace(/#/g, '')}</ResultTagBtn>
-                )
-              })
-            }
-          </KeywordPost>
-          </>
+            {tagArray.map((item) => {
+                return (<ResultTagBtn onClick={onClickHandler}>#{item}</ResultTagBtn>
+                )})}
+          </KeywordPost></>
           
         }
           
@@ -95,8 +95,8 @@ const SearchKeyword = ( {type} ) => {
             Contents.map((item) => {
               return (
                 <Content>
-
-                  <KeywordOnImg src={item.image}/>
+                  
+                  <KeywordOnImg onClick={showPost} className={item.id} src={item.image}/>
                   <span style={{fontSize : '12px' , color : 'brown'}}>{item.title} </span><br/>
                   <span style={{fontSize : '12px' , color : 'blue'}}>{item.proposer} </span><br/>
                   <span style={{fontSize : '12px' , color : 'red'}}>{item.endDate} </span><br/>
