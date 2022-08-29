@@ -77,6 +77,7 @@ const LoginForm = () => {
         const token = res.payload.token;
         localStorage.setItem('jwtToken',token);
         localStorage.setItem('isLogin' , 'true');
+        localStorage.setItem('gender', res.payload.gender);
         axios.defaults.headers.common['Authorization'] = `${token}`;
         // window.location.reload();
 
