@@ -27,8 +27,8 @@ nav {
   #suggest-btn{
     width: 110px;
     height: 75px;
-    margin-right: 50px;
-    margin-left: 100px;
+    margin-right: 40px;
+    margin-left: 120px;
     border-radius: 5px;
     background-color: white;
     font-family: "NavbarFont";
@@ -51,15 +51,11 @@ nav {
 
   #menu-btn{
     width: 100px;
-    height: 75px;
-    
-    background : url('https://t1.kakaocdn.net/together_image/common/avatar/avatar02.png') no-repeat;
-    background-size: 100px 80px;
-    margin-left: 10px;
-    border-radius: 5px;
-    background-color: white;
-    font-family: "NavbarFont";
-    font-size: large;
+    height: 80px;
+    padding : 0px;
+    margin-left  : 10px;
+    border : 0px;
+    outline : 0px;
   }
 
   #mypage-btn{

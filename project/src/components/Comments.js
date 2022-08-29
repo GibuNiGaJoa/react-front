@@ -8,11 +8,11 @@ import { pressLike, removeComment, removeLike } from '../actions/commentAction';
 import HeartImg from "../img/Heart.png";
 import EmptyHeartImg from "../img/EmptyHeart.png";
 import Swal from 'sweetalert2';
-// import ava1 from '../img/avatar01.png'
-// import ava2 from '../img/avatar02.png'
-// import ava3 from '../img/avatar03.png'
-// import ava4 from '../img/avatar04.png'
-// import ava5 from '../img/avatar05.png'
+import ava1 from '../img/avatar01.png'
+import ava3 from '../img/avatar03.png'
+import ava4 from '../img/avatar04.png'
+import ava2 from '../img/avatar02.png'
+import ava5 from '../img/avatar05.png'
 
 
 
@@ -97,11 +97,15 @@ const Comments = ( {list} ) => {
             if (result.isConfirmed) {
               axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwtToken')}`;
               const postNum=e.target.className.replace(/[^0-9]/g,'');
+              
               dispatch(removeComment(postNum))
               .then((res) => {
                 window.location.reload();
               })
-              .catch((err) => console.log(err));
+              .catch((err) => {
+                console.log(err);
+                console.log('댓글삭제실패!')
+              });
                 
             }
     })
@@ -115,7 +119,8 @@ const Comments = ( {list} ) => {
     <CommentBox onSubmit={onCommentPosingHandler}>
 
       <CommnentBoxTop>
-        <CompmentUserImg />
+        <CompmentUserImg src={localStorage.getItem('gender') === 'Man' ? ava2 : 
+        localStorage.getItem('gender') === null ? ava1 :ava5}/>
         <CommenttInput onChange={onCommentHandler} placeholder='댓글을 입력해주세요.' />
       </CommnentBoxTop>
 
@@ -133,17 +138,17 @@ const Comments = ( {list} ) => {
           <span style={{color:"#DC287C"}}>&nbsp;&nbsp;&nbsp;{list.length}</span>
         </strong>
       </CommentsCount>
-      <DonatePeopleShowBtn/>
+      {/* <DonatePeopleShowBtn/>
       <DonatePeopleShow>
         <strong>직접 기부자만 보기</strong>
-      </DonatePeopleShow>
+      </DonatePeopleShow> */}
   </CommentInfo>
 
       {list.map((item) => {
         return (
           <div>
             <ShowComment>
-              <PeoplePicture />
+              <PeoplePicture src={item.gender === 'Man' ? ava2 : ava5} />
               <ShowBox>
                 <PeopleName><strong>{item.nickname}&nbsp;</strong>
                     {
@@ -247,11 +252,10 @@ min-height : 3vh;
 const PeopleName = styled.span`
 
 `
-const PeoplePicture = styled.div`
+const PeoplePicture = styled.img`
 width : 5vw;
 heigth : 10vw;
-background-image : url('https://yt3.ggpht.com/ytc/AMLnZu88fElvXTdbMhtfvYjqbMGb3ULvOF_jPcBM_LPhIA=s900-c-k-c0x00ffffff-no-rj');
-background-size: 100% 100%;
+border-radius : 25px;
 `
 
 const CommentsCount = styled.div`
@@ -291,14 +295,14 @@ align-items : center;
 text-align : right;
 display : flex;
 `
-const CompmentUserImg = styled.div`
+const CompmentUserImg = styled.img`
 margin-top : 30px;
 margin-right : 30px;
 border-radius : 100px;
 width : 6.5vw;
 height : 7.5vh;
-background-image : url('https://t1.kakaocdn.net/together_image/common/avatar/avatar02.png');
-background-size : 100% 105%;
+// background-image : url('https://t1.kakaocdn.net/together_image/common/avatar/avatar02.png');
+// background-size : 100% 105%;
 `
 const CommentCountLen = styled.div`
 background-color : yellow;

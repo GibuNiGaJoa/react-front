@@ -4,6 +4,9 @@ import "./Navbar.css"
 import { AiOutlineSearch } from "react-icons/ai";
 import logoImg from "../img/logo.jpg"
 import styled from "styled-components";
+import ava2 from '../img/avatar02.png'
+import ava5 from '../img/avatar05.png'
+
 
 import Dropdown from "./Dropdown";
 
@@ -32,6 +35,7 @@ const Navbar = () => {
 
     const logoutBtn = () => {
         localStorage.removeItem('jwtToken');
+        localStorage.removeItem('gender');
         localStorage.setItem('isLogin', 'false');
         alert('정상적으로 로그아웃되었습니다.');
         navigate("/");
@@ -70,9 +74,10 @@ const Navbar = () => {
                     
                     {!loginCheck ? <button id="login-btn" onClick={loginBtn}>로그인</button> :
                     <div>
-                        <button id="menu-btn" onClick={e => setDropdownVisibility(!dropdownVisibility)}>
-                        {   dropdownVisibility ? '': ''}
-                        
+                        <button id="menu-btn"onClick={e => setDropdownVisibility(!dropdownVisibility)}>
+                            <MenuBtn src={localStorage.getItem('gender') === 'Man' ? ava2 : 
+                            localStorage.getItem('gender') === null ? <button id="login-btn" onClick={loginBtn}>로그인</button> :  ava5} />
+                            {   dropdownVisibility ? '': ''}
                         </button>
                         <Dropdown visibility={dropdownVisibility}>
                                 <ul>
@@ -95,7 +100,19 @@ const Navbar = () => {
         </nav>
     )
 }
+
+
 const Div = styled.div`
 `;
+const MenuBtn = styled.img`
+    width: 120px;
+    height: 80px;
+    // background : url('https://t1.kakaocdn.net/together_image/common/avatar/avatar02.png') no-repeat;
+    // background-size: 100px 100px;
+    border-radius: 5px;
+    background-color: white;
+    font-family: "NavbarFont";
+    font-size: large;
+`
 
 export default Navbar;
