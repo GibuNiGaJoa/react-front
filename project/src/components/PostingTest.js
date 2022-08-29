@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { getPostingInfo } from '../actions/postingAction';
 import Modal from "../components/Modal"
 import Comments from './Comments';
-import { useLocation, useMatch, useNavigate, useParams,  } from 'react-router-dom';
+import { useLocation, useMatch, useNavigate, useParams, } from 'react-router-dom';
 import Swal from 'sweetalert2'
 import { BiDonateHeart } from "react-icons/bi";
 import { BsShare } from "react-icons/bs";
@@ -30,7 +30,7 @@ const PostingTest = () => {
   const [Comment, setComment] = useState('');
   const [CommentLength, setCommentLength] = useState(0);
   const [commentList, setCommentList] = useState([]);
-  
+
 
   //기부내역
   const [totalAmount, setTotalAmount] = useState(0); //현재기부내역
@@ -61,7 +61,8 @@ const PostingTest = () => {
         icon: 'question',
         title: 'Ooops...',
         text: '로그인 하셨나요??'
-      }).then(() => {     navigate('/login', {
+      }).then(() => {
+        navigate('/login', {
           state: {
             from: location.pathname,
             id: location.state.id
@@ -85,35 +86,33 @@ const PostingTest = () => {
       donationType: "응원참여",
       donationDate: dateString
     };
-    setLike(!like);
-    if (!like) {
-      setNotiStatus(true);
-      console.log("응원됨");
-      console.log(like);
-      if (localStorage.getItem('isLogin') === 'false') {
-        alert('로그인을 선행해주세요.');
-        console.log(location);
-        navigate('/login', {
-          state: {
-            from: location.pathname,
-            id: location.state.id
-          }
-        });
-      } else {
-        axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwtToken')}`;
-        console.log(body);
-        dispatch(donatePost(body)).
-          then((res) => {
-            console.log(res)
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-      }
-    } else {
-      setNotiStatus(false);
-      console.log(like);
-    };
+    if(like===false){
+    if (localStorage.getItem('isLogin') === 'false') {
+      alert('로그인을 선행해주세요.');
+      console.log(location);
+
+      navigate('/login', {
+        state: {
+          from: location.pathname,
+          id: location.state.id
+        }
+      })
+    }
+
+    else {
+      axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwtToken')}`;
+      console.log(body);
+      setLike(true);
+
+      dispatch(donatePost(body)).
+        then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    }}
+
   }
   useEffect(() => {
     if (notiStatus) {
@@ -169,7 +168,7 @@ const PostingTest = () => {
         setCountAttend((amountCheer + amountComment + amountShare) / 100);
         setAmountAttend(amountCheer + amountComment + amountShare);
         setCommentList(res.payload.comment);
-        setPercent((totalAmount/TargetAmount*100).toFixed(2));
+        setPercent((totalAmount / TargetAmount * 100).toFixed(2));
       })
       .catch((err) => {
         console.log(err);
@@ -179,21 +178,21 @@ const PostingTest = () => {
 
   }, []);
 
-  useEffect(()=> {
-    if(localStorage.getItem('isLogin') === 'true'){
-      axios.defaults.headers.common['Authorization'] =`${localStorage.getItem('jwtToken')}`;
+  useEffect(() => {
+    if (localStorage.getItem('isLogin') === 'true') {
+      axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwtToken')}`;
       dispatch(getPostingInfo(location.state.id))
-      .then((res) => {
-        console.log(res.payload);
-        setCommentList(res.payload.comment);
-      })
-      .catch((err) => {
-        console.log(err);
-        alert('해당 게시물이 없습니다.')
+        .then((res) => {
+          console.log(res.payload);
+          setCommentList(res.payload.comment);
+        })
+        .catch((err) => {
+          console.log(err);
+          alert('해당 게시물이 없습니다.')
 
-      });
+        });
     }
-  },[localStorage.getItem('isLogin')]);
+  }, [localStorage.getItem('isLogin')]);
 
   return (
     <Wrapper>
@@ -218,7 +217,7 @@ const PostingTest = () => {
         <DonationContent>
           <TotalAmountDiv>{totalAmount}원</TotalAmountDiv>
           <TargetAmountDiv>{TargetAmount}원 목표<br /></TargetAmountDiv>
-          
+
           <DonateDiv><br />직접기부({countDirect}명) : {amountDirect}원</DonateDiv>
           <DonateDiv>참여기부({countAttend}명) : {amountAttend}원</DonateDiv>
           <div>ㄴ 응원기부 : {amountCheer}원</div>
@@ -227,13 +226,13 @@ const PostingTest = () => {
         </DonationContent>
         <DonationAnimate>
           <div><img src={walkAnimation}></img>
-          <Percent>{percent}%</Percent></div>
+            <Percent>{percent}%</Percent></div>
         </DonationAnimate>
       </MainBody>
 
       <CommentDonateAmount >
-      <strong>카카오 지원 댓글 기부금 
-        <span style={{color : "#DC287C"}}>&nbsp;&nbsp;{amountComment}</span>
+        <strong>카카오 지원 댓글 기부금
+          <span style={{ color: "#DC287C" }}>&nbsp;&nbsp;{amountComment}</span>
         </strong>
       </CommentDonateAmount >
       <Comments list={commentList}>
@@ -260,7 +259,7 @@ const PostingTest = () => {
             }</tr>
         </table>
       </DonateContent>
-      <Notification state={notiStatus} msg="100원 적립" />
+      {/* <Notification state={notiStatus} msg="100원 적립" /> */}
     </Wrapper >
   )
 }
@@ -280,7 +279,7 @@ color: #dc287c;
 `;
 const DonationAnimate = styled.div``;
 
-const TotalAmountDiv =styled.div`
+const TotalAmountDiv = styled.div`
 font-weight: 500;
 font-size:70px;
 color: #dc287c;`;
