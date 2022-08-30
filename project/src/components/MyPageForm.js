@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { getDonationMember, getMyMember } from '../actions/donationAction';
 import axios from 'axios';
 import man from "../icons/man.gif";
@@ -12,6 +13,7 @@ import EmptyHeartImg from "../img/EmptyHeart.png";
 
 const MyPageForm = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [donations, setDonations] = useState([]);
     const [myContents, setMyContents] = useState([]);
     const [comments,setComments] = useState([]);
@@ -59,6 +61,17 @@ const MyPageForm = () => {
           })
           .catch((err) => console.log(err))
         }
+    }
+    const onClickTitle = (e) => {
+        e.preventDefault();
+        const postNum = e.target.className.replace(/[^0-9]/g,'');
+        console.log(postNum);
+        navigate(`/fundraisings/${postNum}` , {
+            state : {
+                id : postNum
+            }
+        })
+        
     }
 
     const removeClick = (e) => {
@@ -131,7 +144,7 @@ const MyPageForm = () => {
                                         <td colSpan={2}>{donation.donationDate.substr(0,10)}</td>
                                     </tr>
                                     <tr>
-                                        <td colSpan={2}>{donation.postTitle}</td>
+                                        <td colSpan={2}><TitleLink onClick={onClickTitle}className={donation.postId}>{donation.postTitle}</TitleLink></td>
                                     </tr>
                                     <tr>
                                         <td>{donation.donationAmount}원</td>
@@ -159,7 +172,7 @@ const MyPageForm = () => {
                                         <td>{comment.date}</td>
                                     </tr>
                                     <tr>
-                                        <td>{comment.postTitle}</td>
+                                        <td><TitleLink onClick={onClickTitle} className={comment.postId}>{comment.postTitle}</TitleLink></td>
                                     </tr>
                                     <tr>
                                         <td><CommentContentTr>{comment.content}</CommentContentTr></td>
@@ -186,6 +199,12 @@ const MyPageForm = () => {
     );
 };
 
+const TitleLink = styled.span`
+&:hover {
+    cursor : pointer;
+}
+background-color : yellow;
+`
 const LikeBtnImg = styled.img`
 width : 30px;
 hegight : 30px;
