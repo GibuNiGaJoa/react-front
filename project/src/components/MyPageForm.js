@@ -28,8 +28,19 @@ const MyPageForm = () => {
                 setMyContents(res.payload);
                 setComments(res.payload.comments);
             })
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err.respose.data.code));
     }, []);
+
+    const pressLike = (e) => {
+        e.preventDefault();
+        console.log('좋아요!');
+    }
+
+    const removeComment = (e) => {
+        e.preventDefault();
+        console.log("댓삭!");
+    }
+
     return (
         <Box>
             <Content>
@@ -106,6 +117,12 @@ const MyPageForm = () => {
                                     </tr>
                                     <tr>
                                         <td><CommentContentTr>{comment.content}</CommentContentTr></td>
+                                    </tr>
+                                    <tr>
+                                        <td><button onClick={pressLike}>좋아요</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><button onClick={removeComment}>삭제</button></td>
                                     </tr>
                                 </table>
                             </DonationDetail>
