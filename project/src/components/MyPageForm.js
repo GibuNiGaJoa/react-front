@@ -5,6 +5,10 @@ import { getDonationMember, getMyMember } from '../actions/donationAction';
 import axios from 'axios';
 import man from "../icons/man.gif";
 import girl from "../icons/girl.gif";
+import Swal from 'sweetalert2';
+import { pressLike, removeComment, removeLike } from '../actions/commentAction';
+import HeartImg from "../img/Heart.png";
+import EmptyHeartImg from "../img/EmptyHeart.png";
 
 const MyPageForm = () => {
     const dispatch = useDispatch();
@@ -31,15 +35,57 @@ const MyPageForm = () => {
             .catch((err) => console.log(err.respose.data.code));
     }, []);
 
-    const pressLike = (e) => {
+    const pressLikeBtn = (e) => {
         e.preventDefault();
-        console.log('좋아요!');
+        console.log(e.target.title);
+
+        if(e.target.title === 'false'){
+          const postId = e.target.alt;
+          axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwtToken')}`
+          dispatch(pressLike(postId))
+          .then((res) => {
+            console.log(res.payload);
+            
+            window.location.reload();
+          })
+          .catch((err) => console.log(err))
+        } else if(e.target.title === 'true') {
+          const postId = e.target.alt;
+          axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwtToken')}`
+          dispatch(removeLike(postId))
+          .then((res) => {
+            console.log(res.payload);
+            window.location.reload();
+          })
+          .catch((err) => console.log(err))
+        }
     }
 
-    const removeComment = (e) => {
-        e.preventDefault();
-        console.log("댓삭!");
-    }
+    const removeClick = (e) => {
+        Swal.fire({
+          icon: 'question',
+                text: '댓글을 삭제하시겠습니까?',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwtToken')}`;
+                    const postNum=e.target.className.replace(/[^0-9]/g,'');
+                    console.log(postNum);
+                    dispatch(removeComment(postNum))
+                    .then((res) => {
+                    window.location.reload();
+                    })
+                    .catch((err) => {
+                    console.log(err);
+                    console.log('댓글삭제실패!')
+                    });
+                    
+                }
+        })
+      }
 
     return (
         <Box>
@@ -52,7 +98,7 @@ const MyPageForm = () => {
                     }
                     <Nickname><h3>{myContents.memberName}</h3></Nickname>
                 </NicknameContent>
-             
+
                 <Donations>
                     <Div>
                         <div>
@@ -119,10 +165,14 @@ const MyPageForm = () => {
                                         <td><CommentContentTr>{comment.content}</CommentContentTr></td>
                                     </tr>
                                     <tr>
-                                        <td><button onClick={pressLike}>좋아요</button></td>
+                                        <td>
+                                          <LikeBtnImg onClick={pressLikeBtn} src={comment.likeStatus?HeartImg:EmptyHeartImg} 
+                                              alt={comment.commentId} title={`${comment.likeStatus}`}/>
+                                        <LikeButton title={`${comment.likeStatus}`} onClick={pressLikeBtn}>좋아요</LikeButton>
+                                        <DeleteButton className={comment.commentId} onClick={removeClick}>삭제</DeleteButton></td>
+                                        <td></td>
                                     </tr>
                                     <tr>
-                                        <td><button onClick={removeComment}>삭제</button></td>
                                     </tr>
                                 </table>
                             </DonationDetail>
@@ -135,6 +185,35 @@ const MyPageForm = () => {
         </Box>
     );
 };
+
+const LikeBtnImg = styled.img`
+width : 30px;
+hegight : 30px;
+&:hover {
+  cursor : pointer;
+}
+`
+const LikeButton = styled.button`
+outline : 0px;
+margin-right : 100px;
+background-color : #ed789c;
+border-radius : 25%;
+border : 0px;
+&:hover {
+  cursor : pointer;
+}
+`
+
+const DeleteButton = styled.button`
+outline : 0px;
+margin-right : 100px;
+background-color : #789dc5;
+border-radius : 25%;
+border : 0px;
+&:hover {
+  cursor : pointer;
+}
+`
 
 const CommentContentTr = styled.div`
 text-align : left;
@@ -164,7 +243,8 @@ box-shadow: 0 5px 20px silver;`;
 const DonationDetail = styled.div`
 font-size:20px;
 font-weight: 700;
-box-shadow: 0 5px 20px silver inset;`;
+box-shadow: 0 5px 20px silver inset;
+`;
 const CommentDetail = styled.div`
 text-align: left;
 box-shadow: 0 5px 20px silver;`;

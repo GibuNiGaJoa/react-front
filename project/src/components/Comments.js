@@ -188,9 +188,6 @@ margin-left : 10px;
   cursor : pointer;
 }
 `
-
-
-
 const CommentInfo = styled.div`
 margin-left : 400px;
 margin-right : 400px;
