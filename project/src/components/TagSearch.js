@@ -13,14 +13,18 @@ const TagSearch = (  ) => {
   const location = useLocation();
   const [subject, setSubject] = useState('');
   const [contents, setContents] = useState([]);
+  const [donatePeople, setDonatePeople] = useState('');
+  const [tagTotalAmount , setTagTotalAmount] = useState('');
   const [randomColor, setRandomColor] = useState("#" + Math.floor(Math.random() * 16777215).toString(16));
 
   useEffect(()=> {
     dispatch(tagSearch(location.state.name))
     .then((res) => {
-      console.log(res.payload.post);
+      console.log(res.payload);
       setSubject(location.state.name);
-      setContents(res.payload.post);
+      setContents(res.payload.posts);
+      setDonatePeople(res.payload.totalDonationCount);
+      setTagTotalAmount((res.payload.totalDonationAmount.toLocaleString()));
       setRandomColor("#" + Math.floor(Math.random() * 16777215).toString(16));
       
     })
@@ -46,17 +50,19 @@ const TagSearch = (  ) => {
           <SubjectTitle >#{subject}</SubjectTitle>
         </SubjectInform>
 
-        <DonateAmount>15,933,954,782원</DonateAmount>
-        <DonateGroup>11,830,557명 기부</DonateGroup>
+        <DonateAmount>{tagTotalAmount}원</DonateAmount>
+        <DonateGroup>{donatePeople}명 기부</DonateGroup>
         {
           contents.map((item) => {
             return(
               <Content>
                   
                   <KeywordOnImg onClick={showPost} className={item.id} src={item.image}/>
-                  <span style={{fontSize : '12px' , color : 'brown'}}>{item.title} </span><br/>
-                  <span style={{fontSize : '12px' , color : 'blue'}}>{item.proposer} </span><br/>
-                  <span style={{fontSize : '12px' , color : 'red'}}>{item.endDate} </span><br/>
+                  <div style={{width : '250px'}}>
+                    <span style={{fontSize : '12px' , color : 'brown'}}>{item.title} </span><br/>
+                    <span style={{fontSize : '12px' , color : 'blue'}}>{item.proposer} </span><br/>
+                    <span style={{fontSize : '12px' , color : 'red'}}>{item.endDate} </span><br/>
+                  </div>
                 </Content>
             )
           })
