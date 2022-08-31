@@ -77,8 +77,8 @@ const PostingTest = () => {
 
   }
   //찜하기 버튼
-  const [like, setLike] = useState(false);
-  const [notiStatus, setNotiStatus] = useState(false);
+  const [like, setLike] = useState();
+  
 
   const heartClick = () => {
     let body = {
@@ -86,41 +86,38 @@ const PostingTest = () => {
       donationType: "응원참여",
       donationDate: dateString
     };
-    if(like===false){
-    if (localStorage.getItem('isLogin') === 'false') {
-      alert('로그인을 선행해주세요.');
-      console.log(location);
+    if (like === false) {
+      if (localStorage.getItem('isLogin') === 'false') {
+        alert('로그인을 선행해주세요.');
+        console.log(location);
 
-      navigate('/login', {
-        state: {
-          from: location.pathname,
-          id: location.state.id
-        }
-      })
+        navigate('/login', {
+          state: {
+            from: location.pathname,
+            id: location.state.id
+          }
+        })
+      }
+
+      else {
+        axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwtToken')}`;
+        console.log(body);
+        setLike(true);
+
+        dispatch(donatePost(body)).
+          then((res) => {
+            console.log(res)
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+      }
+    }else{
+      console.log(like);
+      console.log("이미 찜 하였던 게시글입니다.")
     }
-
-    else {
-      axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwtToken')}`;
-      console.log(body);
-      setLike(true);
-
-      dispatch(donatePost(body)).
-        then((res) => {
-          console.log(res)
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-    }}
 
   }
-  useEffect(() => {
-    if (notiStatus) {
-      setTimeout(() => {
-        setNotiStatus(false);
-      }, 1000)
-    }
-  }, [notiStatus])
 
   //공유 모달
   const [shareVisible, setShareVisible] = useState(false);
@@ -169,6 +166,7 @@ const PostingTest = () => {
         setAmountAttend(amountCheer + amountComment + amountShare);
         setCommentList(res.payload.comment);
         setPercent((totalAmount / TargetAmount * 100).toFixed(2));
+        setLike(res.payload.donateCheer);
       })
       .catch((err) => {
         console.log(err);
@@ -176,7 +174,7 @@ const PostingTest = () => {
 
       });
 
-  }, []);
+  }, [like]);
 
   useEffect(() => {
     if (localStorage.getItem('isLogin') === 'true') {
