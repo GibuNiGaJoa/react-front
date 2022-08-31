@@ -1,70 +1,47 @@
-import React from "react";
+import React ,{useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import actionTestImg from "../img/actionTest.PNG"
+import { useDispatch } from 'react-redux';
+import {
+    getPostingAllEnddate
+} from '../actions/getPostingAction';
+
 
 const BannerDonate = () => {
 
-    const navigate = useNavigate()
-    const contents = [
-        {
-            img: actionTestImg,
-            title: '우리 동네 작은가게 한번만 도와줍쇼',
-            organization: '사단법인 황재원'
-        },
-        {
-            img: actionTestImg,
-            title: '우리 동네 작은가게 한번만 도와줍쇼',
-            organization: '사단법인 황재원'
-        },
-        {
-            img: actionTestImg,
-            title: '우리 동네 작은가게 한번만 도와줍쇼',
-            organization: '사단법인 황재원'
-        },
-        {
-            img: actionTestImg,
-            title: '우리 동네 작은가게 한번만 도와줍쇼',
-            organization: '사단법인 황재원'
-        },
-        {
-            img: actionTestImg,
-            title: '우리 동네 작은가게 한번만 도와줍쇼',
-            organization: '사단법인 황재원'
-        },
-        {
-            img: actionTestImg,
-            title: '우리 동네 작은가게 한번만 도와줍쇼',
-            organization: '사단법인 황재원'
-        },
-        {
-            img: actionTestImg,
-            title: '우리 동네 작은가게 한번만 도와줍쇼',
-            organization: '사단법인 황재원'
-        },
-        {
-            img: actionTestImg,
-            title: '우리 동네 작은가게 한번만 도와줍쇼',
-            organization: '사단법인 황재원'
-        }
-    ]
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [contents, setContents] = useState([]);
+
+    useEffect(()=> {
+        dispatch(getPostingAllEnddate())
+                .then((res) => {
+                    console.log(res.payload);
+                    setContents(res.payload.post.slice(0,8));
+                })
+                .catch((err) => console.log(err));
+
+    },[]);
+   
+        
+
 
     const Click = () => {
-        navigate('/togetherDonate')
+        navigate('/fundraisings/now')
 
     }
 
     return (
         <Box>
-            <h3>가장 쉬운 나눔</h3>
+            <h3>종료 임박한 나눔</h3>
             <InnerBox>
                 {contents.map((content) => {
                     return (
                         <Content>
-                            <Img src={content.img} />
+                            <Img src={content.image} />
                             <InnerContent>
                                 <h3>{content.title}</h3>
-                                <p>{content.organization}</p>
+                                <p>by {content.proposer}</p>
                             </InnerContent>
                         </Content>
                     )
