@@ -1,14 +1,32 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import { AiOutlineTeam } from "react-icons/ai";
 import actionTestImg from "../img/actionTest.PNG"
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import {
+    getPostingAllUpdate
+} from '../actions/getPostingAction';
 
 const BannerTogether = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [content, setContent] = useState([]);
 
-    const ImgClick = () =>{
+    useEffect(()=> {
+        dispatch(getPostingAllUpdate())
+                .then((res) => {
+                    console.log(res.payload);
+                    setContent(res.payload.post[0]);
+                })
+                .catch((err) => console.log(err));
+
+    },[]);
+
+
+    const goToClick = () =>{
         navigate('/togetherAct')
+        //글 상세 페이지로 이동하도록!
     }
 
     return (
@@ -16,18 +34,18 @@ const BannerTogether = () => {
             <Content>
                 <TitleContent>
                     <AiOutlineTeam size="50" />
-                    <h3>지금은</h3>
-                    <h3>모두의 행동중</h3>
-                    <p>모두의행동이 새롭게 오픈했습니다.</p>
-                    <button>자세히 보기</button>
+                    <h3>모두의</h3>
+                    <h3>관심이 필요합니다!</h3>
+                    <p>가장 최신 모금입니다.</p>
+                    <button onClick={goToClick}>자세히 보기</button>
                 </TitleContent>
                 <DetailContent>
                     <LittleContent><h5>더 나은 세상을 위한 행동에 참여해보세요.</h5></LittleContent>
                     <Wrap>
-                        <Img src={actionTestImg} onClick ={ImgClick} />
+                        <Img src={content.image} />
                         <InnerContent>
-                            <h4>우리동네 작은가게 응원하고 오래오래 함께해요!</h4>
-                            <p>나만 알기 아까운 작은 가게가 있다면, 지금 바로 행동하세요!</p>
+                            <h3>{content.title}</h3>
+                            <p>by {content.proposer}</p>
                         </InnerContent>
                     </Wrap>
                 </DetailContent>

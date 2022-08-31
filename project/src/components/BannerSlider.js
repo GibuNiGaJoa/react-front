@@ -1,13 +1,12 @@
-import React from "react";
-import img1 from "../img/bannerTest1.PNG";
-import img2 from "../img/bannerTest2.PNG";
-import img3 from "../img/bannerTest3.PNG";
-import img4 from "../img/bannerTest4.PNG";
-import img5 from "../img/bannerTest5.PNG";
+import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
+import { useDispatch } from 'react-redux';
+import {
+  getPostingAllRandom
+} from '../actions/getPostingAction';
 
 
 const Area = styled.div`
@@ -15,58 +14,17 @@ const Area = styled.div`
 
 const BannerSlider = () => {
 
-  const littleTitle1 = "모두의 행동"
-  const bigTitle1 = "우리 동네 가게, 행동으로 지켜요!"
-  const p1 = "첫번째 테스트"
+  const [slides, setSlides] = useState([]);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getPostingAllRandom())
+      .then((res) => {
+        console.log(res.payload);
+        setSlides(res.payload.post.slice(0,3));
+      })
+      .catch((err) => console.log(err));
 
-  const littleTitle2 = "같이기부"
-  const bigTitle2 = "보행보조기와 함께하는 가벼운 걸음"
-  const p2 = "두번째 테스트"
-
-  const littleTitle3 = "모두의 행동"
-  const bigTitle3 = "이제는 일터가 아닌 학교로!"
-  const p3 = "세번째 테스트"
-
-  const littleTitle4 = "모두의 행동"
-  const bigTitle4 = "작은 가게에 정하는 모두의 운동"
-  const p4 = "네번째 테스트"
-
-  const littleTitle5 = "같이 기부"
-  const bigTitle5 = "마지막 테스트다 시~발!"
-  const p5 = "다섯번째 테스트"
-
-  const slides = [
-    {
-      littleTitle: littleTitle1,
-      bigTitle: bigTitle1,
-      p: p1,
-      img: img1
-    },
-    {
-      littleTitle: littleTitle2,
-      bigTitle: bigTitle2,
-      p: p2,
-      img: img2
-    },
-    {
-      littleTitle: littleTitle3,
-      bigTitle: bigTitle3,
-      p: p3,
-      img: img3
-    },
-    {
-      littleTitle: littleTitle4,
-      bigTitle: bigTitle4,
-      p: p4,
-      img: img4
-    },
-    {
-      littleTitle: littleTitle5,
-      bigTitle: bigTitle5,
-      p: p5,
-      img: img5
-    }
-  ]
+  }, []);
 
   const settings = {
     dots: true,
@@ -85,11 +43,11 @@ const BannerSlider = () => {
               <Area>
                 <ContainerText>
                   <Content>
-                    <h4>{slide.littleTitle}</h4>
-                    <h1>{slide.bigTitle}</h1>
+                    <h4>by {slide.proposer}</h4>
+                    <h1>{slide.title}</h1>
                     <p>{slide.p}</p>
                   </Content>
-                  <Img src={slide.img} />
+                  <Img src={slide.image} />
                 </ContainerText>
               </Area>
             );
@@ -97,7 +55,7 @@ const BannerSlider = () => {
         </Slider>
       </div>
     </Box>
-    
+
   );
 }
 
