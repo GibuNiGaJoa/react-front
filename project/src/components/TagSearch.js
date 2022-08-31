@@ -13,16 +13,21 @@ const TagSearch = (  ) => {
   const location = useLocation();
   const [subject, setSubject] = useState('');
   const [contents, setContents] = useState([]);
+  const [donatePeople, setDonatePeople] = useState('');
+  const [tagTotalAmount , setTagTotalAmount] = useState('');
+  const [CountContents, setCountContents] =  useState([]);
   const [randomColor, setRandomColor] = useState("#" + Math.floor(Math.random() * 16777215).toString(16));
 
   useEffect(()=> {
     dispatch(tagSearch(location.state.name))
     .then((res) => {
-      console.log(res.payload.post);
+      console.log(res.payload);
       setSubject(location.state.name);
-      setContents(res.payload.post);
+      setContents(res.payload.posts);
+      setDonatePeople(res.payload.totalDonationCount);
+      setTagTotalAmount((res.payload.totalDonationAmount.toLocaleString()));
       setRandomColor("#" + Math.floor(Math.random() * 16777215).toString(16));
-      
+      setCountContents(res.payload.posts.length);
     })
     .catch((err) => console.log(err));
   } ,[])
@@ -46,17 +51,26 @@ const TagSearch = (  ) => {
           <SubjectTitle >#{subject}</SubjectTitle>
         </SubjectInform>
 
-        <DonateAmount>15,933,954,782원</DonateAmount>
-        <DonateGroup>11,830,557명 기부</DonateGroup>
+        <DonateAmount><strong>{tagTotalAmount}원</strong></DonateAmount>
+        <DonateGroup><strong style={{color : "brown"}}>{donatePeople}명  기부</strong></DonateGroup>
+        <KeywordTitle>
+          <CountProject>프로젝트 모금함 &nbsp;&nbsp;&nbsp;
+            <span style={{color : "#DC287C"}}>{CountContents}</span>
+          </CountProject>
+          
+        </KeywordTitle>
+
         {
           contents.map((item) => {
             return(
               <Content>
                   
                   <KeywordOnImg onClick={showPost} className={item.id} src={item.image}/>
-                  <span style={{fontSize : '12px' , color : 'brown'}}>{item.title} </span><br/>
-                  <span style={{fontSize : '12px' , color : 'blue'}}>{item.proposer} </span><br/>
-                  <span style={{fontSize : '12px' , color : 'red'}}>{item.endDate} </span><br/>
+                  <div style={{width : '250px'}}>
+                    <span style={{fontSize : '12px' , color : 'brown'}}>{item.title} </span><br/>
+                    <span style={{fontSize : '12px' , color : 'blue'}}>{item.proposer} </span><br/>
+                    <span style={{fontSize : '12px' , color : 'red'}}>{item.endDate} </span><br/>
+                  </div>
                 </Content>
             )
           })
@@ -65,6 +79,20 @@ const TagSearch = (  ) => {
   
     );
 };
+
+
+const KeywordTitle = styled.div`
+// margin-left : 400px;
+// margin-right : 400px;
+margin-bottom : 50px;
+width : auto;
+// color :pink;
+`
+const CountProject = styled.span`
+font-size : 26px;
+margin-right :350px;
+`
+
 
 const TotalWrapper = styled.div`
 margin: 20px 400px 25px 400px;
@@ -112,14 +140,15 @@ font-family: KakaoBig Bold,sans-serif;
 
 const DonateAmount = styled.div`
 text-align : center;
-font-size : 28px;
+font-size : 36px;
 margin-bottom : 20px;
+
 `
 const DonateGroup = styled.div`
 text-align : center;
 font-size : 16px;
 font-weight: 400;
 font-family : "NavbarFont";
-margin-bottom : 20px;
+margin-bottom : 50px;
 `
 export default TagSearch;

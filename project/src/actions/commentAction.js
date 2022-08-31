@@ -13,15 +13,15 @@ export function pressLike(postId,dataToSubmit) {
   };
 }
 
-export function removeLike(postId,dataToSubmit) {
-  const data = likeAdd("GET", COMMENT_URL+postId+'/removelike', dataToSubmit);
+export function removeLike(postId) {
+  const data = likeAdd("GET", COMMENT_URL+postId+'/removelike');
   return {
     type: REMOVE_LIKE,
     payload: data,
   };
 }
-export function removeComment(postId,dataToSubmit) {
-  const data = likeAdd("GET", COMMENT_URL+postId+'/delete', dataToSubmit);
+export function removeComment(postId) {
+  const data = likeAdd("GET", COMMENT_URL+postId+'/delete');
   return {
     type: REMOVE_COMMENT,
     payload: data,
