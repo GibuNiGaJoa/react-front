@@ -71,8 +71,22 @@ const TogetherDonateContent = () => {
         setVisible(false);
     }
 
+    const epiloguePosting = (e) => {
+        e.preventDefault();
+        setGetPosting(<GetContentAll type={'epilogue'} />)
+        setVisible(false);
+    }
+    const getNowPosting = (e) => {
+        e.preventDefault();
+        setGetPosting(<GetContentAll type={'random'} />)
+    }
+
     return (
         <Box>
+            <ViewBox>
+                <ViewBtn onClick={getNowPosting}>모금중</ViewBtn>
+                <ViewBtn onClick={epiloguePosting}>모금후기</ViewBtn>
+            </ViewBox>
             <Wrapper></Wrapper>
             <Wrapper>
                 <CategoryBox>
@@ -119,6 +133,30 @@ const TogetherDonateContent = () => {
         </Box>
     );
 };
+
+const ViewBox = styled.div`
+background-color : ivory;
+text-align : center;
+align-item : center;
+justify-content : center;
+width : auto;
+height : 10vh;
+
+`
+const ViewBtn = styled.button`
+background-color :yellow;
+margin-top : 15px;
+// height : 8vh;
+padding : 20px;
+border: 2px solid #444;
+border-radius : 50%;
+margin-left :75px;
+font-size : 20px;
+color : #444;
+&: hover {
+    cursor : pointer;
+}
+`
 
 const Box = styled.div`
 width: 100vw;

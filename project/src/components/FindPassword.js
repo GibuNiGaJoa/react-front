@@ -56,7 +56,7 @@ const FindPassword = () => {
       console.log(res);
       const token = res.payload.token;
       localStorage.setItem('pwdToken', token);
-      axios.defaults.headers.common['Authorization'] = `${token}`;
+      // axios.defaults.headers.common['Authorization'] = `${token}`;
       setTk(res.payload.status);
     })
     // 실패
