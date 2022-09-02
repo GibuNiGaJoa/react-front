@@ -7,15 +7,17 @@ import { useDispatch } from 'react-redux';
 import {
   getPostingAllRandom
 } from '../actions/getPostingAction';
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 const Area = styled.div`
 `;
 
 const BannerSlider = () => {
-
-  const [slides, setSlides] = useState([]);
+  const location = useLocation;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [slides, setSlides] = useState([]);
   useEffect(() => {
     dispatch(getPostingAllRandom())
       .then((res) => {
@@ -34,6 +36,16 @@ const BannerSlider = () => {
     slidesToScroll: 1
   };
 
+  const clicli = (e) => {
+    e.preventDefault();
+    navigate(`/fundraisings/${e.target.title}` , {
+      state : {
+        id : e.target.title
+      }
+    })
+
+  }
+
   return (
     <Box>
       <div>
@@ -47,7 +59,7 @@ const BannerSlider = () => {
                     <h1>{slide.title}</h1>
                     <p>{slide.p}</p>
                   </Content>
-                  <Img src={slide.image} />
+                  <Img title={slide.id} onClick={clicli}src={slide.image} />
                 </ContainerText>
               </Area>
             );

@@ -38,8 +38,10 @@ const ChangePassword = () => {
     setPw(e.target.value);
   }
   const onPw2Handler = (e) => {
-    if (Pw === e.target.value) setPw2Error(false);
-    else setPw2Error(true);
+    if(Pw === e.target.value) 
+      setPw2Error(false);
+    else
+      setPw2Error(true); 
     setPw2(e.target.value);
   }
 
@@ -69,6 +71,7 @@ const ChangePassword = () => {
         console.log(res);
         localStorage.removeItem('pwdToken');
         alert('비밀번호 재설정이 완료되었습니다.')
+        navigate('/login')
         
       })
       // 실패

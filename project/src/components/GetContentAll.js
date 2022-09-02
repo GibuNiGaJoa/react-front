@@ -4,17 +4,16 @@ import { useDispatch } from 'react-redux';
 import {
     getPostingAllRandom, getPostingAllUpdate, getPostingAllEnddate,
     getPostingKids, getPostingYoung, getPostingWoman, getPostingOlds, getPostingDisabled, getPostingSocial,
-    getPostingEarth, getPostingNeighborhood, getPostingAnimal, getPostingEnvironment
+    getPostingEarth, getPostingNeighborhood, getPostingAnimal, getPostingEnvironment, getEpilogue
 } from '../actions/getPostingAction';
 import {  useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 const GetContentAll = ({ type }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [contents, setContents] = useState([]);
-    // const [postEndDate, setPostEndDate] = useState();
-    // const [postId, setPostId] = useState();
 
 
     useEffect(() => {
@@ -111,6 +110,13 @@ const GetContentAll = ({ type }) => {
                     setContents(res.payload.post);
                 })
                 .catch((err) => console.log(err));
+        } else if(type === 'epilogue'){
+            dispatch(getEpilogue())
+            .then((res)=> {
+                console.log(res.payload);
+                setContents(res.payload.post)
+            })
+            .catch((err) => console.log(err));
         }
     }, [type]);
 
@@ -128,8 +134,21 @@ const GetContentAll = ({ type }) => {
 
     }
 
+    const epi = (e) => {
+        e.preventDefault();
+        console.log(e.target);
+        dispatch(getEpilogue())
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err) => err);
+    }
+
     return (
         <ContentBox>
+            {/* <button onClick={epi}>
+            모금후기로 가보자
+            </button> */}
             {contents.map((content) => {
                 return (
                     <Content>

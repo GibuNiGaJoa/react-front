@@ -147,7 +147,7 @@ const PostingTest = () => {
     // axios.defaults.headers.common['Authorization'] =`${localStorage.getItem('jwtToken')}`;
     dispatch(getPostingInfo(location.state.id))
       .then((res) => {
-        console.log(res.payload);
+        // console.log(res.payload);
         setMainImage(res.payload.image);
         setContent(res.payload.content);
         setStartDate(res.payload.startDate);
@@ -181,7 +181,7 @@ const PostingTest = () => {
       axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwtToken')}`;
       dispatch(getPostingInfo(location.state.id))
         .then((res) => {
-          console.log(res.payload);
+          // console.log(res.payload);
           setCommentList(res.payload.comment);
         })
         .catch((err) => {

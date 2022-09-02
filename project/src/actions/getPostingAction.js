@@ -1,6 +1,6 @@
 import {
     GET_POSTING_ALL_RANDOM, GET_POSTING_ALL_UPDATE, GET_POSTING_ALL_ENDDATE, GET_POSTING_KIDS, GET_POSTING_YOUNG, GET_POSTING_WOMAN,
-    GET_POSTING_OLDS, GET_POSTING_DISABLED, GET_POSTING_SOCIAL, GET_POSTING_EARTH, GET_POSTING_NEIGHBORHOOD, GET_POSTING_ANIMAL, GET_POSTING_ENVIRONMENT
+    GET_POSTING_OLDS, GET_POSTING_DISABLED, GET_POSTING_SOCIAL, GET_POSTING_EARTH, GET_POSTING_NEIGHBORHOOD, GET_POSTING_ANIMAL, GET_POSTING_ENVIRONMENT, GET_EPILOGUE
 } from "./types";
 import { getPosting } from "../axios";
 
@@ -108,6 +108,14 @@ export function getPostingEnvironment(dataToSubmit) {
     const data = getPosting("GET", URL + "/sort1/9", dataToSubmit);
     return {
         type: GET_POSTING_ENVIRONMENT,
+        payload: data,
+    }
+}
+
+export function getEpilogue() {
+    const data = getPosting("GET", "http://valuetogether.tk/fundraisings/epilogue");
+    return {
+        type: GET_EPILOGUE,
         payload: data,
     }
 }

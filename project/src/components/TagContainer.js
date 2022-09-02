@@ -1,44 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getSearchRandomTag } from "../actions/searchAction";
 
 const TagContainer = () => {
     const navigate = useNavigate();
-
-    const tags = [
-        {
-          tagText: '# 건강한삶',
-          tagColor: '#FF7A85'
-        },
-        {
-          tagText: '# 계곡에서',
-          tagColor: '#369F36'
-        },
-        {
-          tagText: '# 지구촌',
-          tagColor: '#6E6ED7'
-        },
-        {
-          tagText: '# 작은가게가치가게',
-          tagColor: '#0A6E0A'
-        },
-        {
-          tagText: '# 생계지원',
-          tagColor: '#D79F59'
-        }
-      ]
+    const dispatch = useDispatch();
+    const [randTag, setRandTag] = useState([]);
+    useEffect(()=> {
+      dispatch(getSearchRandomTag())
+      .then((res) => {
+        setRandTag(res.payload.tag.slice(0,5));
+        console.log(randTag);
+      })
+    }, [])
+    const tagColor = ['#FF7A85', '#369F36', '#6E6ED7', '#0A6E0A', '#D79F59']
     
-      const Click = () => {
-        navigate('/suggest')
+      const Click = (e) => {
+        navigate(`/tags/${e.target.innerHTML}`,
+          {
+            state : {name : e.target.innerHTML}
+          }
+        )
       }
 
     return(
         <Container>
-            {tags.map((tag) => {
+            {randTag.map((tag, index) => {
                 return(
-                    <ButtonContainer>
-                        <TagButton color={tag.tagColor} onClick={Click}>{tag.tagText}</TagButton>
-                    </ButtonContainer>
+                  <ButtonContainer>
+                  <TagButton color={tagColor[index]} onClick={Click}>{tag.name}</TagButton>
+                  </ButtonContainer>
                 )
             })}
         </Container>
